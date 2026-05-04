@@ -1,4 +1,4 @@
-# DOPAMINE DIGITAL TRACKER — v4.0
+# DOPAMINE DIGITAL TRACKER
 ### One Life Protocol · Daily Habit System
 
 ---
