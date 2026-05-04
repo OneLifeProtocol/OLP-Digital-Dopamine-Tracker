@@ -158,29 +158,6 @@ Levels continue beyond 10 with no upper limit.
 
 ---
 
-## GitHub Pages Setup
-
-To host this as a live web app:
-
-1. Create a GitHub account if you don't have one
-2. Create a new repository (can be public or private)
-3. Upload `dopamine_digital_tracker_v4.html` and rename it to `index.html`
-4. Go to **Settings → Pages**
-5. Under **Source**, select `main` branch and `/ (root)` folder
-6. Click **Save**
-
-Your app will be live at `https://yourusername.github.io/your-repo-name` within a few minutes.
-
----
-
-## Version History
-
-- **v4.0** — Auto date sync, auto-token protection, badge system, comeback system, streak break alerts, future stages fully collapsed, boss panel hidden until S5, social-free hidden until S3, onboarding banner, README
-- **v3.0** — Token system, stage unlock progress, week bar, boss fights, journal questions per stage
-- **v1–2** — Initial build
-
----
-
 ## Philosophy
 
 > The tracker does not motivate you. Motivation is temporary and unreliable. The tracker measures consistency — which is the only thing that produces real change.
