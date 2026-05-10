@@ -1,0 +1,2497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#080808">
+<title>DOPAMINE DIGITAL PROTOCOL</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@300;400;500;600&display=swap');
+
+  :root {
+    --bg: #080808;
+    --surface: #0f0f0f;
+    --surface-2: #141414;
+    --border: #1f1f1f;
+    --border-strong: #2a2a2a;
+    --text: #e8eef0;
+    --text-soft: #b0bbbf;
+    --muted: #6a7478;
+    --muted-dim: #3a3e42;
+    --cyan: #00e5ff;
+    --cyan-soft: #5cf0ff;
+    --cyan-dim: rgba(0, 229, 255, 0.10);
+    --cyan-line: rgba(0, 229, 255, 0.25);
+    --red: #ff4d3d;
+    --red-dim: rgba(255, 77, 61, 0.08);
+    --red-line: rgba(255, 77, 61, 0.25);
+    --red-text: #ff7a6d;
+    --green: #4ade80;
+    --green-dim: rgba(74, 222, 128, 0.08);
+    --s1: #ff4d3d;
+    --s2: #00e5ff;
+    --s3: #4a8fa8;
+    --s4: #6a7a6a;
+    --shadow-glow: 0 0 40px rgba(0, 229, 255, 0.06);
+    --watermark: rgba(255,255,255,0.025);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  /* ===== STICKY NAV ===== */
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 999;
+    background: rgba(8,8,8,0.94);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: stretch;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .nav::-webkit-scrollbar { display: none; }
+  .nav-logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2.4px;
+    color: var(--cyan);
+    padding: 0 18px;
+    border-right: 1px solid var(--border);
+    white-space: nowrap;
+    flex-shrink: 0;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+  }
+  .nav-item {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 0 15px;
+    white-space: nowrap;
+    border-right: 1px solid var(--border);
+    transition: color 0.15s, background 0.15s;
+    flex-shrink: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    height: 44px;
+  }
+  .nav-item:hover { color: var(--cyan); background: var(--cyan-dim); }
+  .nav-item.active { color: var(--cyan); }
+  body { padding-top: 44px; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Archivo', sans-serif;
+    font-weight: 300;
+    line-height: 1.75;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection { background: var(--cyan); color: var(--bg); }
+
+  /* ===== HERO ===== */
+  .hero {
+    padding: 88px 48px 64px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: '';
+    display: none;
+  }
+  .hero-brand {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 5px;
+    color: var(--cyan);
+    text-transform: uppercase;
+    margin-bottom: 22px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .hero-brand::before {
+    content: '';
+    width: 32px;
+    height: 1px;
+    background: var(--cyan);
+  }
+  .hero h1 {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: clamp(44px, 9vw, 110px);
+    line-height: 0.92;
+    letter-spacing: -1px;
+    position: relative;
+    z-index: 1;
+  }
+  .hero h1 em { font-style: normal; color: var(--cyan); }
+  .hero-desc {
+    margin-top: 32px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    color: var(--muted);
+    max-width: 640px;
+    line-height: 1.85;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-quote {
+    margin-top: 36px;
+    padding: 20px 24px;
+    border-left: 2px solid var(--cyan);
+    background: var(--cyan-dim);
+    max-width: 680px;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-quote p { font-size: 16px; color: var(--text); line-height: 1.6; font-weight: 400; }
+  .hero-quote p strong { color: var(--cyan); font-weight: 600; }
+
+  /* ===== DISCLAIMER ===== */
+  .disclaimer {
+    padding: 22px 48px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+  .disclaimer-icon {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--cyan);
+    text-transform: uppercase;
+    white-space: nowrap;
+    padding-top: 2px;
+  }
+  .disclaimer p {
+    font-size: 13.5px;
+    color: var(--text-soft);
+    line-height: 1.75;
+  }
+  .disclaimer p strong { color: var(--text); font-weight: 500; }
+
+  /* ===== SECTION ===== */
+  .section {
+    border-bottom: 1px solid var(--border);
+    padding: 72px 48px;
+    position: relative;
+  }
+  .section-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 28px;
+    margin-bottom: 48px;
+  }
+  .section-num {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: clamp(56px, 10vw, 84px);
+    color: var(--muted-dim);
+    line-height: 0.9;
+    min-width: 84px;
+    letter-spacing: -2px;
+  }
+  .section-meta { flex: 1; min-width: 0; }
+  .section-cat {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--cyan);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .section-title {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: clamp(28px, 5vw, 42px);
+    letter-spacing: -0.5px;
+    line-height: 1;
+  }
+  .section-subtitle {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    color: var(--muted);
+    margin-top: 10px;
+  }
+
+  /* ===== SECTION INTRO ===== */
+  .section-intro {
+    background: var(--surface);
+    border-left: 3px solid var(--cyan);
+    padding: 22px 26px;
+    margin-bottom: 36px;
+    font-size: 16px;
+    color: var(--text-soft);
+    line-height: 1.8;
+  }
+  .section-intro strong { color: var(--text); font-weight: 500; }
+  .section-intro p + p { margin-top: 12px; }
+
+  /* ===== PHASE META BAR ===== */
+  .phase-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: 36px;
+  }
+  .phase-meta-cell { background: var(--surface); padding: 18px 20px; }
+  .phase-meta-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .phase-meta-value {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 18px;
+    color: var(--cyan);
+    line-height: 1.2;
+  }
+  .phase-meta-value.text {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--text);
+  }
+
+  /* ===== HABIT CARD ===== */
+  .habit {
+    border: 1px solid var(--border);
+    margin-bottom: 14px;
+    overflow: hidden;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .habit:hover { border-color: var(--border-strong); }
+  .habit.open { border-color: var(--cyan-line); box-shadow: var(--shadow-glow); }
+
+  .habit-header {
+    padding: 18px 22px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    user-select: none;
+    background: var(--surface);
+    transition: background 0.15s;
+  }
+  .habit:hover .habit-header { background: var(--surface-2); }
+  .priority-bar { width: 4px; align-self: stretch; border-radius: 2px; flex-shrink: 0; }
+  .habit-header-main { flex: 1; min-width: 0; }
+  .habit-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+  }
+  .priority-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 2px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .habit-id { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); }
+  .xp-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    color: var(--cyan);
+    background: var(--cyan-dim);
+    padding: 2px 7px;
+    margin-left: auto;
+  }
+  .habit-name {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 15.5px;
+    letter-spacing: 0.2px;
+    color: var(--text);
+    line-height: 1.3;
+  }
+  .habit-summary { font-size: 14px; color: var(--muted); line-height: 1.55; margin-top: 4px; }
+  .expand-icon {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 22px;
+    color: var(--muted);
+    transition: transform 0.25s, color 0.2s;
+    flex-shrink: 0;
+    line-height: 1;
+    font-weight: 300;
+  }
+  .habit.open .expand-icon { transform: rotate(45deg); color: var(--cyan); }
+
+  .habit-body {
+    display: none;
+    padding: 28px 26px 28px 42px;
+    border-top: 1px solid var(--border);
+    background: var(--bg);
+  }
+  .habit.open .habit-body { display: block; }
+
+  .habit-body h4 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 14px;
+    margin-top: 26px;
+  }
+  .habit-body h4:first-child { margin-top: 0; }
+  .habit-body p { font-size: 15.5px; color: var(--text-soft); line-height: 1.85; margin-bottom: 14px; }
+  .habit-body p strong { color: var(--text); font-weight: 500; }
+  .habit-body p em { color: var(--cyan); font-style: normal; font-weight: 500; }
+
+  .examples { display: flex; flex-direction: column; gap: 10px; }
+  .example {
+    display: flex;
+    gap: 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 14px 18px;
+    align-items: flex-start;
+  }
+  .example-icon { font-size: 16px; flex-shrink: 0; padding-top: 1px; }
+  .example-text { font-size: 15px; color: var(--text-soft); line-height: 1.75; }
+  .example-text strong { color: var(--text); font-weight: 500; }
+
+  .action-box {
+    background: var(--cyan-dim);
+    border: 1px solid var(--cyan-line);
+    padding: 16px 20px;
+    margin-top: 22px;
+  }
+  .action-box p { color: var(--cyan); font-size: 15px; margin: 0; line-height: 1.75; }
+  .action-box p strong { color: var(--cyan); font-weight: 600; }
+
+  .warning-box {
+    background: var(--red-dim);
+    border: 1px solid var(--red-line);
+    padding: 16px 20px;
+    margin-top: 14px;
+  }
+  .warning-box p { color: var(--red-text); font-size: 15px; margin: 0; line-height: 1.75; }
+  .warning-box p strong { color: var(--red-text); font-weight: 600; }
+
+  /* ===== FOUNDER NOTE ===== */
+  .founder-note {
+    background: #0a0f0f;
+    border: 1.5px dashed var(--cyan);
+    padding: 32px 26px 26px;
+    margin-top: 28px;
+    position: relative;
+    box-shadow: 0 0 24px rgba(0, 229, 255, 0.07), inset 0 0 40px rgba(0,229,255,0.03);
+  }
+  .founder-note::before {
+    content: 'FOUNDER NOTE / VANJA';
+    position: absolute;
+    top: -11px;
+    left: 20px;
+    background: var(--bg);
+    padding: 0 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--cyan);
+    font-weight: 600;
+    border: 1px solid var(--cyan);
+  }
+  .founder-note p {
+    font-family: 'Archivo', sans-serif;
+    font-size: 15.5px;
+    font-weight: 400;
+    font-style: italic;
+    color: #b8c8cc;
+    line-height: 1.85;
+    margin: 0;
+  }
+  .founder-note p strong {
+    color: #ffffff;
+    font-weight: 700;
+    font-style: normal;
+  }
+  .founder-note p + p { margin-top: 14px; }
+
+  /* ===== PRIORITY COLORS ===== */
+  .p1 { background-color: var(--s1); }
+  .p2 { background-color: var(--s2); }
+  .p3 { background-color: var(--s3); }
+  .p4 { background-color: var(--s4); }
+
+  .pb1 { background-color: rgba(255, 77, 61, 0.15); color: var(--s1); }
+  .pb2 { background-color: rgba(0, 229, 255, 0.13); color: var(--s2); }
+  .pb3 { background-color: rgba(74, 143, 168, 0.18); color: #6ba8c0; }
+  .pb4 { background-color: rgba(106, 122, 106, 0.20); color: #8aaa8a; }
+
+  /* ===== RULES ===== */
+  .rules-grid { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--border); }
+  .rule {
+    border-bottom: 1px solid var(--border);
+    padding: 28px;
+    background: var(--surface);
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 24px;
+    align-items: start;
+    transition: background 0.15s;
+  }
+  .rule:last-child { border-bottom: none; }
+  .rule:hover { background: var(--surface-2); }
+  .rule-num { font-family: 'Archivo Black', sans-serif; font-size: 36px; color: var(--cyan); line-height: 1; letter-spacing: -1px; }
+  .rule-content { min-width: 0; }
+  .rule-title { font-family: 'Archivo Black', sans-serif; font-size: 17px; color: var(--text); margin-bottom: 10px; letter-spacing: 0.2px; line-height: 1.25; }
+  .rule-body { font-size: 15.5px; color: var(--text-soft); line-height: 1.8; }
+  .rule-body strong { color: var(--text); font-weight: 500; }
+  .rule-body em { color: var(--cyan); font-style: normal; font-weight: 500; }
+
+  /* ===== JOURNAL TABLE ===== */
+  .journal-table { border: 1px solid var(--border); overflow: hidden; }
+  .journal-phase { border-bottom: 1px solid var(--border); padding: 24px 26px; background: var(--surface); }
+  .journal-phase:last-child { border-bottom: none; }
+  .journal-phase-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--cyan);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .journal-phase-title::before { content: ''; width: 18px; height: 1px; background: var(--cyan); }
+  .journal-questions { display: flex; flex-direction: column; gap: 10px; }
+  .journal-q {
+    font-size: 15.5px;
+    color: var(--text-soft);
+    line-height: 1.7;
+    padding-left: 22px;
+    position: relative;
+  }
+  .journal-q::before { content: ''; position: absolute; left: 0; color: var(--cyan); font-family: 'JetBrains Mono', monospace; }
+
+  /* ===== CHALLENGES ===== */
+  .challenge {
+    border: 1px solid var(--border);
+    margin-bottom: 14px;
+    background: var(--surface);
+    padding: 22px 26px;
+    display: grid;
+    grid-template-columns: 56px 1fr auto;
+    gap: 20px;
+    align-items: start;
+  }
+  .challenge-num { font-family: 'Archivo Black', sans-serif; font-size: 32px; color: var(--cyan); line-height: 1; }
+  .challenge-content { min-width: 0; }
+  .challenge-name { font-family: 'Archivo Black', sans-serif; font-size: 16px; margin-bottom: 8px; letter-spacing: 0.2px; }
+  .challenge-desc { font-size: 15px; color: var(--text-soft); line-height: 1.75; margin-bottom: 10px; }
+  .challenge-desc strong { color: var(--text); font-weight: 500; }
+  .challenge-xp { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--cyan); background: var(--cyan-dim); padding: 5px 10px; white-space: nowrap; align-self: start; }
+
+  /* ===== LEVELS LADDER ===== */
+  .levels-ladder { display: flex; flex-direction: column; border: 1px solid var(--border); }
+  .level-row {
+    display: grid;
+    grid-template-columns: 60px 100px 1fr;
+    gap: 20px;
+    padding: 14px 22px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+  }
+  .level-row:last-child { border-bottom: none; }
+  .level-num { font-family: 'Archivo Black', sans-serif; font-size: 20px; color: var(--cyan); line-height: 1; }
+  .level-xp { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); }
+  .level-title { font-family: 'Archivo Black', sans-serif; font-size: 13px; letter-spacing: 1px; color: var(--text); }
+
+  /* ===== CALLOUT BIG ===== */
+  .callout-big { margin: 36px 0; padding: 32px; border: 1px solid var(--cyan-line); background: var(--cyan-dim); }
+  .callout-big-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 3px; color: var(--cyan); text-transform: uppercase; margin-bottom: 14px; }
+  .callout-big-text { font-family: 'Archivo Black', sans-serif; font-size: clamp(20px, 3vw, 28px); line-height: 1.25; color: var(--text); letter-spacing: -0.3px; }
+  .callout-big-text em { font-style: normal; color: var(--cyan); }
+
+  /* ===== TRAPS ===== */
+  .traps { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin-top: 8px; }
+  .trap { border: 1px solid var(--border); background: var(--surface); padding: 20px 22px; transition: border-color 0.2s; }
+  .trap:hover { border-color: var(--red-line); }
+  .trap-num { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--red); margin-bottom: 8px; }
+  .trap-title { font-family: 'Archivo Black', sans-serif; font-size: 14.5px; margin-bottom: 8px; line-height: 1.3; }
+  .trap-text { font-size: 14.5px; color: var(--text-soft); line-height: 1.7; }
+
+  /* ===== CLOSING / MOTTO ===== */
+  .closing {
+    padding: 96px 48px 80px;
+    text-align: center;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
+  .closing-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: var(--cyan);
+    text-transform: uppercase;
+    margin-bottom: 36px;
+  }
+  .closing-motto {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: clamp(32px, 6vw, 64px);
+    line-height: 1.15;
+    letter-spacing: -1px;
+    max-width: 980px;
+    margin: 0 auto;
+    color: var(--text);
+  }
+  .closing-motto em { font-style: normal; color: var(--cyan); }
+
+  /* ===== TRACKER CTA ===== */
+  .tracker-cta {
+    padding: 64px 48px;
+    text-align: center;
+    border-top: 1px solid var(--border);
+  }
+  .tracker-cta-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .tracker-cta-title {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: clamp(28px, 5vw, 48px);
+    color: var(--cyan);
+    letter-spacing: -1px;
+    margin-bottom: 16px;
+  }
+  .tracker-cta-sub {
+    font-size: 14px;
+    color: var(--text-soft);
+    max-width: 520px;
+    margin: 0 auto;
+    line-height: 1.75;
+  }
+  .tracker-cta-btn {
+    display: inline-block;
+    margin-top: 28px;
+    padding: 14px 36px;
+    background: var(--cyan);
+    color: var(--bg);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: opacity 0.2s, transform 0.15s;
+  }
+  .tracker-cta-btn:hover { opacity: 0.85; transform: translateY(-1px); }
+
+  /* ===== INLINE SUBHEAD ===== */
+  .subhead {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--cyan);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .subhead + .subhead { margin-top: 36px; }
+  .subhead-gap { margin-top: 36px; }
+
+  /* ===== BODY PROSE ===== */
+  .prose {
+    font-size: 16px;
+    color: var(--text-soft);
+    line-height: 1.9;
+    margin-bottom: 16px;
+  }
+  .prose strong { color: var(--text); }
+  .prose em { color: var(--cyan); font-style: normal; font-weight: 500; }
+
+  /* ===== MOBILE ===== */
+  @media (max-width: 768px) {
+    body { font-size: 15px; }
+    .hero { padding: 64px 26px 48px; }
+    .hero h1 { font-size: clamp(40px, 11vw, 72px); }
+    .disclaimer { padding: 18px 26px; flex-direction: column; gap: 10px; }
+    .section { padding: 56px 26px; }
+    .section-head { gap: 18px; margin-bottom: 36px; }
+    .section-num { font-size: 56px; min-width: 56px; }
+    .section-title { font-size: 28px; }
+    .habit-header { padding: 16px 18px; gap: 12px; }
+    .habit-name { font-size: 15px; }
+    .habit-summary { font-size: 13.5px; }
+    .habit-body { padding: 24px 20px 24px 24px; }
+    .habit-body p { font-size: 15px; }
+    .example { padding: 13px 15px; gap: 12px; }
+    .example-text { font-size: 14.5px; }
+    .xp-tag { display: none; }
+    .rule { grid-template-columns: 48px 1fr; gap: 16px; padding: 22px 20px; }
+    .rule-num { font-size: 28px; }
+    .rule-title { font-size: 15px; }
+    .rule-body { font-size: 15px; }
+    .challenge { grid-template-columns: 44px 1fr; padding: 18px 20px; gap: 14px; }
+    .challenge-num { font-size: 26px; }
+    .challenge-xp { grid-column: 1 / -1; justify-self: start; margin-top: 6px; }
+    .level-row { grid-template-columns: 44px 80px 1fr; padding: 12px 16px; gap: 14px; }
+    .level-num { font-size: 17px; }
+    .level-title { font-size: 12px; }
+    .closing { padding: 72px 26px 64px; }
+    .closing-motto { font-size: clamp(26px, 7vw, 40px); }
+    .phase-meta { grid-template-columns: 1fr 1fr; }
+    .callout-big { padding: 24px 22px; margin: 24px 0; }
+    .founder-note { padding: 28px 20px 22px; }
+    .founder-note::before { font-size: 9px; letter-spacing: 2px; }
+    .journal-phase { padding: 20px; }
+    .section-intro { padding: 18px 22px; font-size: 15px; }
+    .tracker-cta { padding: 48px 26px; }
+  }
+
+  @media (max-width: 420px) {
+    .hero h1 { font-size: 38px; }
+    .hero-brand { font-size: 9px; letter-spacing: 3px; }
+    .priority-badge { font-size: 8.5px; padding: 2px 7px; }
+    .habit-id { font-size: 9.5px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav-item" onclick="navTo('why')">Why</a>
+  <a class="nav-item" onclick="navTo('system')">System</a>
+  <a class="nav-item" onclick="navTo('rules')">Rules</a>
+  <a class="nav-item" onclick="navTo('traps')">Traps</a>
+  <a class="nav-item" onclick="navTo('stage1')">S1</a>
+  <a class="nav-item" onclick="navTo('stage2')">S2</a>
+  <a class="nav-item" onclick="navTo('stage3')">S3</a>
+  <a class="nav-item" onclick="navTo('stage4')">S4</a>
+  <a class="nav-item" onclick="navTo('stage5')">S5</a>
+  <a class="nav-item" onclick="navTo('stage6')">S6</a>
+  <a class="nav-item" onclick="navTo('sovereign')">Sovereign</a>
+  <a class="nav-item" onclick="navTo('recap')">Recap</a>
+  <a class="nav-item" onclick="navTo('challenges')">Bosses</a>
+</nav>
+
+<!-- ═════════════════════ HERO ═════════════════════ -->
+<div class="hero">
+  <div class="hero-brand">ONE LIFE PROTOCOL</div>
+  <h1>DOPAMINE<br><em>DIGITAL</em><br>PROTOCOL</h1>
+  <p class="hero-desc">The operating system for your attention.<br>Six stages. Ten rules. One direction.</p>
+  <div class="hero-quote">
+    <p>This isn't a 30-day challenge. This is a <strong>permanent fix</strong>. The point isn't to "do better for a month." The point is to rewire the part of you that reaches for the phone before it even knows it's reaching.</p>
+  </div>
+</div>
+
+<!-- ===== READING DISCLAIMER ===== -->
+<div class="disclaimer">
+  <span class="disclaimer-icon">// READ FIRST</span>
+  <p>Read <strong>Why This Works, How The System Works, The 10 Rules</strong> and <strong>The Traps</strong> in full. Then read only the Stage you're currently in. You can look at the next Stage to get an idea of what's coming, but don't skip ahead. The rest will be here when you earn it.</p>
+  <p style="margin-top:10px; color: var(--muted);">Overwhelmed? Skip everything. Go straight to Stage 1, open the tracker, check one P1 habit tonight. Come back and read the rest when you're ready. The document isn't going anywhere.</p>
+</div>
+
+<!-- ═════════════════════ 00 · WHY THIS WORKS ═════════════════════ -->
+<section class="section" id="why">
+  <div class="section-head">
+    <div class="section-num">00</div>
+    <div class="section-meta">
+      <div class="section-cat">Foundation</div>
+      <div class="section-title">WHY THIS WORKS</div>
+      <div class="section-subtitle">How the brain gets hijacked. In plain language, no drama.</div>
+    </div>
+  </div>
+
+  <div class="section-intro">
+    <p><strong>You already know why this works.</strong> You read it in Stage 0. The hijacking, the dopamine loop, the slot machine mechanism, the broken baseline. That was the diagnosis. This is where the system begins.</p>
+    <p>Everything from here's the protocol in action. Read this section once to understand what you're building. Then start Stage 1 tonight.</p>
+  </div>
+
+  <div class="callout-big">
+    <div class="callout-big-label">// What this protocol actually does</div>
+    <div class="callout-big-text">It gives your brain enough <em>silence</em> for the receptors to <em>reset</em>. That's it. The habits are the scaffolding. The real work is letting your nervous system come back to its natural state. <em>Boredom returning is the first sign it's working.</em></div>
+  </div>
+
+  <p class="subhead subhead-gap">WHAT THIS PROTOCOL DOES</p>
+
+  <div class="examples">
+    <div class="example"><div class="example-icon">🧠</div><div class="example-text"><strong>Restores your baseline.</strong> Within 30 to 90 days of consistent practice, your brain's reward sensitivity returns toward healthy levels. Ordinary things start feeling worth doing again.</div></div>
+    <div class="example"><div class="example-icon">🎯</div><div class="example-text"><strong>Rebuilds attention span.</strong> Focus is a muscle. It gets weak with constant interruption and rebuilds with deliberate single-tasking. By stages 3 and 4, you'll notice you can read for 30 minutes without itching for the phone.</div></div>
+    <div class="example"><div class="example-icon">⚡</div><div class="example-text"><strong>Returns control.</strong> The goal isn't to never use your phone. The goal is to be the operator, not the operated. You decide when. You decide how long. That feeling is power.</div></div>
+    <div class="example"><div class="example-icon">🌅</div><div class="example-text"><strong>Reclaims time.</strong> The average person spends 4 or more hours a day on screens. Cut that in half and you gain 60 or more hours a month. That's a side business, a new skill, a book a week, a real life.</div></div>
+  </div>
+
+  <p class="subhead subhead-gap">WHAT THIS PROTOCOL DOES NOT DO</p>
+
+  <div class="examples">
+    <div class="example"><div class="example-icon">❌</div><div class="example-text"><strong>It doesn't make you a digital monk.</strong> The phone stays. Social media stays mostly. The protocol is about sovereignty, not abstinence. Tools you can put down are tools. Tools you can't put down are owners.</div></div>
+    <div class="example"><div class="example-icon">❌</div><div class="example-text"><strong>It doesn't fix everything else.</strong> Bad relationships, bad job, bad sleep, bad food are separate protocols. But here's the secret: <em>fix this one and the others get easier</em>. Sharper focus leads to better work. Less scrolling leads to more time. Real boredom leads to real ideas.</div></div>
+    <div class="example"><div class="example-icon">❌</div><div class="example-text"><strong>It doesn't work in 30 days.</strong> You'll feel different in 7. You'll be different in 90. You'll be unrecognizable in 180. Most people quit at day 11, exactly when the brain is starting to reset and the discomfort is at its peak. <strong>Don't be most people.</strong></div></div>
+  </div>
+
+  <div class="founder-note">
+    <p>Built this because I needed it. Not because I had it figured out, because I was losing. Some days everything runs clean. Some days I cheat and reset. That's it, that's all this is. You're not behind. You're here reading this, and that already puts you ahead of most people with the same problem.</p>
+  </div>
+</section>
+
+<!-- ═════════════════════ 01 · HOW THE SYSTEM WORKS ═════════════════════ -->
+<section class="section" id="system">
+  <div class="section-head">
+    <div class="section-num">01</div>
+    <div class="section-meta">
+      <div class="section-cat">Mechanics</div>
+      <div class="section-title">HOW THE SYSTEM WORKS</div>
+      <div class="section-subtitle">XP, stages, levels. It's a game because games work.</div>
+    </div>
+  </div>
+
+  <div class="section-intro">
+    <p><strong>Your brain is a reward machine.</strong> The same circuit that traps you in TikTok is the one we will use to pull you out. Every habit gives XP. XP unlocks stages. Stages unlock new habits. Levels go up forever with no cap. The progression is the point.</p>
+    <p>This isn't a gimmick. This is the same psychology your phone uses against you, redirected at something that actually serves you.</p>
+  </div>
+
+  <p class="subhead">S AND P, EXPLAINED</p>
+
+  <p class="prose"><strong>S stands for Stage.</strong> S1, S2, S3, S4, S5, S6 are the six stages of the protocol. Habit IDs like S1.01 mean Stage 1, habit 1. Each stage builds on the previous one.</p>
+  <p class="prose"><strong>P stands for Priority.</strong> Every habit inside a stage has a priority level. P1 habits are non-negotiable, the foundation everything else stands on. P2 habits are important and build on those. P3 habits compound the gains. P4 habits are advanced additions for later stages. Always do P1 first. Always.</p>
+
+  <p class="subhead subhead-gap">XP, THE CURRENCY</p>
+
+  <p class="prose">Every habit you complete adds XP to your total. <strong>XP only goes up. It never resets.</strong> A bad day doesn't subtract anything. You simply don't add. This is intentional. XP is the resilience layer: it reflects cumulative effort across the entire journey and never punishes a missed day. You never restart. You just keep going from where you stopped.</p>
+  <p class="prose">The tracker also tracks a daily streak. The streak is the challenge layer: it rewards consistency and pushes you to show up every day. To protect the streak, you earn Insurance Tokens by completing 7 consecutive perfect days. Tokens bank automatically, up to 5 maximum, and deploy automatically when you miss a day. If you've no tokens banked, the streak resets. The streak measures your edge. XP measures your foundation. Both matter, for different reasons.</p>
+  <p class="prose">XP values follow priority. P1 habits give the most XP because they have the most impact. Don't skip P1 to chase easier P2 or P3 habits. That's optimizing for the wrong number.</p>
+
+  <p class="subhead subhead-gap">STAGES, THE PROGRESSION</p>
+
+  <p class="prose">There are <strong>six stages</strong>. Each one builds on the last. You don't pick which stage to do, you earn the next one with cumulative XP. When you unlock a new stage, the old habits don't disappear. <strong>They stack.</strong> By Stage 5, you're running 12 or more habits a day. This sounds like a lot until you realize most of them are automatic by then. The morning walk you struggled with in week 1 is just "what I do" by week 6.</p>
+
+  <p class="prose">Each stage has <strong>two unlock conditions that both must be met</strong>: the XP threshold and a minimum number of active days. You can't skip the time requirement by grinding XP on less important habits. The days are there because habits need repetition to wire in, and no amount of XP changes the biology. <em>Both conditions unlock together, or neither does.</em></p>
+
+  <div class="callout-big">
+    <div class="callout-big-label">// The day lock rule</div>
+    <div class="callout-big-text">An <em>active day</em> is any day you complete at least one P1 habit. Days with only P2 or P3 habits don't count toward the day requirement. The minimums are 10, 14, 21, 30, and 41 days per stage. <em>XP shows your effort. Days show your consistency. Both matter.</em></div>
+  </div>
+
+  <p class="subhead subhead-gap">LEVELS, THE LADDER</p>
+
+  <p class="prose">Independent of stages, you've a <strong>level title</strong>. The level reflects your total cumulative XP. After level 10, every additional 5,000 XP is a new level. <strong>There's no end state.</strong> Sovereignty is a practice, not a destination.</p>
+
+  <div class="levels-ladder">
+    <div class="level-row"><div class="level-num">01</div><div class="level-xp">0 XP</div><div class="level-title">ADDICT</div></div>
+    <div class="level-row"><div class="level-num">02</div><div class="level-xp">80 XP</div><div class="level-title">WAKING UP</div></div>
+    <div class="level-row"><div class="level-num">03</div><div class="level-xp">220 XP</div><div class="level-title">RESISTING</div></div>
+    <div class="level-row"><div class="level-num">04</div><div class="level-xp">500 XP</div><div class="level-title">RECLAIMING</div></div>
+    <div class="level-row"><div class="level-num">05</div><div class="level-xp">1,000 XP</div><div class="level-title">CONTROLLED</div></div>
+    <div class="level-row"><div class="level-num">06</div><div class="level-xp">1,800 XP</div><div class="level-title">SHARP MIND</div></div>
+    <div class="level-row"><div class="level-num">07</div><div class="level-xp">3,000 XP</div><div class="level-title">LIBERATED</div></div>
+    <div class="level-row"><div class="level-num">08</div><div class="level-xp">5,000 XP</div><div class="level-title">SOVEREIGN</div></div>
+    <div class="level-row"><div class="level-num">09</div><div class="level-xp">8,000 XP</div><div class="level-title">SIGNAL CLEAR</div></div>
+    <div class="level-row"><div class="level-num">10</div><div class="level-xp">12,000 XP</div><div class="level-title">AWAKE</div></div>
+    <div class="level-row"><div class="level-num">11+</div><div class="level-xp">+5,000 / lvl</div><div class="level-title">STILL GOING</div></div>
+  </div>
+
+  <p class="subhead subhead-gap">THE TRACKER AND THIS MANUAL</p>
+
+  <p class="prose">The tracker handles the daily layer: checkboxes, XP totals, stage progress, social-free toggles, weekly challenge state, journal questions, and weekly recap prompts. It's the execution surface. Everything you do gets recorded there.</p>
+  <p class="prose">This manual handles the depth: why each habit matters, how to start it, common mistakes, what to expect. <strong>Re-read it at every stage unlock.</strong> The same words mean different things at Stage 1 and Stage 4. You're not the same person reading it.</p>
+
+  <div class="callout-big">
+    <div class="callout-big-label">// The one operational rule</div>
+    <div class="callout-big-text"><em>Open the tracker every evening to close the day.</em> The tracker syncs to midnight. If you don't open it before midnight, that day is recorded as missed, no backfill, no exceptions. The daily opening is itself a habit. It's the anchor of the evening ritual.</div>
+  </div>
+
+  <p class="subhead subhead-gap">STREAK INSURANCE TOKENS</p>
+
+  <p class="prose">Tokens are the only safety net in the system. You earn one token every <strong>7 consecutive perfect days</strong>, meaning every habit checked for 7 days straight. You can bank up to 5 tokens. When you miss a day, one token is <strong>automatically consumed</strong> to protect your streak. You'll see a notification in the tracker when this happens. If you've no tokens banked, the streak breaks with no recovery. The tracker records the miss honestly in your week bar.</p>
+  <p class="prose">Tokens must be earned through discipline. They can't be manipulated or gamed. They're not a reward for showing up once. They're a reward for not breaking the chain for seven days. The more tokens you've banked, the more resilient your streak is. The goal is to never need them, and to always have them.</p>
+</section>
+
+<!-- ═════════════════════ 02 · THE 10 RULES ═════════════════════ -->
+<section class="section" id="rules">
+  <div class="section-head">
+    <div class="section-num">02</div>
+    <div class="section-meta">
+      <div class="section-cat">Operating Code</div>
+      <div class="section-title">THE 10 RULES</div>
+      <div class="section-subtitle">The rules of engagement. Read these every week. They're the spine.</div>
+    </div>
+  </div>
+
+  <div class="section-intro">
+    <p><strong>These aren't suggestions.</strong> They're the operating principles that make every habit in this manual actually work. Skip the rules and you'll do the habits and wonder why they don't stick. The rules are the difference between a 30-day attempt and a permanent install.</p>
+  </div>
+
+  <div class="rules-grid">
+
+    <div class="rule">
+      <div class="rule-num">01</div>
+      <div class="rule-content">
+        <div class="rule-title">Write, don't type.</div>
+        <div class="rule-body">Every reflection in this protocol, journal, weekly recap, dopamine audit, is done with <strong>pen and paper</strong>. Never on the phone. Never on a laptop. <em>The friction is the feature.</em> Writing by hand forces your brain to slow down enough for the thought to actually form. Typing on the addiction device is like quitting drinking at the bar. Buy a notebook. Keep it on your desk. That notebook is part of the protocol.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-num">02</div>
+      <div class="rule-content">
+        <div class="rule-title">Marathon, not sprint.</div>
+        <div class="rule-body">This isn't a 30-day challenge. This is a <strong>permanent fix</strong>. The habits must outlive your motivation, your bad weeks, your breakups, your job changes. <em>If it can't survive a bad week, it's not yours yet.</em> Don't sprint the first stage trying to finish. There's nothing to finish. There's only what you do every day, for the rest of your life. People who sprint burn out at week 3. People who walk are still walking at year 3.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-num">03</div>
+      <div class="rule-content">
+        <div class="rule-title">One bad day doesn't reset you.</div>
+        <div class="rule-body">XP is cumulative. There's no streak to break. <strong>The real damage is never the bad day. The damage is the spiral after.</strong> The voice that says "well I already messed up, might as well scroll for 5 hours and start fresh Monday." That voice is the addiction protecting itself. People don't quit because they failed once. They quit because they decided one failure meant they ruined everything. <em>A diluted protocol still works. A quit one doesn't.</em> If you fall off, the recovery isn't restarting. It's just doing the next habit. The next meal. The next walk.</div>
+      </div>
+    </div>
+
+    <div class="callout-big" style="margin: 4px 0 20px;">
+      <div class="callout-big-label">// What to do in the next 10 minutes</div>
+      <div class="callout-big-text" style="font-family:'Archivo',sans-serif; font-size:15px; font-weight:300; line-height:1.85; color:var(--text-soft);">You scrolled for two hours. You broke the streak. You ate with the phone at every meal today. Fine. Here's the move: <strong style="color:var(--text);">close the feed, put the phone in the other room right now, and open this tracker.</strong> Check whatever you did do today. Even if it's nothing. Open it anyway. The act of opening it is you telling your brain the protocol is still running. Then do one P1 habit before you sleep. One. Airplane mode counts. Phone in another room counts. Water before bed counts. That's it. You don't restart. You don't write today off. You don't wait for Monday. You do the next thing. <em style="color:var(--cyan); font-style:normal;">The protocol is still active. It was never paused. You just had a hard day.</em></div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-num">04</div>
+      <div class="rule-content">
+        <div class="rule-title">Honesty over performance.</div>
+        <div class="rule-body">Don't game the tracker. Don't check the box if you didn't actually do the thing. <strong>The tracker doesn't care if you lie. You do.</strong> A protocol built on fake numbers gives you fake confidence and zero results. Mark what you actually did. The empty boxes are the most useful information you have. They tell you exactly where you're weakest. That's not failure. That's a map.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-num">05</div>
+      <div class="rule-content">
+        <div class="rule-title">One protocol at a time.</div>
+        <div class="rule-body">Don't stack a new diet, a new gym plan, a new sleep fix, a new business on top of this. <strong>Fix the dopamine first.</strong> Keep going to the gym, keep eating well, but the <em>focus</em> is here. Why? Because <strong>everything else compounds from here.</strong> Sharper focus leads to better workouts. Less scrolling means more time. Real boredom leads to real ideas. People who try to fix everything at once fix nothing. Win this one. The others get easier automatically.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-num">06</div>
+      <div class="rule-content">
+        <div class="rule-title">The phone isn't the enemy. You being out of control is.</div>
+        <div class="rule-body">Don't hate the phone. <strong>Hate is dependency in reverse.</strong> The goal isn't abstinence. The goal is <em>sovereignty</em>. Here's what that looks like in practice: you open the phone for a specific purpose, you complete that purpose, you close it and put it down. Every time that sequence happens, mark it mentally as a win. Not because you resisted, but because you operated. <strong>You were the one using it, not the one being used.</strong> Do that enough times and the relationship has fundamentally changed. Master the tool. Become the operator.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-num">07</div>
+      <div class="rule-content">
+        <div class="rule-title">Discomfort is the workout.</div>
+        <div class="rule-body">The urge to grab the phone and not grabbing it, <em>that</em> is the rep. This is internal work. The voice in your head saying "just check, just for a second, just to see if anyone wrote you" is the enemy. <strong>Every time you don't pick up, you win a round.</strong> Every win builds confidence. Confidence builds control. Control builds power. <strong>Boredom isn't a problem to solve. It's the gym.</strong> The prize for winning these fights isn't just less screen time. The prize is becoming someone who doesn't flinch in the face of his own mind.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-num">08</div>
+      <div class="rule-content">
+        <div class="rule-title">Don't post about it. Don't explain it.</div>
+        <div class="rule-body">Posting your detox uses the same dopamine circuit you're trying to repair. It feels like progress. It's the addiction in a costume. <strong>Build silently for 60 days.</strong> If someone asks why you're different, the answer is short: <em>"I'm working on regaining control of my life."</em> That's it. Don't preach. Show results, not effort. Six months from now, people won'tice you're calmer, sharper, more present. By then you'll not need to explain it. They will see it.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-num">09</div>
+      <div class="rule-content">
+        <div class="rule-title">Catch yourself mid-scroll.</div>
+        <div class="rule-body">This is the awareness rule. It's different from all the others. It's not about doing something, it's about <em>seeing</em>. <strong>The first time you notice you're scrolling while you're scrolling, that's the protocol working.</strong> Awareness during the act is more valuable than stopping after it. You can't fix what you can't see. The whole journey in one sentence: <strong>see it more clearly, more often, until the seeing itself becomes the brake.</strong> That gap between action and awareness is where freedom lives.</div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="rule-num">10</div>
+      <div class="rule-content">
+        <div class="rule-title">The morning is sacred. Protect it before anything else.</div>
+        <div class="rule-body">The first hour after waking is when your brain is most open to input. Whatever enters that window sets the emotional template for the rest of the day. Hand it to the algorithm and you're reactive before a single decision has been made. Protect it with water, silence, breath, and nothing from the outside world, and the day starts from a position of clarity instead of deficit. <strong>Every stage in this protocol builds on a protected morning.</strong> It's not one habit among many. It's the foundation everything else stands on. Lose the morning consistently and you're always playing catch-up. Win it consistently and the rest of the protocol runs downhill.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="founder-note">
+    <p>Take your notebook and rewrite each habit in your own words. Add your own notes on why it matters to you specifically. I did this with every habit in my own version of this. The act of rewriting makes it yours, not mine. After that you don't follow the manual anymore. You live it.</p>
+    <p>One more thing: I started rewriting the key points of the manual every week in the weekly recap. Not copying, rewriting in my own words, what I understood, why it mattered for where I was that week. It made everything 10 times easier. When you understand the why, not just the what, the habits stop feeling like rules and start feeling like obvious choices. Re-read at every stage unlock. You're not the same person reading it.</p>
+  </div>
+
+</section>
+
+<!-- ═════════════════════ 03 · THE TRAPS ═════════════════════ -->
+<section class="section" id="traps">
+  <div class="section-head">
+    <div class="section-num">03</div>
+    <div class="section-meta">
+      <div class="section-cat">Field Intelligence</div>
+      <div class="section-title">THE TRAPS</div>
+      <div class="section-subtitle">Nine failure modes from inside the fight. Recognize them before they recognize you.</div>
+    </div>
+  </div>
+
+  <div class="section-intro">
+    <p><strong>These are the traps I fell into. Repeatedly.</strong> I'm naming them so you don't have to discover them the hard way. When you feel one of these starting to pull at you, you'll have a label for it, and the label itself weakens the trap.</p>
+    <p>Read these. Recognize them. The recognition is half the defense.</p>
+  </div>
+
+  <div class="traps">
+
+    <div class="trap">
+      <div class="trap-num">TRAP 01</div>
+      <div class="trap-title">The Weak State</div>
+      <div class="trap-text">You don't fall for the phone when you're sharp. You fall when you're <strong style="color: var(--text);">tired, slept badly, just got bad news, came home wrecked from work</strong>. The addiction wins by default in low-energy states. <em style="color: var(--cyan); font-style: normal;">The protocol must be hardest to break exactly when you're weakest.</em> That's why airplane mode at night is P1. It's the rule that protects you from yourself when you can't protect yourself.</div>
+    </div>
+
+    <div class="trap">
+      <div class="trap-num">TRAP 02</div>
+      <div class="trap-title">Proximity Equals Relapse</div>
+      <div class="trap-text">Phone in your pocket, on the bedside, on the desk within reach, <strong style="color: var(--text);">guaranteed cheat</strong>. Willpower doesn't survive proximity. Airplane mode is good. Phone in another room is better. Phone in another room with notifications off is the goal. <em style="color: var(--cyan); font-style: normal;">Make the wrong choice physically harder than the right one.</em> Distance is architecture, not willpower.</div>
+    </div>
+
+    <div class="trap">
+      <div class="trap-num">TRAP 03</div>
+      <div class="trap-title">Notifications Are Poison</div>
+      <div class="trap-text">Even one ping creates the loop. <strong style="color: var(--text);">"What if it's important?"</strong> Sounds, vibrations, banners, same circuit firing. Your nervous system reacts to the alert before your conscious mind even has a chance to evaluate it. By the time you're "deciding" to check, your brain is already mid-dose. Kill them all at the system level. The people who actually need to reach you'll call.</div>
+    </div>
+
+    <div class="trap">
+      <div class="trap-num">TRAP 04</div>
+      <div class="trap-title">Fake Rest</div>
+      <div class="trap-text">Lying down with the phone is <strong style="color: var(--text);">not rest</strong>. You think you're recovering. You're getting hijacked while horizontal. Your nervous system isn't winding down, it's getting flooded with input your brain has to process. You stand up "rested" and feel more tired, more agitated, more empty. <em style="color: var(--cyan); font-style: normal;">Real rest is silence, breath, sleep, a walk, a stare out the window.</em></div>
+    </div>
+
+    <div class="trap">
+      <div class="trap-num">TRAP 05</div>
+      <div class="trap-title">Loneliness and Boredom</div>
+      <div class="trap-text">These are the two biggest triggers. <strong style="color: var(--text);">They're not problems. They're signals.</strong> The phone numbs them. Sitting with them is the work. Loneliness is your body telling you to connect with real people. Boredom is your brain telling you it has unused capacity. That's where ideas come from, where <em style="color: var(--cyan); font-style: normal;">you</em> come from. Numb the signal, miss the message.</div>
+    </div>
+
+    <div class="trap">
+      <div class="trap-num">TRAP 06</div>
+      <div class="trap-title">Unconscious Scrolling</div>
+      <div class="trap-text">The black hole. <strong style="color: var(--text);">You don't notice you're in it.</strong> 30 minutes vanish. Sometimes an hour. You "wake up" mid-feed with no memory of how you got there. This is the addiction at full power. Self-awareness <em style="color: var(--cyan); font-style: normal;">while scrolling</em> is the first crack in the wall. The second you catch yourself, you've already won partial freedom. <strong style="color: var(--text);">Catching yourself in the act</strong> is the most important skill in this entire protocol.</div>
+    </div>
+
+    <div class="trap">
+      <div class="trap-num">TRAP 07</div>
+      <div class="trap-title">The Public Phone</div>
+      <div class="trap-text">In public, alone at a cafe, waiting in line, the phone is <strong style="color: var(--text);">armor</strong>. Armor against being seen as alone or doing nothing. You think people are judging you. They're not, they're on their phones. <em style="color: var(--cyan); font-style: normal;">Reclaiming the right to just exist in public, phoneless and present, is a quiet revolution.</em> The first time you sit at a cafe and just drink your coffee and watch the street, you'll feel something strange. That's your nervous system remembering what it's like to just be somewhere.</div>
+    </div>
+
+    <div class="trap">
+      <div class="trap-num">TRAP 08</div>
+      <div class="trap-title">Do Not Hate the Phone</div>
+      <div class="trap-text">Hate is dependency in reverse. You're still emotionally attached to the object, just the opposite direction. People who hate their phones are still controlled by their phones. <strong style="color: var(--text);">The phone is a tool. A genuinely powerful one.</strong> The work isn't to destroy the relationship. The work is to redefine it. <em style="color: var(--cyan); font-style: normal;">From compulsion to choice. From slot machine to instrument.</em></div>
+    </div>
+
+    <div class="trap">
+      <div class="trap-num">TRAP 09</div>
+      <div class="trap-title">The Substitution</div>
+      <div class="trap-text">You quit Instagram and fill the silence with podcasts. You delete TikTok and replace it with YouTube. You stop scrolling in bed and start watching Netflix in bed instead. The content changes. The mechanism doesn't. The brain gets the same hit from the same circuit regardless of how respectable the label on the input is. <strong style="color: var(--text);">"I'm listening to a productivity podcast" is still your brain choosing input over presence.</strong> The substitution trap is the most convincing because it genuinely feels like progress. It's not. The real test is simple: can you sit with nothing? Silence, no input, just you and whatever is already in your head. <em style="color: var(--cyan); font-style: normal;">If that's still intolerable, the work isn't done.</em></div>
+    </div>
+
+  </div>
+
+  <div class="founder-note">
+    <p>My phone sleeps in a different room. Not airplane mode on the nightstand, a different room entirely. I know myself. 3am, can't sleep, phone within reach, it's 4:30am when I put it down and tomorrow is wrecked. I stopped fighting that and just moved it out. Your setup matters more than your willpower. Stop trusting willpower, start changing rooms.</p>
+    <p>Also this: when I'm building something, the phone barely exists. When I'm empty and avoiding, the phone is everything. Use it to produce, not to consume. But you need to get enough distance first to even see which one you're doing.</p>
+  </div>
+</section>
+
+<!-- ═════════════════════ STAGE 1 · SIGNAL OFF ═════════════════════ -->
+<section class="section" id="stage1">
+  <div class="section-head">
+    <div class="section-num">S1</div>
+    <div class="section-meta">
+      <div class="section-cat">Stage 1</div>
+      <div class="section-title">SIGNAL OFF</div>
+      <div class="section-subtitle">Remove the poison before adding anything new. Fix night inputs and the first 30 minutes.</div>
+    </div>
+  </div>
+
+  <div class="phase-meta">
+    <div class="phase-meta-cell">
+      <div class="phase-meta-label">XP to Unlock S2</div>
+      <div class="phase-meta-value">600 XP</div>
+    </div>
+    <div class="phase-meta-cell">
+      <div class="phase-meta-label">Min. Active Days</div>
+      <div class="phase-meta-value text">10 days</div>
+    </div>
+    <div class="phase-meta-cell">
+      <div class="phase-meta-label">Max XP / Day</div>
+      <div class="phase-meta-value">110</div>
+    </div>
+    <div class="phase-meta-cell">
+      <div class="phase-meta-label">New Habits</div>
+      <div class="phase-meta-value">6</div>
+    </div>
+  </div>
+
+  <div class="section-intro">
+    <p><strong>The objective is removal, not addition.</strong> Most protocols pile on new habits before fixing the broken ones. We go the other way. Before you meditate, walk, read, or anything else, your night needs to stop being a slot machine and your morning needs to stop starting with a notification flood.</p>
+    <p>Six habits. Two of them are non-negotiable P1, airplane mode at night and no phone in the first 30 minutes. Get those right and you've done 70% of the work of this entire stage.</p>
+  </div>
+
+  <!-- S1.01 Airplane Mode -->
+  <div class="habit" onclick="toggle(this)">
+    <div class="habit-header">
+      <div class="priority-bar p1"></div>
+      <div class="habit-header-main">
+        <div class="habit-top">
+          <span class="priority-badge pb1">P1 / Foundation</span>
+          <span class="habit-id">S1.01</span>
+          <span class="xp-tag">+25 XP</span>
+        </div>
+        <div class="habit-name">Airplane Mode 1h Before Sleep</div>
+        <div class="habit-summary">Phone goes on airplane mode one hour before bed. Stays there until morning. No exceptions.</div>
+      </div>
+      <div class="expand-icon">+</div>
+    </div>
+    <div class="habit-body">
+      <h4>Why This Is P1</h4>
+      <p>The hour before sleep determines the next morning. <strong>If you scroll at 11pm, you wake up reaching for the phone at 7am.</strong> Late-night blue light blocks your body from producing melatonin, the hormone that makes you sleepy. The variable rewards of social media spike stress hormones when they should be falling. Your brain consolidates whatever you fed it last. Scroll, and you wake up anxious. Read, and you wake up calm.</p>
+      <p>Airplane mode is a <em>physical commitment</em>. Pressing that button signals to your brain: <strong>the day is over.</strong> Notifications cut. Messages can't reach you. Your nervous system gets permission to wind down for the first time in maybe years.</p>
+
+      <h4>What This Actually Looks Like</h4>
+      <div class="examples">
+        <div class="example"><div class="example-icon">✈️</div><div class="example-text"><strong>The mechanic:</strong> 60 minutes before your target sleep time, swipe down, tap airplane mode. Phone stays on for alarms but is disconnected. Wi-Fi off too if you want to be strict.</div></div>
+        <div class="example"><div class="example-icon">📍</div><div class="example-text"><strong>Where the phone goes:</strong> Out of the room. Not on the bedside, not across the room. A different room. If it's within reach you'll cheat. The other room is the rule.</div></div>
+        <div class="example"><div class="example-icon">⏰</div><div class="example-text"><strong>Use it as your alarm:</strong> Airplane mode doesn't disable alarms. Set the alarm before you turn it on, put it in the other room, done.</div></div>
+        <div class="example"><div class="example-icon">⚠️</div><div class="example-text"><strong>Common mistake:</strong> Checking "one last thing" right before. That last check can pull you in for 40 minutes. <strong>Airplane mode comes before the last check, not after.</strong></div></div>
+      </div>
+
+      <h4>What To Expect</h4>
+      <p><strong>Days 1 to 3:</strong> Anxiety. Restlessness. The feeling that you're missing something. This is real withdrawal. Your brain is asking for its scheduled dose. Sit with it. It passes in 20 minutes.</p>
+      <p><strong>Days 4 to 7:</strong> Better sleep. You fall asleep faster. You wake up less. First physical evidence the protocol is working.</p>
+      <p><strong>Day 14 onward:</strong> You don't even think about it. Phone in airplane mode at 10pm becomes as automatic as brushing your teeth.</p>
+
+      <div class="action-box">
+        <p><strong>Start tonight:</strong> Pick a target sleep time. Set a daily reminder for 60 minutes before. When it goes off, phone on airplane mode, other room. That's the entire habit.</p>
+      </div>
+
+      <div class="founder-note">
+        <p>First night I put it in the other room I slept differently. Can't fully explain it, just differently. Next morning, 30 minutes passed before I even thought about it. Those 30 minutes felt like something I had physically taken back. Small, quiet, mine. That morning I understood for the first time that the phone had been setting the temperature of my days before I was even awake enough to choose. <strong>If you do one thing from all of this, do this one. Tonight.</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- S1.02 No Social First 30 Min -->
+  <div class="habit" onclick="toggle(this)">
+    <div class="habit-header">
+      <div class="priority-bar p1"></div>
+      <div class="habit-header-main">
+        <div class="habit-top">
+          <span class="priority-badge pb1">P1 / Foundation</span>
+          <span class="habit-id">S1.02</span>
+          <span class="xp-tag">+25 XP</span>
+        </div>
+        <div class="habit-name">No Social First 30 Min After Waking</div>
+        <div class="habit-summary">No scroll, no messages, no news. Phone face down. The first 30 minutes belong to you.</div>
+      </div>
+      <div class="expand-icon">+</div>
+    </div>
+    <div class="habit-body">
+      <h4>Why This Is P1</h4>
+      <p>The first 30 minutes after waking is when your brain is most open to input. Stress hormones are rising, the decision-making part of your brain is coming online, and whatever you put in gets printed on the rest of the day. Scroll first thing and you hand the day's emotional template to a stranger's algorithm. Sit with your coffee, and you hand the day to yourself.</p>
+      <p><strong>This isn't about productivity. It's about ownership.</strong> The first 30 minutes are the one window where your day is completely yours. Once you start consuming, the day belongs to whoever made the content.</p>
+
+      <h4>What This Actually Looks Like</h4>
+      <div class="examples">
+        <div class="example"><div class="example-icon">🌅</div><div class="example-text"><strong>Wake up. Phone in another room.</strong> Don't open it. Don't peek. Don't "just check the time," use a clock or a watch.</div></div>
+        <div class="example"><div class="example-icon">🚿</div><div class="example-text"><strong>The first 30 minutes can include:</strong> water, bathroom, shower, getting dressed, making coffee, looking out the window. None of these require a phone. Humans did all of them for thousands of years without one.</div></div>
+        <div class="example"><div class="example-icon">📵</div><div class="example-text"><strong>What if I need to check something?</strong> You don't. Whatever feels urgent won't actually be urgent. <em>The urgency is the addiction.</em></div></div>
+        <div class="example"><div class="example-icon">⚠️</div><div class="example-text"><strong>Common mistake:</strong> "Just checking messages quickly." That's not a check, that's the whole feed for 25 minutes. The 30-minute rule is binary. Phone open or phone closed. There's no "quick."</div></div>
+      </div>
+
+      <h4>What To Expect</h4>
+      <p><strong>Day 1:</strong> Painful. You'll reach for it 8 to 10 times. That's normal. Put it back down each time. Each "no" is a win for your nervous system.</p>
+      <p><strong>Week 1:</strong> Mornings start feeling slower in a good way. Time expands. You notice things, light coming through the window, the taste of your coffee, your own thoughts.</p>
+      <p><strong>Week 4 onward:</strong> You realize you used to start every day already on the defensive, reacting to messages and drama. Now you start on the front foot.</p>
+
+      <div class="warning-box">
+        <p><strong>The "emergency" loophole:</strong> "What if there's an emergency?" 99% of the time there's not. If there is, the person will call, not text. Set your phone to allow calls through during do-not-disturb if that makes you feel safer.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- S1.03 Notifications Off + Blue Light -->
+  <div class="habit" onclick="toggle(this)">
+    <div class="habit-header">
+      <div class="priority-bar p2"></div>
+      <div class="habit-header-main">
+        <div class="habit-top">
+          <span class="priority-badge pb2">P2 / Important</span>
+          <span class="habit-id">S1.03</span>
+          <span class="xp-tag">+15 XP</span>
+        </div>
+        <div class="habit-name">Social Notifications Off, Blue Light Mode On</div>
+        <div class="habit-summary">All social app notifications off at system level. Night mode on. Both done in one sitting in Settings.</div>
+      </div>
+      <div class="expand-icon">+</div>
+    </div>
+    <div class="habit-body">
+      <h4>Why This Matters</h4>
+      <p>Every notification is an interruption your brain processes whether you want it to or not. The alert reaction, your body orienting toward the ping, happens <em>before</em> you decide to look. By the time you're "deciding" to check, you've already lost focus and already got a small dopamine hit. <strong>Notifications aren't information. They're interruptions designed to feel like emergencies.</strong></p>
+      <p>The trick most apps use: send a vague notification ("Someone reacted to your post"). Vague triggers curiosity. Curiosity opens the app. Open app, see the feed, scroll for 20 minutes. The notification was the bait. The feed was the trap.</p>
+
+      <h4>What To Turn Off</h4>
+      <div class="examples">
+        <div class="example"><div class="example-icon">📵</div><div class="example-text"><strong>Kill at the OS level:</strong> Settings, Notifications, then each app, Allow Notifications: OFF. Do this for Instagram, TikTok, X, Facebook, YouTube, Reddit, LinkedIn, Snapchat, every social platform you have.</div></div>
+        <div class="example"><div class="example-icon">💬</div><div class="example-text"><strong>What stays on:</strong> Calls, SMS from real contacts, calendar, alarm. WhatsApp or Telegram is a personal choice. If you've group chats that fire constantly, mute them.</div></div>
+        <div class="example"><div class="example-icon">📧</div><div class="example-text"><strong>Email:</strong> If the notification makes you stop what you're doing to check, turn it off. If you only check email twice a day anyway, leave it on.</div></div>
+      </div>
+
+      <h4>Blue Light Mode</h4>
+      <div class="examples">
+        <div class="example"><div class="example-icon">🌙</div><div class="example-text"><strong>While you're already in Settings:</strong> turn on Night Shift (iPhone: Settings, Display and Brightness, Night Shift, Scheduled, Sunset to Sunrise) or Night Mode (Android: Settings, Display, Night Mode). This reduces the blue light your screen puts out in the evening, which helps your body actually get sleepy at night. One-time setup, 30 seconds.</div></div>
+        <div class="example"><div class="example-icon">⚠️</div><div class="example-text"><strong>Why it matters:</strong> Blue light from screens in the evening blocks melatonin production, the hormone that makes you fall asleep. You can be physically tired and still take an hour to fall asleep because of this. Night mode doesn't fix everything but it removes one obstacle.</div></div>
+      </div>
+
+      <div class="action-box">
+        <p><strong>Do this in one sitting, today:</strong> 10 minutes in Settings. Turn off all social notifications. Turn on Night Shift or Night Mode. Done. You'll not miss anything important and you'll get hours of focus back per week.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- S1.04 Water Before Phone -->
+  <div class="habit" onclick="toggle(this)">
+    <div class="habit-header">
+      <div class="priority-bar p2"></div>
+      <div class="habit-header-main">
+        <div class="habit-top">
+          <span class="priority-badge pb2">P2 / Important</span>
+          <span class="habit-id">S1.04</span>
+          <span class="xp-tag">+10 XP</span>
+        </div>
+        <div class="habit-name">Water Before Phone</div>
+        <div class="habit-summary">500ml of water immediately on waking. Before anything else. Before the phone.</div>
+      </div>
+      <div class="expand-icon">+</div>
+    </div>
+    <div class="habit-body">
+      <h4>Why It Is In The Protocol</h4>
+      <p>This isn't really about hydration, though you're dehydrated after 8 hours of not drinking. <strong>It's about the order of operations.</strong> The first action of your day is the most important behavioral primer. If the first thing you do is drink water, your brain registers: <em>we take care of the body first.</em> If the first thing you do is grab the phone, your brain registers: <em>we feed the addiction first.</em></p>
+      <p>There's something else. The motion of reaching for the bottle and bringing it to your mouth uses the same hand movement as reaching for the phone. You're physically practicing the replacement reflex. Morning after morning, water first, and the grab becomes water, not screen. <strong>The body learns the right reach.</strong></p>
+
+      <h4>How To Set It Up</h4>
+      <div class="examples">
+        <div class="example"><div class="example-icon">🥛</div><div class="example-text"><strong>Bottle on the desk next to your bed:</strong> Fill 500ml the night before. It's the first thing you see when you wake up. Open eyes, drink water, bathroom, start the day.</div></div>
+        <div class="example"><div class="example-icon">🍋</div><div class="example-text"><strong>Optional upgrade:</strong> Add a pinch of salt and a squeeze of lemon. Better hydration, a small metabolic boost. Not required, just water is fine.</div></div>
+        <div class="example"><div class="example-icon">⚠️</div><div class="example-text"><strong>Common mistake:</strong> Drinking water with the phone in the other hand. The whole point is water comes before phone. Phone stays away until water and 30 minutes are done.</div></div>
+      </div>
+
+      <div class="action-box">
+        <p><strong>Stack it:</strong> S1.04 (water) with S1.02 (no phone 30 min). Same morning, both habits, +35 XP. By week 2 it's automatic and you've already won the morning.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- S1.05 Meditation 5 Min Morning -->
+  <div class="habit" onclick="toggle(this)">
+    <div class="habit-header">
+      <div class="priority-bar p2"></div>
+      <div class="habit-header-main">
+        <div class="habit-top">
+          <span class="priority-badge pb2">P2 / Important</span>
+          <span class="habit-id">S1.05</span>
+          <span class="xp-tag">+20 XP</span>
+        </div>
+        <div class="habit-name">Meditation 5 Min, Morning</div>
+        <div class="habit-summary">Breath focus only. Timer. Eyes closed. Before the phone.</div>
+      </div>
+      <div class="expand-icon">+</div>
+    </div>
+    <div class="habit-body">
+      <h4>Why It Is In The Protocol</h4>
+      <p>Meditation in this protocol isn't a spiritual practice. It's a <strong>training session for the decision-making part of your brain</strong>, the part responsible for impulse control, the part the addiction has spent years weakening. Five minutes of sitting still and watching your breath is five minutes of practicing the exact skill you need every time you decide not to pick up the phone.</p>
+      <p>The mechanism: when you sit and try to focus on the breath, your mind wanders. <em>Every time you notice it has wandered and bring it back, you're doing a rep.</em> The rep is awareness. The same awareness that catches you mid-scroll. <strong>Meditation is the gym for the muscle that wins this entire fight.</strong></p>
+
+      <h4>How To Actually Do It</h4>
+      <div class="examples">
+        <div class="example"><div class="example-icon">🪑</div><div class="example-text"><strong>Setup:</strong> Sit on a chair, on the floor, on a cushion. Back straight enough to stay alert, not so straight you're tense. Eyes closed.</div></div>
+        <div class="example"><div class="example-icon">⏱️</div><div class="example-text"><strong>The instruction:</strong> Set a timer for 5 minutes. Notice the breath at the nostrils, the cool air coming in, the warm air going out. That's it. <strong>You're not trying to clear your mind.</strong> Your mind will wander. When you notice it has wandered, gently come back to the breath. That noticing is the entire practice.</div></div>
+        <div class="example"><div class="example-icon">📵</div><div class="example-text"><strong>The timer rule:</strong> Use a physical timer if possible. If using the phone, set it before you start, put it face down, don't touch it. The phone is for the timer only.</div></div>
+        <div class="example"><div class="example-icon">⚠️</div><div class="example-text"><strong>Common mistake:</strong> Thinking you're "bad at it" because your mind wanders. Wandering is the whole point. The skill isn'ticing.</div></div>
+      </div>
+
+      <h4>What To Expect</h4>
+      <p><strong>Week 1:</strong> 5 minutes feels like 30. Your mind is loud. Sit anyway. Boredom is the gym (Rule 7).</p>
+      <p><strong>Weeks 2 to 3:</strong> Slightly easier. You start noticing thoughts you didn't know you had. The quiet between thoughts gets wider.</p>
+      <p><strong>Week 4 onward:</strong> 5 minutes starts to feel short. Throughout the day, you start catching yourself faster before reacting, before scrolling, before losing focus. That gap is meditation paying back.</p>
+
+      <div class="action-box">
+        <p><strong>Stack it:</strong> Right after water (S1.04), before phone. The sequence becomes: wake up, drink water, 5 min sit, bathroom and coffee, then eventually phone. The whole opening of the day is sovereign before the world gets in.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- S1.06 Evening Journal -->
+  <div class="habit" onclick="toggle(this)">
+    <div class="habit-header">
+      <div class="priority-bar p3"></div>
+      <div class="habit-header-main">
+        <div class="habit-top">
+          <span class="priority-badge pb3">P3 / Supplementary</span>
+          <span class="habit-id">S1.06</span>
+          <span class="xp-tag">+15 XP</span>
+        </div>
+        <div class="habit-name">Evening Journal, 2 Questions</div>
+        <div class="habit-summary">Pen and paper. After the day. Before sleep. Two questions, written by hand.</div>
+      </div>
+      <div class="expand-icon">+</div>
+    </div>
+    <div class="habit-body">
+      <h4>Why It Is In The Protocol</h4>
+      <p>You can't change patterns you can't see. The journal is the lens. <strong>Two questions a night, written by hand, build the awareness that the entire protocol depends on.</strong> Without it, you're doing habits but not learning anything. With it, every day becomes data: what triggered me, what I avoided, what I felt.</p>
+      <p>Pen and paper is non-negotiable (Rule 1). The friction of handwriting forces your brain to slow down enough for the actual answer to surface. Typed answers stay on the surface. Handwritten answers go deeper, because the lower speed means you can't skip past the truth.</p>
+
+      <h4>The Two Questions</h4>
+      <div class="examples">
+        <div class="example"><div class="example-icon">→</div><div class="example-text"><strong>What did you do today when the phone was out of reach?</strong> Not "did I scroll less." What actually happened in those windows. Did you sit with nothing? Did you notice thoughts? Did you feel uncomfortable or fine? The answer is the data. Track it every day and the pattern becomes visible within a week.</div></div>
+        <div class="example"><div class="example-icon">→</div><div class="example-text"><strong>What triggers did you notice today when your brain told you to pick up the phone?</strong> Name the exact moment. After lunch. Coming home tired. A task you didn't want to start. A feeling you didn't want to sit with. The trigger is almost never boredom. It's almost always avoidance. Naming it's half the defense.</div></div>
+      </div>
+
+      <h4>How To Actually Do It</h4>
+      <div class="examples">
+        <div class="example"><div class="example-icon">📓</div><div class="example-text"><strong>The notebook:</strong> Any notebook works. A5 is ideal, small enough to fill a page fast, big enough to think on. Keep it on your desk. That's your writing station.</div></div>
+        <div class="example"><div class="example-icon">⏱️</div><div class="example-text"><strong>Timing:</strong> After dinner, before sleep. After airplane mode is on and the phone is in the other room. Sit at the desk, write, done.</div></div>
+        <div class="example"><div class="example-icon">✍️</div><div class="example-text"><strong>Length:</strong> Honest sentences, not essays. 2 to 3 lines per question is fine. <strong>Honesty matters more than length.</strong> One true sentence beats a paragraph of self-justification.</div></div>
+        <div class="example"><div class="example-icon">⚠️</div><div class="example-text"><strong>Common mistake:</strong> Writing what you wish were true instead of what's true. The journal is for you alone. Lying in your own notebook is a special kind of self-defeat.</div></div>
+      </div>
+
+      <div class="action-box">
+        <p><strong>What you'll discover:</strong> Within 2 weeks you'll see your triggers cluster. Most people have 2 to 3 specific moments where the pull is strongest. Once you see the pattern, you can plan defenses for those exact windows. <em>You can't defend what you can't see.</em></p>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ═════════════════════ STAGE 2 · MORNING OWNED ═════════════════════ -->
+<section class="section" id="stage2">
+  <div class="section-head">
+    <div class="section-num">S2</div>
+    <div class="section-meta">
+      <div class="section-cat">Stage 2</div>
+      <div class="section-title">MORNING OWNED</div>
+      <div class="section-subtitle">Protect the morning window completely. Add movement and reading. Evening ritual begins.</div>
+    </div>
+  </div>
+
+  <div class="phase-meta">
+    <div class="phase-meta-cell"><div class="phase-meta-label">XP to Unlock S3</div><div class="phase-meta-value">1,400 XP</div></div>
+    <div class="phase-meta-cell"><div class="phase-meta-label">Min. Active Days</div><div class="phase-meta-value text">14 days</div></div>    <div class="phase-meta-cell"><div class="phase-meta-label">Max XP / Day</div><div class="phase-meta-value">185</div></div>
+    <div class="phase-meta-cell"><div class="phase-meta-label">New Habits</div><div class="phase-meta-value">5</div></div>
+  </div>
+
+  <div class="section-intro">
+    <p><strong>Stage 1 was about removing. Stage 2 is about installing.</strong> You've stopped feeding the addiction at night and in the morning. Now you start filling those windows with things that actually help you. The 30-minute morning becomes a real ritual. The evening gets a closing sequence. All Stage 1 habits stay active as the foundation everything here stands on.</p>
+  </div>
+
+  <!-- S2.01 Morning Walk -->
+  <div class="habit" onclick="toggle(this)">
+    <div class="habit-header">
+      <div class="priority-bar p1"></div>
+      <div class="habit-header-main">
+        <div class="habit-top">
+          <span class="priority-badge pb1">P1 / Foundation</span>
+          <span class="habit-id">S2.01</span>
+          <span class="xp-tag">+15 XP</span>
+        </div>
+        <div class="habit-name">Morning Walk, 10 Min Outside</div>
+        <div class="habit-summary">No phone. No music. No input. Observe only. Always contemplative.</div>
+      </div>
+      <div class="expand-icon">+</div>
+    </div>
+    <div class="habit-body">
+      <h4>Why This Is P1</h4>
+      <p>Two things happen on a phoneless morning walk that happen almost nowhere else: <strong>morning sunlight hits your eyes and resets your sleep-wake clock</strong>, and <strong>your brain gets unstructured time to actually think</strong>. Both are essential for a healthy nervous system. Both have been almost completely eliminated from modern life.</p>
+      <p>Most people walk with headphones in or eyes on a screen. That's not a walk, that's consumption with leg movement. <em>The point of this walk is silence.</em> Your brain needs windows where nothing is being fed into it. That's when ideas surface, when problems solve themselves, when feelings get processed. The phone has stolen all of those windows. We're stealing one back.</p>
+
+      <h4>The Rules</h4>
+      <div class="examples">
+        <div class="example"><div class="example-icon">🚶</div><div class="example-text"><strong>10 minutes minimum.</strong> Outside. In daylight. Even if it's cloudy, outdoor light is many times stronger than indoor light and the effect still works.</div></div>
+        <div class="example"><div class="example-icon">🎧</div><div class="example-text"><strong>No headphones.</strong> No music. No podcast. No audiobook. <em>This rule never changes.</em> The walk is contemplative or it's not a walk.</div></div>
+        <div class="example"><div class="example-icon">📵</div><div class="example-text"><strong>Phone stays home or in pocket on airplane mode.</strong> Don't take photos. Don't check anything. If you need it for safety, fine, but pretend it's not there.</div></div>
+        <div class="example"><div class="example-icon">👀</div><div class="example-text"><strong>What to do instead:</strong> Look around. Notice trees, buildings, people, your own breathing, your own thoughts. Boredom will surface. Let it. That boredom is your brain decompressing for the first time in years.</div></div>
+        <div class="example"><div class="example-icon">⚠️</div><div class="example-text"><strong>Common mistake:</strong> Replacing music with a podcast and calling it close enough. It's not. The whole point is the silence. <strong>If you need input, you're not ready for the silence, and that's exactly why you need it.</strong></div></div>
+      </div>
+
+      <div class="action-box">
+        <p><strong>When to do it:</strong> Right after the morning meditation, before phone, before work. Stack: water, 5 min sit, 10 min walk, coffee, start day. By the time you touch your phone, you've already won the morning three times over.</p>
+      </div>
+
+      <div class="founder-note">
+        <p>First walks were rough. I would come back after 10 minutes and my brain felt scrambled, like it didn't know what to do without input. That scramble is the addiction. Week 2, the walks became the best part of the day. Week 3, ideas started showing up. Real ones. Solutions to things I had been stuck on for weeks, arriving on their own while I was just walking. I started carrying a small notebook. Filled more pages on those walks than in any planning session I had ever done at a desk.</p>
+        <p>One more thing: the walk doesn't stop for rain. You've an umbrella. Use it. The days you least want to go are the days it pays the most. Your brain knows you mean it when you go anyway.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- S2.02 Meditation Evening -->
+  <div class="habit" onclick="toggle(this)">
+    <div class="habit-header">
+      <div class="priority-bar p1"></div>
+      <div class="habit-header-main">
+        <div class="habit-top">
+          <span class="priority-badge pb1">P1 / Foundation</span>
+          <span class="habit-id">S2.02</span>
+          <span class="xp-tag">+20 XP</span>
+        </div>
+        <div class="habit-name">Meditation 5 Min, Evening</div>
+        <div class="habit-summary">Before journal. Breath focus. Eyes closed. Closes the day.</div>
+      </div>
+      <div class="expand-icon">+</div>
+    </div>
+    <div class="habit-body">
+      <h4>Why It Is In The Protocol</h4>
+      <p>The morning meditation primes the day. The evening meditation <strong>processes it</strong>. Five minutes of sitting still after a full day lets your nervous system shift from alert mode to rest mode. Without this transition, you bring the day's leftover stress into sleep, and sleep can't do its job.</p>
+      <p>It also sets up the journal. After meditation, your mind is quieter and more honest. The answers come faster and truer. <strong>Always meditate before journaling, never after.</strong> This is a sequence, not two separate habits.</p>
+      <p>There's something specific that happens in the evening sit that doesn't happen in the morning: <em>you find out what you're actually carrying.</em> The day's noise settles and the real stuff surfaces — the conversation that bothered you that you didn't examine, the task you avoided, the low-grade anxiety you'd been outrunning since lunch. You don't need to do anything about it. Seeing it is enough. The journal then gives it somewhere to go.</p>
+
+      <h4>How To Do It</h4>
+      <div class="examples">
+        <div class="example"><div class="example-icon">🌙</div><div class="example-text"><strong>Same method as morning:</strong> Sit, eyes closed, 5-minute timer, focus on breath at nostrils, return when mind wanders.</div></div>
+        <div class="example"><div class="example-icon">📍</div><div class="example-text"><strong>When:</strong> After airplane mode is on and phone is in the other room. The closing sequence: airplane mode, meditation, journal, read, sleep.</div></div>
+        <div class="example"><div class="example-icon">🪑</div><div class="example-text"><strong>Position:</strong> Sitting is better than lying down in the evening. Lying down before the journal is done risks falling asleep mid-process. Sit at your desk or on the edge of the bed. Eyes closed, back reasonably straight, timer set.</div></div>
+        <div class="example"><div class="example-icon">⚠️</div><div class="example-text"><strong>Common mistake:</strong> Trying to meditate to "calm down." The point isn't to feel calm. The point is to sit and watch what happens. Some nights you feel calm. Some nights agitated. Both are fine. The practice is the sitting, not the outcome.</div></div>
+      </div>
+
+      <h4>What To Expect</h4>
+      <p><strong>Week 1:</strong> Your mind is loud in the evening. More thoughts than the morning sit, not fewer. That's normal. The day's accumulated noise is decompressing. Let it.</p>
+      <p><strong>Week 2 to 3:</strong> The transition from day-mode to night-mode happens faster. You'll notice you stop thinking about tomorrow's tasks partway through and start just breathing. That shift is the nervous system learning to trust the session.</p>
+      <p><strong>Week 4 onward:</strong> Sleep quality starts to separate visibly from the nights you skip it. You'll know within a week that the evening sit is non-negotiable, not because you decided so, but because the evidence is in your own sleep data.</p>
+
+      <div class="action-box">
+        <p><strong>The full evening sequence:</strong> Airplane mode, 5 min meditation, journal, 5 pages of book, sleep. Twenty minutes total. The most important twenty minutes of your day.</p>
+      </div>
+
+      <div class="founder-note">
+        <p>I skipped the evening meditation for a full week once, thinking the morning one was enough. My sleep got worse, my journal answers got shallower, and I kept waking up at 4am with my mind already running. Put the evening sit back in and it fixed within two days. The morning and evening together are a bracket. One without the other leaves the day open on one end. You need both ends closed.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- S2.03 Reading 5 pages -->
+  <div class="habit" onclick="toggle(this)">
+    <div class="habit-header">
+      <div class="priority-bar p2"></div>
+      <div class="habit-header-main">
+        <div class="habit-top">
+          <span class="priority-badge pb2">P2 / Important</span>
+          <span class="habit-id">S2.03</span>
+          <span class="xp-tag">+15 XP</span>
+        </div>
+        <div class="habit-name">5 Pages, Physical Book</div>
+        <div class="habit-summary">Evening. Phone in another room. Real paper book.</div>
+      </div>
+      <div class="expand-icon">+</div>
+    </div>
+    <div class="habit-body">
+      <h4>Why Pages, Not Minutes</h4>
+      <p>Reading rebuilds the attention span the phone has broken down. <strong>Pages, not minutes,</strong> because minutes can be faked. You can stare at a page for 10 minutes and read nothing. Pages force forward motion. Five pages a day is 1,800 pages a year, roughly 7 books. <em>Most people read zero books a year.</em></p>
+      <p>It must be a physical book, paper not phone. The reason: the phone is the trigger object. Reading on the phone keeps you in the same physical posture and habit pattern that produced the addiction. A real book breaks the pattern. Different object, different position, different signal to the brain.</p>
+      <p>Five pages is not an arbitrary number. It's small enough that on your worst nights, zero excuses survive it. You're exhausted? Five pages is eight minutes. Not in the mood? The first page usually pulls you in anyway. The minimum exists to make refusal embarrassing. It's designed to be undefendable.</p>
+
+      <h4>How To Make It Stick</h4>
+      <div class="examples">
+        <div class="example"><div class="example-icon">📚</div><div class="example-text"><strong>Pick easy first.</strong> Start with something that pulls you in, a novel you actually want to read, a short non-fiction, a biography. The point right now is the habit, not the subject.</div></div>
+        <div class="example"><div class="example-icon">🛏️</div><div class="example-text"><strong>Where:</strong> In bed, after the journal, before sleep. The book replaces the phone in the bedtime slot. Same posture, completely different effect on your brain.</div></div>
+        <div class="example"><div class="example-icon">⏱️</div><div class="example-text"><strong>5 pages, not 50.</strong> The minimum is 5 pages. Some nights you'll read 30 because you got into it. Some nights exactly 5 and you pass out. Both count.</div></div>
+        <div class="example"><div class="example-icon">⚠️</div><div class="example-text"><strong>Common mistake:</strong> "I'll just read on my phone with night mode." No. The phone is the trigger. The dopamine circuit you built around it activates the second you hold it, regardless of what app is open. Use a real book.</div></div>
+      </div>
+
+      <div class="action-box">
+        <p><strong>The bedside setup:</strong> Book on the nightstand, phone in the other room. The bedside is now a reading station, not a slot machine station. This single change does most of the work for you.</p>
+      </div>
+
+      <h4>Where To Start</h4>
+      <div class="examples">
+        <div class="example"><div class="example-icon">📖</div><div class="example-text"><strong>The Power of Now</strong>, Eckhart Tolle. Short chapters, designed to be read slowly. Directly about presence, attention, and the compulsive thinking that keeps you anxious and reaching for the phone. The most relevant book you can read in Stage 2. Read a chapter, put it down, let it land before the next one.</div></div>
+        <div class="example"><div class="example-icon">📖</div><div class="example-text"><strong>Atomic Habits</strong>, James Clear. The clearest book written on how habits actually form and why most attempts fail. Directly relevant to everything you're doing right now.</div></div>
+        <div class="example"><div class="example-icon">📖</div><div class="example-text"><strong>Meditations</strong>, Marcus Aurelius. A Roman emperor writing private notes to himself about discipline, focus, and not wasting the days you have. Written nearly 2000 years ago. Nothing has changed.</div></div>
+        <div class="example"><div class="example-icon">📖</div><div class="example-text"><strong>The Alchemist</strong>, Paulo Coelho. Fiction. Short. Pulls you in from the first page. Good for Stage 2 because the habit right now is just about showing up for 5 pages. A book that makes you want to keep reading is the right tool for that.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S2.04 1 meal without phone -->
+  <div class="habit" onclick="toggle(this)">
+    <div class="habit-header">
+      <div class="priority-bar p2"></div>
+      <div class="habit-header-main">
+        <div class="habit-top">
+          <span class="priority-badge pb2">P2 / Important</span>
+          <span class="habit-id">S2.04</span>
+          <span class="xp-tag">+10 XP</span>
+        </div>
+        <div class="habit-name">1 Meal Without Phone</div>
+        <div class="habit-summary">Any meal. Phone not at the table. Not face down, not at the table.</div>
+      </div>
+      <div class="expand-icon">+</div>
+    </div>
+    <div class="habit-body">
+      <h4>Why Meals Matter</h4>
+      <p>Eating with the phone is one of the most automatic, invisible behaviors. You don't even think about it. You sit, you eat, you scroll. <strong>You barely taste the food. You barely feel full.</strong> Your brain is too busy processing video to process the chewing, the flavors, the signal from your stomach that says you're done. People who eat with screens eat more and feel less satisfied.</p>
+      <p>One meal a day without the phone is a small, achievable promise. <em>Eat. Just eat.</em> Taste the food. Notice when you're full. Notice if you're eating because you're hungry or because you're bored.</p>
+
+      <h4>How To Set It Up</h4>
+      <div class="examples">
+        <div class="example"><div class="example-icon">🍳</div><div class="example-text"><strong>Pick the easiest meal first.</strong> If you eat lunch alone at a desk, that one is hardest. Start with breakfast or dinner instead. Build the habit at the easiest point.</div></div>
+        <div class="example"><div class="example-icon">📍</div><div class="example-text"><strong>Phone location:</strong> In another room, or in your bag. Not at the table. Not face down at the table, that's still within reach. Out of arm's reach is the rule.</div></div>
+        <div class="example"><div class="example-icon">👁️</div><div class="example-text"><strong>What to do instead:</strong> Look at the food. Look out the window. Look at whoever you're eating with. The discomfort of "having nothing to do" while eating is the addiction. Sit through it.</div></div>
+      </div>
+
+      <div class="action-box">
+        <p><strong>Where this leads:</strong> Stage 3 upgrades to 2 meals. Stage 4 to all meals. By Stage 4 you'll wonder how you ever ate with a phone. It'll feel strange in retrospect.</p>
+      </div>
+
+      <div class="founder-note">
+        <p>The first week of phoneless meals I kept picking it up and putting it back down without thinking. Pure reflex. Hand to pocket, pull out phone, realize, put it back. Did that maybe four times in one meal. That reflex is the whole problem in miniature. The meal is 20 minutes of your day. The fact that even 20 minutes without the phone felt impossible told me more about the state I was in than any screen time number ever could. By week three I was eating slower and actually finishing meals satisfied instead of having eaten the whole plate without noticing. The food tastes different when you're actually there.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- S2.05 Journal upgraded -->
+  <div class="habit" onclick="toggle(this)">
+    <div class="habit-header">
+      <div class="priority-bar p2"></div>
+      <div class="habit-header-main">
+        <div class="habit-top">
+          <span class="priority-badge pb2">P2 / Important</span>
+          <span class="habit-id">S2.05</span>
+          <span class="xp-tag">+15 XP</span>
+        </div>
+        <div class="habit-name">Evening Journal, After Meditation</div>
+        <div class="habit-summary">Sequence locked: meditation first, then journal. Always. Updated questions for Stage 2.</div>
+      </div>
+      <div class="expand-icon">+</div>
+    </div>
+    <div class="habit-body">
+      <h4>What Changes in Stage 2</h4>
+      <p>The journal is no longer a standalone habit. It's now anchored to the evening meditation. <strong>Meditation primes the mind. Then you journal.</strong> This sequence is non-negotiable from Stage 2 onward. Journaling cold gives surface answers. Meditating first opens the real ones.</p>
+
+      <h4>The Two Questions</h4>
+      <div class="examples">
+        <div class="example"><div class="example-icon">→</div><div class="example-text"><strong>Do you remember what type of content you consumed today? How did it actually help your mental health?</strong> Not whether you used the phone less. What you actually watched, read, scrolled through, and what it gave you. Most people can't answer the first part. That inability is the point. If you can't remember what you consumed, it served no purpose. It just passed through.</div></div>
+        <div class="example"><div class="example-icon">→</div><div class="example-text"><strong>When you weren't on the phone today, did you feel like you were losing something, or did you feel more free?</strong> Be precise. What did you think you were missing? Name it specifically. The fear of missing out is almost never about something real. Writing out what you thought you were missing shows you, usually within a few days, that nothing was actually there.</div></div>
+      </div>
+
+      <div class="action-box">
+        <p><strong>The locked evening sequence:</strong> Airplane mode, 5 min meditation, 2-question journal, 5 pages of book, sleep. Run this every night for 6 weeks and your sleep, mornings, and mental state will change completely.</p>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ═════════════════════ STAGE 3 · INTAKE CONTROL ═════════════════════ -->
+<section class="section" id="stage3">
+  <div class="section-head">
+    <div class="section-num">S3</div>
+    <div class="section-meta">
+      <div class="section-cat">Stage 3</div>
+      <div class="section-title">INTAKE CONTROL</div>
+      <div class="section-subtitle">Control what enters your brain. Limit social. Begin music detox for physical activities.</div>
+    </div>
+  </div>
+
+  <div class="phase-meta">
+    <div class="phase-meta-cell"><div class="phase-meta-label">XP to Unlock S4</div><div class="phase-meta-value">2,400 XP</div></div>
+    <div class="phase-meta-cell"><div class="phase-meta-label">Min. Active Days</div><div class="phase-meta-value text">21 days</div></div>
+    <div class="phase-meta-cell"><div class="phase-meta-label">Max XP / Day</div><div class="phase-meta-value">275</div></div>
+    <div class="phase-meta-cell"><div class="phase-meta-label">New / Upgraded</div><div class="phase-meta-value">6</div></div>
+  </div>
+
+  <div class="section-intro">
+    <p><strong>The morning is yours. The evening is yours. Now we go after the middle of the day.</strong> Stage 3 introduces real social media limits, the first music detox layer, and the social-free day, a powerful reset that breaks the daily loop entirely. All Stage 1 and 2 habits carry forward and keep earning XP. Two upgrades happen here: reading goes from 5 to 10 pages (S3.04), and phoneless meals go from 1 to 2 (S3.03).</p>
+    <p>This is where the protocol starts being noticeable to other people. You're using your phone less in public. You're not scrolling at the gym. <em>You're starting to look different, more present, less twitchy.</em></p>
+  </div>
+
+  <!-- S3.01 No Music with Lyrics -->
+  <div class="habit" onclick="toggle(this)">
+    <div class="habit-header">
+      <div class="priority-bar p1"></div>
+      <div class="habit-header-main">
+        <div class="habit-top">
+          <span class="priority-badge pb1">P1 / Foundation</span>
+          <span class="habit-id">S3.01</span>
+          <span class="xp-tag">+20 XP</span>
+        </div>
+        <div class="habit-name">No Music With Lyrics, Physical Activities</div>
+        <div class="habit-summary">Headphones off during gym, walks, cleaning, cooking. Environmental music doesn't count.</div>
+      </div>
+      <div class="expand-icon">+</div>
+    </div>
+    <div class="habit-body">
+      <h4>Why This Is P1</h4>
+      <p>Music with lyrics is <strong>verbal input</strong>. Your brain's language centers process every word, even when you're "not paying attention." This means you're never alone with your own thoughts during the activities where thinking actually happens, workouts, walks, chores. <em>You've handed your inner monologue to whoever wrote the song.</em></p>
+      <p>The protocol isn't anti-music. <strong>The protocol is anti-constant input.</strong> If your brain never gets a window without verbal stimulation, it never processes anything. Emotions sit unmoved, problems stay unsolved, ideas never surface. People who turn off music for two weeks describe the same thing: a flood of clarity and feelings they didn't know they were sitting on.</p>
+      <p>Here's what nobody tells you about music during physical activity: <strong>it's the same avoidance loop as the phone, just slower.</strong> You're filling every quiet moment with something that carries you away from your own thoughts. The gym set, the commute, the walk, the cooking — these are the exact windows where your brain would naturally process the day, surface an idea, or sit with a feeling you've been outrunning. Music with lyrics closes all of those windows. You finish the workout feeling occupied but not processed. The same low-grade anxiety that was there before the session is still there after it, because you never let the brain decompress. <em>Try a set without lyrics and you'll feel it immediately: more uncomfortable for the first ten minutes, more clear for the rest of the day.</em></p>
+
+      <h4>The Rules</h4>
+      <div class="examples">
+        <div class="example"><div class="example-icon">🎧</div><div class="example-text"><strong>What's off:</strong> Music with lyrics during anything physical you do alone, gym, walking, cleaning, cooking, driving alone. Anywhere you would normally put on headphones to fill the silence.</div></div>
+        <div class="example"><div class="example-icon">🎼</div><div class="example-text"><strong>What's allowed:</strong> Instrumental music, lo-fi, classical, ambient, jazz without vocals. Better: silence. Best: the actual sound of what you're doing, your breath at the gym, footsteps on a walk, water running while you cook.</div></div>
+        <div class="example"><div class="example-icon">🔊</div><div class="example-text"><strong>What doesn't count:</strong> Music playing in the environment, gym speakers, a cafe, a friend's car. Only what <em>you</em> actively choose to put on. The rule is about your active choice, not passive exposure.</div></div>
+        <div class="example"><div class="example-icon">⚠️</div><div class="example-text"><strong>Common mistake:</strong> Replacing lyrics with podcasts and calling it a workaround. Podcasts are even more verbal than lyrics. Same trap, different costume. <strong>Instrumental or silence. Those are the options.</strong></div></div>
+      </div>
+
+      <h4>What To Expect</h4>
+      <p><strong>First week:</strong> Workouts feel strange. You feel less motivated. This is the addiction resisting. You've used music to mask discomfort for years. The discomfort is now visible. Sit through it.</p>
+      <p><strong>Second week:</strong> Workouts get more intense. Without lyrics you actually focus on the movement, the form, the breath. Mind-muscle connection returns.</p>
+      <p><strong>Third week onward:</strong> You start preferring silence. Music with lyrics during physical activity starts to feel like clutter. You've expanded your ability to be alone with yourself, and the upgrade is permanent.</p>
+    </div>
+  </div>
+
+  <!-- S3.02 Social 2h limit -->
+  <div class="habit" onclick="toggle(this)">
+    <div class="habit-header">
+      <div class="priority-bar p1"></div>
+      <div class="habit-header-main">
+        <div class="habit-top">
+          <span class="priority-badge pb1">P1 / Foundation</span>
+          <span class="habit-id">S3.02</span>
+          <span class="xp-tag">+25 XP</span>
+        </div>
+        <div class="habit-name">Max 2 Hours Social, Daily</div>
+        <div class="habit-summary">Track in phone settings. Intentional use only. 2 hours is the ceiling, not the goal.</div>
+      </div>
+      <div class="expand-icon">+</div>
+    </div>
+    <div class="habit-body">
+      <h4>Why 2 Hours</h4>
+      <p>Most people use social media 4 to 5 hours a day without realizing it. <strong>Cutting to 2 hours is already a 50% or more reduction.</strong> 2 hours is enough for genuine intentional use, messaging people, checking specific accounts, posting something, and not enough for compulsive scrolling. It forces choice. Every minute on TikTok is a minute not on Instagram. You become an editor of your own time instead of a passive consumer.</p>
+      <p>Important: <strong>2 hours is the ceiling, not the target.</strong> The real goal is to be well under 2 hours with no urge to fill the rest. The ceiling is just the safety net for bad days.</p>
+
+      <h4>How To Track It</h4>
+      <div class="examples">
+        <div class="example"><div class="example-icon">📱</div><div class="example-text"><strong>iOS:</strong> Settings, Screen Time, See All Activity, Social. <strong>Android:</strong> Settings, Digital Wellbeing, Dashboard. Both give you exact daily totals across all social apps.</div></div>
+        <div class="example"><div class="example-icon">⏰</div><div class="example-text"><strong>Set app limits:</strong> Both systems let you set a 2-hour daily limit on social apps. When you hit it, the app grays out. You can override, but the friction is the point. The override should feel like a deliberate choice to break the rule.</div></div>
+        <div class="example"><div class="example-icon">🎯</div><div class="example-text"><strong>What counts as social:</strong> Instagram, TikTok, X, Facebook, Reddit, Snapchat, YouTube Shorts, LinkedIn, Threads. WhatsApp and Telegram are messaging, not social, separate category.</div></div>
+        <div class="example"><div class="example-icon">⚠️</div><div class="example-text"><strong>Common mistake:</strong> Burning the 2 hours all at once first thing. Better: spread it. 30 min at lunch, 30 min after work, 30 min in the evening. Multiple small intentional sessions train discipline. One long binge trains the addiction.</div></div>
+      </div>
+
+      <div class="action-box">
+        <p><strong>The hidden upgrade:</strong> When social is limited, <em>what you do with it changes</em>. You stop scrolling aimlessly. You start using it for actual things, messaging the people who matter, checking accounts you care about, posting your own work. The platform becomes a tool again.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- S3.03 2 meals -->
+  <div class="habit" onclick="toggle(this)">
+    <div class="habit-header">
+      <div class="priority-bar p2"></div>
+      <div class="habit-header-main">
+        <div class="habit-top">
+          <span class="priority-badge pb2">P2 / Important</span>
+          <span class="habit-id">S3.03</span>
+          <span class="xp-tag">+15 XP</span>
+        </div>
+        <div class="habit-name">2 Meals Without Phone</div>
+        <div class="habit-summary">Upgrade from 1. Phone not at the table. Two meals every day.</div>
+      </div>
+      <div class="expand-icon">+</div>
+    </div>
+    <div class="habit-body">
+      <h4>What Changes</h4>
+      <p>Same rule as S2.04, now applied to two meals. By doubling the phoneless meals, you double the windows of present eating and triple the moments where you sit with your own thoughts without filling the gap. The third meal can stay with the phone for now. Stage 4 will close that one.</p>
+
+      <h4>How To Pick The Second Meal</h4>
+      <div class="examples">
+        <div class="example"><div class="example-icon">🍽️</div><div class="example-text"><strong>If your first phoneless meal was breakfast:</strong> Add dinner. Both bookends of the day are now phoneless, framing your day with presence.</div></div>
+        <div class="example"><div class="example-icon">👥</div><div class="example-text"><strong>If you eat lunch with people:</strong> That's your second one naturally, even easier when you're already in conversation. Just don't pull out the phone "to show them something." That's how the trap reopens.</div></div>
+        <div class="example"><div class="example-icon">📍</div><div class="example-text"><strong>Phone location:</strong> Same rule. Out of arm's reach. Bag is fine. Pocket isn't, you'll touch it during the meal.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S3.04 10 pages -->
+  <div class="habit" onclick="toggle(this)">
+    <div class="habit-header">
+      <div class="priority-bar p2"></div>
+      <div class="habit-header-main">
+        <div class="habit-top">
+          <span class="priority-badge pb2">P2 / Important</span>
+          <span class="habit-id">S3.04</span>
+          <span class="xp-tag">+15 XP</span>
+        </div>
+        <div class="habit-name">10 Pages, Physical Book</div>
+        <div class="habit-summary">Upgrade from 5. Evening. Phone in another room.</div>
+      </div>
+      <div class="expand-icon">+</div>
+    </div>
+    <div class="habit-body">
+      <h4>What Changes</h4>
+      <p>Same habit, doubled. Five pages was the entry. Ten pages is the cruising altitude. <strong>Ten pages a day is 3,650 pages a year, about 14 books.</strong> That alone puts you ahead of 95% of people on any subject you care about. The real benefit's your attention span: by Stage 3, the brain that couldn't focus on one paragraph in Stage 1 can now hold focus for 10 to 15 minutes of reading without the urge to check anything.</p>
+
+      <div class="examples">
+        <div class="example"><div class="example-icon">📈</div><div class="example-text"><strong>Most people overshoot.</strong> Once you start, 10 becomes 20, then 30. The minimum is the floor. Your actual reading will outpace it. That's the protocol working.</div></div>
+        <div class="example"><div class="example-icon">📚</div><div class="example-text"><strong>Pick books that interest you.</strong> By Stage 3 you've earned the right to read whatever you want. Fiction, philosophy, biography, business, all valid. <em>Reading what bores you to "build discipline" is fake discipline.</em> Real discipline is finishing books that pull you in.</div></div>
+      </div>
+
+      <h4>Where To Go Next</h4>
+      <div class="examples">
+        <div class="example"><div class="example-icon">📖</div><div class="example-text"><strong>Deep Work</strong>, Cal Newport. The direct argument for everything Stage 3 and 4 are building. Newport makes the case that the ability to focus without distraction is becoming both rare and valuable. Read this now and Stage 4's deep work blocks will make complete sense before you even get there.</div></div>
+        <div class="example"><div class="example-icon">📖</div><div class="example-text"><strong>The War of Art</strong>, Steven Pressfield. Everything about resistance, why creative people self-sabotage, and how to sit down and do the work anyway. One of the most honest books written about building something.</div></div>
+        <div class="example"><div class="example-icon">📖</div><div class="example-text"><strong>Dune</strong>, Frank Herbert. Epic fiction. Long, deep, demanding. By Stage 3 your attention span can hold it. One of the most rewarding reading experiences in the language if you give it the time it deserves.</div></div>
+        <div class="example"><div class="example-icon">📖</div><div class="example-text"><strong>Man's Search for Meaning</strong>, Viktor Frankl. A psychiatrist writing about surviving the Nazi camps and what he learned about human will and purpose. Short, dense, and permanently changes how you look at difficulty.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S3.05 Social Free Day -->
+  <div class="habit" onclick="toggle(this)">
+    <div class="habit-header">
+      <div class="priority-bar p1"></div>
+      <div class="habit-header-main">
+        <div class="habit-top">
+          <span class="priority-badge pb1">P1 / Foundation</span>
+          <span class="habit-id">S3.05</span>
+          <span class="xp-tag">+50 XP</span>
+        </div>
+        <div class="habit-name">1 Social-Free Day This Week</div>
+        <div class="habit-summary">Zero social media for one full day. Replaces the 2h habit on that day.</div>
+      </div>
+      <div class="expand-icon">+</div>
+    </div>
+    <div class="habit-body">
+      <h4>Why The Social-Free Day</h4>
+      <p>Daily limits work on the dosage. Social-free days work on the <strong>identity</strong>. One full day with zero social proves to your brain that you can survive without it. Not just survive, thrive. By the end of the day you'll feel sharper, calmer, more present. The proof matters more than the metric. <em>You've now experienced the alternative. You can't un-feel it.</em></p>
+      <p>This is also when you start noticing how much time social was absorbing. <strong>You suddenly have hours.</strong> What did you do with all those hours before? You scrolled them away 90 seconds at a time without ever knowing.</p>
+
+      <h4>How It Works</h4>
+      <div class="examples">
+        <div class="example"><div class="example-icon">📅</div><div class="example-text"><strong>Pick the day in advance.</strong> Sunday is classic, quieter and less work pressure. But any day works. The point is the decision being made ahead of time.</div></div>
+        <div class="example"><div class="example-icon">🚫</div><div class="example-text"><strong>What "zero" means:</strong> No checking, no browsing, no "just one minute." Open the app once and the day is broken. The binary nature is what gives this practice its power. Compromise destroys it.</div></div>
+        <div class="example"><div class="example-icon">📞</div><div class="example-text"><strong>What's still allowed:</strong> Calls, SMS, WhatsApp and Telegram for messaging. Email if needed. The phone still works as a phone. You're not going off-grid, you're going off-feeds.</div></div>
+        <div class="example"><div class="example-icon">⚠️</div><div class="example-text"><strong>Common mistake:</strong> "I'll start tomorrow." The day starts when you wake up. Set the intention the night before. Toggle it in the tracker in the morning. Then commit.</div></div>
+      </div>
+
+      <div class="action-box">
+        <p><strong>What to do with the time:</strong> Don't plan it too tightly. Let some of it be empty on purpose. The boredom is the point. The whole protocol has been training you for exactly this day.</p>
+      </div>
+
+      <div class="founder-note">
+        <p>First social-free day, 4pm, sitting on a bench with nowhere to be and nothing to do, almost panicked. Then I just sat there. Watched a kid fall off a scooter. Noticed the light. Had three ideas I wrote down later. That afternoon was the first time in a long time I actually felt like I was somewhere. The phone had been numbing all of that and I genuinely had no idea. This is the day most people first feel what has been missing.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- S3.06 Evening Journal Upgrade -->
+  <div class="habit" onclick="toggle(this)">
+    <div class="habit-header">
+      <div class="priority-bar p3"></div>
+      <div class="habit-header-main">
+        <div class="habit-top">
+          <span class="priority-badge pb3">P3 / Supplementary</span>
+          <span class="habit-id">S3.06</span>
+          <span class="xp-tag">+15 XP</span>
+        </div>
+        <div class="habit-name">Evening Journal, Updated Questions</div>
+        <div class="habit-summary">Two new questions for Stage 3. Pen and paper. After meditation.</div>
+      </div>
+      <div class="expand-icon">+</div>
+    </div>
+    <div class="habit-body">
+      <h4>What Changes in Stage 3</h4>
+      <p>The S2 questions tracked what replaced the phone and what you thought you were missing. By Stage 3 you're actively choosing what enters your brain: music off during physical activity, social capped at 2 hours, one full day without feeds. The questions shift from noticing absence to noticing what you're still hiding from, and whether the limits feel like freedom or punishment.</p>
+
+      <h4>The Two Questions</h4>
+      <div class="examples">
+        <div class="example"><div class="example-icon">→</div><div class="example-text"><strong>How did you feel today with the social media limit, was it a blessing or a condemnation?</strong> Don't answer quickly. Both are valid. Some days the limit feels like relief, like someone took a weight off. Other days it feels like a punishment, like you're missing the world. Track which one comes up more often and when. The ratio changes over the weeks. Watching it shift is one of the clearest signals the protocol is working.</div></div>
+        <div class="example"><div class="example-icon">→</div><div class="example-text"><strong>Is there something you've been avoiding thinking about by keeping yourself entertained with input?</strong> This is the hardest question in Stage 3. Most people use consumption as a way to not sit with something real: a decision they keep postponing, a relationship they're not looking at honestly, something they want but aren't doing anything about. The silence is starting to show you what that is. Write it down even if it's uncomfortable. Especially if it's uncomfortable.</div></div>
+      </div>
+
+      <div class="action-box">
+        <p><strong>The sequence stays the same:</strong> airplane mode, meditation, journal, reading, sleep. What changes is what the journal pulls out of you. By now the answers should surprise you sometimes. If they never do, you're not being honest enough.</p>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ═════════════════════ STAGE 4 · FOCUS BUILT ═════════════════════ -->
+<section class="section" id="stage4">
+  <div class="section-head">
+    <div class="section-num">S4</div>
+    <div class="section-meta">
+      <div class="section-cat">Stage 4</div>
+      <div class="section-title">FOCUS BUILT</div>
+      <div class="section-subtitle">Build sustained attention. Deep work enters. Music detox expands. Evening meditation deepens.</div>
+    </div>
+  </div>
+
+  <div class="phase-meta">
+    <div class="phase-meta-cell"><div class="phase-meta-label">XP to Unlock S5</div><div class="phase-meta-value">3,800 XP</div></div>
+    <div class="phase-meta-cell"><div class="phase-meta-label">Min. Active Days</div><div class="phase-meta-value text">30 days</div></div>
+    <div class="phase-meta-cell"><div class="phase-meta-label">Max XP / Day</div><div class="phase-meta-value">350</div></div>
+    <div class="phase-meta-cell"><div class="phase-meta-label">New / Upgraded</div><div class="phase-meta-value">8</div></div>
+  </div>
+
+  <div class="section-intro">
+    <p><strong>By Stage 4, the addiction is no longer running you.</strong> You've reclaimed mornings, evenings, and most meals. Now we go on offense, not just defending against the phone but actively rebuilding what the phone destroyed: deep focus, sustained attention, deliberate effort. All previous habits carry forward and keep stacking. Meditations go from 5 to 10 min, reading from 10 to 20 pages, phoneless meals become all meals, social-free days go from 1 to 2 per week.</p>
+    <p>This is where most people start to feel <em>different in a way other people notice.</em> Calmer. More present. More intentional. And this is also where the free mind starts to compound. The ideas from the walks, the focus from the deep work blocks, the recovered hours, all of it starts flowing directly into whatever you're building. The side project, the business idea, the skill, the version of yourself you've been planning to become. <strong>Stage 4 is where the protocol stops being about the phone and starts being about what you do with the person it's building.</strong></p>
+  </div>
+
+  <div class="habit" onclick="toggle(this)">
+    <div class="habit-header">
+      <div class="priority-bar p1"></div>
+      <div class="habit-header-main">
+        <div class="habit-top"><span class="priority-badge pb1">P1 / Foundation</span><span class="habit-id">S4.01</span><span class="xp-tag">+25 XP</span></div>
+        <div class="habit-name">Meditation 10 Min, Morning</div>
+        <div class="habit-summary">Upgrade from 5 min. Same method, longer hold.</div>
+      </div>
+      <div class="expand-icon">+</div>
+    </div>
+    <div class="habit-body">
+      <h4>Why Double The Time</h4>
+      <p>Five minutes is enough to start. Ten minutes is enough to <strong>change</strong>. The first 4 to 5 minutes of any sit's just the noise settling. The deeper benefits happen in the quiet after the noise. By Stage 4, your brain can hold the longer window. Below 10 minutes you're skimming the surface. At 10 or more, you're swimming.</p>
+      <div class="examples">
+        <div class="example"><div class="example-icon">🎯</div><div class="example-text"><strong>Same method:</strong> Sit, eyes closed, breath at nostrils, return when wandering. Nothing new, just longer.</div></div>
+        <div class="example"><div class="example-icon">⏱️</div><div class="example-text"><strong>Go straight to 10:</strong> Don't ramp up gradually. Your brain adapts faster than you think. Once Stage 4 unlocks, it's 10 minutes.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="habit" onclick="toggle(this)">
+    <div class="habit-header">
+      <div class="priority-bar p1"></div>
+      <div class="habit-header-main">
+        <div class="habit-top"><span class="priority-badge pb1">P1 / Foundation</span><span class="habit-id">S4.02</span><span class="xp-tag">+25 XP</span></div>
+        <div class="habit-name">Meditation 10 Min, Evening</div>
+        <div class="habit-summary">Before journal. Upgrade from 5 min.</div>
+      </div>
+      <div class="expand-icon">+</div>
+    </div>
+    <div class="habit-body">
+      <h4>What Changes</h4>
+      <p>Same as the morning upgrade. The evening 10 min becomes a more thorough day-processor. Stress, decisions, leftover emotional charge, 10 minutes of breath focus runs it all through the system before sleep. <strong>You'll fall asleep faster, sleep more deeply, and wake up with more clarity.</strong></p>
+      <div class="action-box">
+        <p><strong>The new evening sequence:</strong> Airplane mode, 10 min meditation, 3-question journal, 20 pages reading, sleep. About 35 to 40 minutes total. The most valuable 40 minutes of your day.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="habit" onclick="toggle(this)">
+    <div class="habit-header">
+      <div class="priority-bar p1"></div>
+      <div class="habit-header-main">
+        <div class="habit-top"><span class="priority-badge pb1">P1 / Foundation</span><span class="habit-id">S4.03</span><span class="xp-tag">+35 XP</span></div>
+        <div class="habit-name">Deep Work Block, 90 Min</div>
+        <div class="habit-summary">Single task. Zero interruptions. Phone in another room.</div>
+      </div>
+      <div class="expand-icon">+</div>
+    </div>
+    <div class="habit-body">
+      <h4>What Deep Work Means Here</h4>
+      <p>Deep work is <strong>any intentional, focused activity you commit 90 unbroken minutes to.</strong> Work, study, creative writing, training, building, learning. The content is up to you. The point is sustained attention. <em>One task. Ninety minutes. No phone. No interruptions.</em></p>
+      <p>This isn't about being productive. This is about proving to your brain that <strong>extended focus is possible again</strong>. The phone has trained you to switch every 90 seconds. Deep work is the rehab. Each completed block is a vote for the version of you who can finish things.</p>
+
+      <h4>The Rules</h4>
+      <div class="examples">
+        <div class="example"><div class="example-icon">📍</div><div class="example-text"><strong>Phone in another room.</strong> Not face down, not in a drawer. A different room. If you can hear it, it's still pulling part of your attention.</div></div>
+        <div class="example"><div class="example-icon">🎯</div><div class="example-text"><strong>One task only.</strong> Pick it before you start. "Work on project X." "Read chapter 3." "Train shoulders." Switching tasks counts as breaking the block.</div></div>
+        <div class="example"><div class="example-icon">⏱️</div><div class="example-text"><strong>90 minutes minimum.</strong> Not 60. Ninety minutes is roughly one natural attention cycle of the brain. Below that, you don't reach the deep flow state. At 90, you do.</div></div>
+        <div class="example"><div class="example-icon">⚠️</div><div class="example-text"><strong>Common mistake:</strong> Trying to do 3 deep work blocks on day one and burning out. Start with one. Add a second when one becomes easy. Most people max at 2 to 3 per day, and that's already elite.</div></div>
+      </div>
+
+      <div class="action-box">
+        <p><strong>The compound effect:</strong> 90 min, 5 days a week, 50 weeks is 375 hours per year of focused work. That's enough to learn a language, finish a book, build a side business, master a craft. <em>This is where life-changing progress comes from.</em></p>
+      </div>
+
+      <div class="founder-note">
+        <p>First real deep work block I completed, I had forgotten what it felt like to lose track of time inside one task. Used to happen naturally as a kid, then the phone took it. This protocol gave it back. If you don'thing else past Stage 4, do this one. It's the one that turns "feeling better" into actually building something different.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="habit" onclick="toggle(this)">
+    <div class="habit-header">
+      <div class="priority-bar p2"></div>
+      <div class="habit-header-main">
+        <div class="habit-top"><span class="priority-badge pb2">P2 / Important</span><span class="habit-id">S4.04</span><span class="xp-tag">+20 XP</span></div>
+        <div class="habit-name">20 Pages, Physical Book</div>
+        <div class="habit-summary">Upgrade from 10. Evening reading becomes the centerpiece of the closing ritual.</div>
+      </div>
+      <div class="expand-icon">+</div>
+    </div>
+    <div class="habit-body">
+      <p>20 pages a day is 7,300 pages a year, roughly <strong>28 books</strong>. Most people read 1 to 2 books a year. By the end of Stage 4 you're running ahead of them every year, for the rest of your life. <em>This compounds across decades into a completely different mind.</em></p>
+      <div class="examples">
+        <div class="example"><div class="example-icon">⏱️</div><div class="example-text"><strong>20 pages is roughly 25 to 35 minutes of reading.</strong> By Stage 4 your attention can hold this easily. If it can't, you probably need more meditation reps, not less reading.</div></div>
+      </div>
+
+      <h4>Where To Go Next</h4>
+      <div class="examples">
+        <div class="example"><div class="example-icon">📖</div><div class="example-text"><strong>The Obstacle Is the Way</strong>, Ryan Holiday. Stoic philosophy made concrete and readable. Short chapters, directly about using resistance and difficulty as fuel rather than reasons to stop. The ideal bridge before the heavier books that follow in this stage.</div></div>
+        <div class="example"><div class="example-icon">📖</div><div class="example-text"><strong>Think and Grow Rich</strong>, Napoleon Hill. Not about money. About the mental architecture of people who build things that last. By Stage 4 you have the focus to read it the way it deserves: slowly, with a notebook next to you.</div></div>
+        <div class="example"><div class="example-icon">📖</div><div class="example-text"><strong>The Prince</strong>, Niccolò Machiavelli. A short, sharp book about power, human nature, and how the world actually operates. Most people dismiss it without reading it. Read it.</div></div>
+        <div class="example"><div class="example-icon">📖</div><div class="example-text"><strong>Crime and Punishment</strong>, Fyodor Dostoevsky. One of the great novels. Long but completely absorbing once it takes hold. At 20 pages a day your attention is ready for it. The psychological depth is unlike anything in shorter fiction.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="habit" onclick="toggle(this)">
+    <div class="habit-header">
+      <div class="priority-bar p2"></div>
+      <div class="habit-header-main">
+        <div class="habit-top"><span class="priority-badge pb2">P2 / Important</span><span class="habit-id">S4.05</span><span class="xp-tag">+20 XP</span></div>
+        <div class="habit-name">All Meals Without Phone</div>
+        <div class="habit-summary">Upgrade from 2. Every meal, every day. The hardest one is now in scope.</div>
+      </div>
+      <div class="expand-icon">+</div>
+    </div>
+    <div class="habit-body">
+      <p>The remaining meal, usually the one you eat alone fast while working, is now phoneless too. <strong>This is where eating becomes eating again, instead of refueling while consuming.</strong> The hardest meal to change tends to be lunch alone at a desk. The fix: get away from the desk. Go to the kitchen, the balcony, a bench outside. Eating is supposed to be a pause, not a parallel activity.</p>
+      <div class="warning-box">
+        <p><strong>If you eat at your desk for work:</strong> Stand up. Walk 30 seconds away. The physical break matters as much as the no-phone rule. Eating while working with no phone is still eating while working.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="habit" onclick="toggle(this)">
+    <div class="habit-header">
+      <div class="priority-bar p1"></div>
+      <div class="habit-header-main">
+        <div class="habit-top"><span class="priority-badge pb1">P1 / Foundation</span><span class="habit-id">S4.06</span><span class="xp-tag">+30 XP</span></div>
+        <div class="habit-name">No Music With Lyrics, All Chosen Situations</div>
+        <div class="habit-summary">Upgrade. Any situation where you control the choice. Wider than S3.01.</div>
+      </div>
+      <div class="expand-icon">+</div>
+    </div>
+    <div class="habit-body">
+      <h4>What Expands</h4>
+      <p>S3.01 was about physical activities. S4.06 expands to <strong>any situation where you choose to put on music.</strong> Driving alone, working at home, studying, falling asleep. The principle is the same: verbal input fills the silence your brain needs to process.</p>
+      <p>The boundary still holds: this is about <strong>your active choice</strong>. Music in a bar, at a friend's house, at a wedding, from gym speakers, all fine. The rule is what you put on yourself, not what you passively encounter.</p>
+      <div class="examples">
+        <div class="example"><div class="example-icon">🎼</div><div class="example-text"><strong>What replaces it:</strong> Instrumental, classical, lo-fi, ambient, jazz without vocals, or silence. By Stage 4, silence should feel comfortable, not threatening.</div></div>
+        <div class="example"><div class="example-icon">🎉</div><div class="example-text"><strong>What's still allowed:</strong> Music with lyrics in social settings, dancing, parties, a friend's place. Music as shared experience is different from music as solo input.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="habit" onclick="toggle(this)">
+    <div class="habit-header">
+      <div class="priority-bar p1"></div>
+      <div class="habit-header-main">
+        <div class="habit-top"><span class="priority-badge pb1">P1 / Foundation</span><span class="habit-id">S4.07</span><span class="xp-tag">+60 XP</span></div>
+        <div class="habit-name">2 Social-Free Days This Week</div>
+        <div class="habit-summary">Upgrade from 1. Two separate days. Not consecutive.</div>
+      </div>
+      <div class="expand-icon">+</div>
+    </div>
+    <div class="habit-body">
+      <p>Two days, not consecutive. Distribute them across the week, for example Wednesday and Sunday. <strong>The non-consecutive rule matters.</strong> It means each social-free day is its own decision, not one long stretch you push through. You're proving repeatedly, in different contexts, that you can live without it.</p>
+      <div class="examples">
+        <div class="example"><div class="example-icon">📅</div><div class="example-text"><strong>Pick the days at the start of the week.</strong> Don't wait to "feel like it." Schedule them. The tracker toggle activates per day and each day replaces the 2h-social habit.</div></div>
+      </div>
+      <div class="action-box">
+        <p><strong>By Stage 4:</strong> social-free days start to feel like the <em>good days</em> rather than the hard ones. Calmer, more space, more done. You'll begin choosing more of them voluntarily.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- S4.08 Evening Journal Upgrade -->
+  <div class="habit" onclick="toggle(this)">
+    <div class="habit-header">
+      <div class="priority-bar p2"></div>
+      <div class="habit-header-main">
+        <div class="habit-top">
+          <span class="priority-badge pb2">P2 / Important</span>
+          <span class="habit-id">S4.08</span>
+          <span class="xp-tag">+15 XP</span>
+        </div>
+        <div class="habit-name">Evening Journal, Focus Questions</div>
+        <div class="habit-summary">Two new questions for Stage 4. Tracks what you built and when you were most present.</div>
+      </div>
+      <div class="expand-icon">+</div>
+    </div>
+    <div class="habit-body">
+      <h4>What Changes in Stage 4</h4>
+      <p>S3 questions tracked what you filtered out and what you were hiding from. Stage 4 introduces deep work, and the journal follows. You're no longer just removing bad inputs. You're building things. The questions shift from intake to output, from avoidance to construction. <strong>The phone is mostly handled. Now the question is what you're doing with the attention you recovered.</strong></p>
+
+      <h4>The Two Questions</h4>
+      <div class="examples">
+        <div class="example"><div class="example-icon">→</div><div class="example-text"><strong>What did you create, perform, or do today, and how did it feel to produce something instead of consume?</strong> Make the distinction honest. Watching a video about your project isn't building. Writing one paragraph is. Recording a voice note is. The question forces precision about what real output looks like for you, and over weeks it shows you which activities actually move the thing forward.</div></div>
+        <div class="example"><div class="example-icon">→</div><div class="example-text"><strong>When was the specific moment today that you felt most sharp and present, and why do you think that happened?</strong> You're mapping your own conditions for focus. Time of day, what you had eaten, where you were, what you had skipped. This data belongs to nobody else. Build the map. After 2 weeks the pattern is usually obvious and completely actionable.</div></div>
+      </div>
+
+      <div class="action-box">
+        <p><strong>Notice the pattern across weeks:</strong> the first question will start showing you what your real output looks like versus what you thought it looked like. The gap between the two is where Stage 4 does its deepest work.</p>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ═════════════════════ STAGE 5 · PATTERN AWARE ═════════════════════ -->
+<section class="section" id="stage5">
+  <div class="section-head">
+    <div class="section-num">S5</div>
+    <div class="section-meta">
+      <div class="section-cat">Stage 5</div>
+      <div class="section-title">PATTERN AWARE</div>
+      <div class="section-subtitle">Recognize your patterns. Deepen the practice. Cold exposure. Weekly challenges begin.</div>
+    </div>
+  </div>
+
+  <div class="phase-meta">
+    <div class="phase-meta-cell"><div class="phase-meta-label">XP to Unlock S6</div><div class="phase-meta-value">6,200 XP</div></div>
+    <div class="phase-meta-cell"><div class="phase-meta-label">Min. Active Days</div><div class="phase-meta-value text">41 days</div></div>
+    <div class="phase-meta-cell"><div class="phase-meta-label">Max XP / Day</div><div class="phase-meta-value">400</div></div>
+    <div class="phase-meta-cell"><div class="phase-meta-label">New / Upgraded</div><div class="phase-meta-value">7</div></div>
+  </div>
+
+  <div class="section-intro">
+    <p><strong>You're past the addiction's grip.</strong> The work now is depth, not breadth. Longer meditations, longer walks, cold exposure as a deliberate dopamine reset, weekly challenges that test specific patterns. <em>You're no longer recovering. You're sharpening.</em> All previous habits carry forward. Meditations go from 10 to 15 min and social-free days go from 2 to 3.</p>
+    <p>The journal questions shift in this stage from "what triggered me" to "who am I becoming." That shift is real. You're a different person now. The questions just caught up.</p>
+  </div>
+
+  <div class="habit" onclick="toggle(this)">
+    <div class="habit-header">
+      <div class="priority-bar p1"></div>
+      <div class="habit-header-main">
+        <div class="habit-top"><span class="priority-badge pb1">P1 / Foundation</span><span class="habit-id">S5.01</span><span class="xp-tag">+30 XP</span></div>
+        <div class="habit-name">Meditation 15 Min, Morning</div>
+        <div class="habit-summary">Upgrade from 10 min.</div>
+      </div>
+      <div class="expand-icon">+</div>
+    </div>
+    <div class="habit-body">
+      <p>15 minutes is where meditation becomes <strong>a daily reset</strong> instead of a daily check-in. Five-minute sits center you for an hour. Ten-minute sits center you for the morning. Fifteen-minute sits start <em>changing how you respond to the entire day.</em> The effect on your nervous system isn't linear. There's a real shift past 15 minutes that most people have never felt.</p>
+    </div>
+  </div>
+
+  <div class="habit" onclick="toggle(this)">
+    <div class="habit-header">
+      <div class="priority-bar p1"></div>
+      <div class="habit-header-main">
+        <div class="habit-top"><span class="priority-badge pb1">P1 / Foundation</span><span class="habit-id">S5.02</span><span class="xp-tag">+30 XP</span></div>
+        <div class="habit-name">Meditation 15 Min, Evening</div>
+        <div class="habit-summary">Upgrade from 10 min. Before journal.</div>
+      </div>
+      <div class="expand-icon">+</div>
+    </div>
+    <div class="habit-body">
+      <p>The evening 15-minute sit becomes the day's most reliable way to decompress. By this point you'll notice that on days you skip it, you sleep worse and carry more residue from the day. The evidence is internal and impossible to argue with.</p>
+    </div>
+  </div>
+
+  <div class="habit" onclick="toggle(this)">
+    <div class="habit-header">
+      <div class="priority-bar p1"></div>
+      <div class="habit-header-main">
+        <div class="habit-top"><span class="priority-badge pb1">P1 / Foundation</span><span class="habit-id">S5.03</span><span class="xp-tag">+25 XP</span></div>
+        <div class="habit-name">Morning Walk, 20 Min Outside</div>
+        <div class="habit-summary">Upgrade from 10. Always contemplative. Still no input.</div>
+      </div>
+      <div class="expand-icon">+</div>
+    </div>
+    <div class="habit-body">
+      <p>Twenty minutes is when the walk shifts from morning hygiene to <strong>thinking time.</strong> The first 10 minutes settle you. The second 10 are when ideas surface, problems solve, plans form. Many of the best ideas you'll ever have will arrive between minutes 11 and 20 of a phoneless morning walk. Keep a small notebook in your pocket for what comes up. Don't bring the phone.</p>
+      <div class="examples">
+        <div class="example"><div class="example-icon">📓</div><div class="example-text"><strong>Pocket notebook:</strong> A small pad and a pen. When something surfaces, write it down. Don't use the phone for notes, the second you unlock it the spell breaks.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="habit" onclick="toggle(this)">
+    <div class="habit-header">
+      <div class="priority-bar p2"></div>
+      <div class="habit-header-main">
+        <div class="habit-top"><span class="priority-badge pb2">P2 / Important</span><span class="habit-id">S5.04</span><span class="xp-tag">+20 XP</span></div>
+        <div class="habit-name">Cold Shower, Last 15 Seconds</div>
+        <div class="habit-summary">End of normal shower, turn to cold for 15 seconds. Direct dopamine reset.</div>
+      </div>
+      <div class="expand-icon">+</div>
+    </div>
+    <div class="habit-body">
+      <h4>Why Cold</h4>
+      <p>Cold exposure spikes dopamine significantly, and unlike the phone's spikes, this one is <strong>followed by a sustained lift, not a crash.</strong> It's the cleanest dopamine hit available. Free, fast, and it trains the same circuit you override every time you don't pick up your phone: <em>discomfort tolerance.</em></p>
+      <p>The cold also resets your nervous system. After 15 seconds of cold, the body releases alertness hormones, you feel focused and calm. <strong>One cold burst replaces three coffees</strong> for that ready feeling, without the crash.</p>
+
+      <h4>How To Do It</h4>
+      <div class="examples">
+        <div class="example"><div class="example-icon">🚿</div><div class="example-text"><strong>End of shower:</strong> Wash normally. When done, turn the dial all the way to cold. Stay 15 seconds. Get out.</div></div>
+        <div class="example"><div class="example-icon">🌡️</div><div class="example-text"><strong>How cold:</strong> Whatever your tap produces. In winter that's cold enough. In summer it's milder but still works. "As cold as your tap goes" is the rule, not "ice bath."</div></div>
+        <div class="example"><div class="example-icon">🫁</div><div class="example-text"><strong>Breathe:</strong> The first 5 seconds your body wants to gasp. Don't. Breathe slow through the nose. <em>Controlling your breath under cold is training the exact same muscle that controls the urge to pick up the phone.</em></div></div>
+        <div class="example"><div class="example-icon">⚠️</div><div class="example-text"><strong>Common mistake:</strong> Skipping it because "it is cold today." That's exactly the day the habit pays the most. The discomfort is the workout (Rule 7).</div></div>
+      </div>
+
+      <div class="warning-box">
+        <p><strong>Health note:</strong> If you've a heart condition, talk to a doctor first. For everyone else, 15 seconds of cold water at the end of a shower is safe and well studied.</p>
+      </div>
+
+      <div class="founder-note">
+        <p>My first cold showers were exactly like my first evenings without the phone. That same specific discomfort of knowing the warm option is right there. Knowing you could just reach over and end it. The first few times I didn't last long. Then something shifted. The cold stopped being a punishment and became the thing that set the tone for everything that followed. Now it's non-negotiable. I use it instead of a second or third coffee on the days when I'm dragging. It is faster, cleaner, and the alertness it produces doesn't crash. If you're relying on caffeine to feel human, try replacing one of those coffees with 30 seconds of cold first. You might be surprised which one you reach for less.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="habit" onclick="toggle(this)">
+    <div class="habit-header">
+      <div class="priority-bar p1"></div>
+      <div class="habit-header-main">
+        <div class="habit-top"><span class="priority-badge pb1">P1 / Foundation</span><span class="habit-id">S5.05</span><span class="xp-tag">+80 XP</span></div>
+        <div class="habit-name">3 Social-Free Days This Week</div>
+        <div class="habit-summary">Upgrade from 2. Three separate days. Almost half the week.</div>
+      </div>
+      <div class="expand-icon">+</div>
+    </div>
+    <div class="habit-body">
+      <p>By Stage 5, three social-free days a week feels normal, maybe even preferable. <strong>You're now using social less than half the days of the week.</strong> The relationship has fundamentally changed. Social media is now an occasional tool, not a daily presence.</p>
+      <div class="action-box">
+        <p><strong>Distribution example:</strong> Tuesday, Thursday, Sunday. Three islands of presence in the week. Or: Monday, Tuesday, Wednesday off, Thursday through Sunday on. Test which pattern serves you. The protocol cares about the count, not the arrangement.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="habit" onclick="toggle(this)">
+    <div class="habit-header">
+      <div class="priority-bar p1"></div>
+      <div class="habit-header-main">
+        <div class="habit-top"><span class="priority-badge pb1">P1 / Foundation</span><span class="habit-id">S5.06</span><span class="xp-tag">variable</span></div>
+        <div class="habit-name">Weekly Boss Active</div>
+        <div class="habit-summary">First boss unlocked. Defeat it by end of week. Six bosses in fixed sequence.</div>
+      </div>
+      <div class="expand-icon">+</div>
+    </div>
+    <div class="habit-body">
+      <h4>What This Unlocks</h4>
+      <p>From Stage 5 onward, <strong>one Weekly Boss is always active.</strong> The six bosses cycle in fixed order: App Delete, Grayscale Week, Silence Week, Full Detox, Morning Pages, Dopamine Audit. Each one targets a specific addiction pattern that the daily habits don't reach directly. Defeating all six takes 6 weeks. Then they cycle again, hitting harder each round because you know yourself better.</p>
+      <p>Full descriptions of each boss are in the Weekly Challenges section below. You can read all six now if you want, knowing what's coming helps you plan. The tracker shows the active boss, its XP reward, and a defeat button. Defeating a boss is self-reported, like everything in this protocol. The honor system is the mechanism.</p>
+      <div class="action-box">
+        <p><strong>Mark defeated in the tracker</strong> when the week's boss is done. XP ranges from 100 to 200 based on difficulty. Don't skip to easier bosses. The order is the curriculum.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- S5.08 Reading Upgrade -->
+  <div class="habit" onclick="toggle(this)">
+    <div class="habit-header">
+      <div class="priority-bar p2"></div>
+      <div class="habit-header-main">
+        <div class="habit-top">
+          <span class="priority-badge pb2">P2 / Important</span>
+          <span class="habit-id">S5.08</span>
+          <span class="xp-tag">+25 XP</span>
+        </div>
+        <div class="habit-name">Evening Reading, 25 Pages</div>
+        <div class="habit-summary">Upgrade from 20. The reading habit's permanent. The floor keeps rising.</div>
+      </div>
+      <div class="expand-icon">+</div>
+    </div>
+    <div class="habit-body">
+      <p>25 pages is roughly 30 to 40 minutes of focused reading. By Stage 5 this isn't a challenge, it's the natural extension of what your attention can now hold. The minimum rises because the person holding it has risen with it.</p>
+
+      <h4>Where To Go Next</h4>
+      <div class="examples">
+        <div class="example"><div class="example-icon">📖</div><div class="example-text"><strong>Ego Is the Enemy</strong>, Ryan Holiday. The natural follow-on to The Obstacle Is the Way. About what gets in the way after you've built some momentum: ego, self-congratulation, the story you start telling yourself about your own progress. Stage 5 is exactly when this trap shows up.</div></div>
+        <div class="example"><div class="example-icon">📖</div><div class="example-text"><strong>The Brothers Karamazov</strong>, Fyodor Dostoevsky. The long game. One of the deepest novels ever written, about faith, doubt, family, and what people do to each other. At 25 pages a day your attention is built for it.</div></div>
+        <div class="example"><div class="example-icon">📖</div><div class="example-text"><strong>The Art of War</strong>, Sun Tzu. Short, ancient, endlessly applicable. Read it slowly and take notes. One principle per sitting. Most people read it in an afternoon and remember nothing. Treat it as a meditation text, not a quick read.</div></div>
+        <div class="example"><div class="example-icon">📖</div><div class="example-text"><strong>Blood Meridian</strong>, Cormac McCarthy. The most demanding novel on this list. Violent, beautiful, and unlike anything else in American fiction. Stage 5 is the right time because it requires sustained attention and rewards it completely.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S5.07 Evening Journal Upgrade -->
+  <div class="habit" onclick="toggle(this)">
+    <div class="habit-header">
+      <div class="priority-bar p2"></div>
+      <div class="habit-header-main">
+        <div class="habit-top">
+          <span class="priority-badge pb2">P2 / Important</span>
+          <span class="habit-id">S5.07</span>
+          <span class="xp-tag">+15 XP</span>
+        </div>
+        <div class="habit-name">Evening Journal, Identity Questions</div>
+        <div class="habit-summary">Two new questions for Stage 5. Who showed up today, not just what you did.</div>
+      </div>
+      <div class="expand-icon">+</div>
+    </div>
+    <div class="habit-body">
+      <h4>What Changes in Stage 5</h4>
+      <p>S4 questions tracked output and focus conditions. Stage 5 is different in kind, not just degree. Three social-free days a week, 15-minute meditations, cold showers, weekly challenges. You've enough distance from the old version of yourself to start comparing. <strong>The questions stop asking what you did and start asking who showed up.</strong> This is identity work now, not habit tracking.</p>
+
+      <h4>The Two Questions</h4>
+      <div class="examples">
+        <div class="example"><div class="example-icon">→</div><div class="example-text"><strong>Looking at today from the outside: which version of you showed up, the one you're building, or the old one?</strong> Not a pass/fail. A reading. Some days both show up in different moments. The point is the ability to observe yourself with enough distance to see the difference at all. That distance is the whole gain of Stage 5.</div></div>
+        <div class="example"><div class="example-icon">→</div><div class="example-text"><strong>What pattern did you catch in yourself today that you wouldn't haven'ticed two months ago?</strong> Name something specific: a reaction, a thought, a choice, a moment where you would have been fully inside it six weeks ago but today you could see it from the outside. The protocol isn't just about the phone. It's about learning to see yourself. That's the real skill being built.</div></div>
+      </div>
+
+      <div class="action-box">
+        <p><strong>By Stage 5 the journal is no longer a habit.</strong> It's a conversation with yourself. The question to ask about your own answers: is this what actually happened, or is this what I want to believe happened? Honesty here's the whole difference between Stage 5 and Stage 6.</p>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ═════════════════════ STAGE 6 · SOVEREIGN ═════════════════════ -->
+<section class="section" id="stage6">
+  <div class="section-head">
+    <div class="section-num">S6</div>
+    <div class="section-meta">
+      <div class="section-cat">Stage 6, Infinite</div>
+      <div class="section-title">SOVEREIGN</div>
+      <div class="section-subtitle">Maintenance and identity consolidation. Levels continue forever. There's no final form.</div>
+    </div>
+  </div>
+
+  <div class="phase-meta">
+    <div class="phase-meta-cell"><div class="phase-meta-label">Threshold</div><div class="phase-meta-value text">None, infinite</div></div>
+    <div class="phase-meta-cell"><div class="phase-meta-label">Levels</div><div class="phase-meta-value text">+5,000 XP each</div></div>
+    <div class="phase-meta-cell"><div class="phase-meta-label">Challenges</div><div class="phase-meta-value text">Continue cycling</div></div>
+  </div>
+
+  <div class="section-intro">
+    <p><strong>Stage 6 isn't the end. It's the practice.</strong> All previous habits remain. The journal questions become permanent, three fixed questions for every evening, forever. Weekly challenges keep cycling. Levels keep going. <em>Sovereignty isn't a destination. It's a way of operating.</em></p>
+    <p>What changes: nothing major. What deepens: everything. You're now running a system that works quietly in the background. Your job is to keep it running, watch for drift, and use the space it created to build the life you actually want.</p>
+  </div>
+
+  <div class="habit" onclick="toggle(this)">
+    <div class="habit-header">
+      <div class="priority-bar p1"></div>
+      <div class="habit-header-main">
+        <div class="habit-top"><span class="priority-badge pb1">P1 / Foundation</span><span class="habit-id">S6.01</span><span class="xp-tag">+25 XP</span></div>
+        <div class="habit-name">Cold Shower, Last 30 Seconds</div>
+        <div class="habit-summary">Upgrade from 15. The longer exposure consolidates discomfort tolerance.</div>
+      </div>
+      <div class="expand-icon">+</div>
+    </div>
+    <div class="habit-body">
+      <p>30 seconds doubles the exposure and fundamentally changes what happens in your nervous system. At 15 seconds, you trigger the response. At 30 seconds, you sustain it, and the elevated state afterward lasts longer, 60 to 90 minutes instead of 30.</p>
+      <div class="examples">
+        <div class="example"><div class="example-icon">🫁</div><div class="example-text"><strong>The breath becomes the practice.</strong> 30 seconds of cold with controlled nasal breathing is a meditation in itself. By this point the cold doesn't bother you the way it used to. You've adapted. That adaptation is portable to every other discomfort in your life.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="habit" onclick="toggle(this)">
+    <div class="habit-header">
+      <div class="priority-bar p1"></div>
+      <div class="habit-header-main">
+        <div class="habit-top"><span class="priority-badge pb1">P1 / Foundation</span><span class="habit-id">S6.02</span><span class="xp-tag">+40 XP</span></div>
+        <div class="habit-name">Deep Work Block, 2 Hours</div>
+        <div class="habit-summary">Upgrade from 90 min. Same method, doubled window.</div>
+      </div>
+      <div class="expand-icon">+</div>
+    </div>
+    <div class="habit-body">
+      <p>The first 20 minutes of any deep work session is still warm-up <strong>regardless of how experienced you are</strong>. At 90 minutes you were finishing just as the real output began. Two hours gives you the full arc: warm-up, flow, and <em>the deepest work happening in the final stretch</em>. By Stage 6, the extended window doesn't require more willpower. It requires less, because the ritual is so wired in that the brain shifts on its own. Same rules as always: <strong>single task, phone in another room</strong>, nothing open that doesn't serve the work in front of you.</p>
+      <div class="action-box">
+        <p><strong>If 90 minutes felt hard in Stage 4, two hours will feel normal here.</strong> That distance is the whole point of the progression. You're not the same person who started Stage 1.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="habit" onclick="toggle(this)">
+    <div class="habit-header">
+      <div class="priority-bar p2"></div>
+      <div class="habit-header-main">
+        <div class="habit-top"><span class="priority-badge pb2">P2 / Important</span><span class="habit-id">S6.03</span><span class="xp-tag">+20 XP</span></div>
+        <div class="habit-name">Evening Reading, 30 Pages</div>
+        <div class="habit-summary">Upgrade from 25. At this stage reading is no longer a habit. It's the default end to the day.</div>
+      </div>
+      <div class="expand-icon">+</div>
+    </div>
+    <div class="habit-body">
+      <p>You don't track this the way you tracked it in Stage 1. By now <strong>the book is already on the desk</strong>, the phone is already in another room, and the evening sequence runs on its own. <em>Thirty pages is the new floor.</em> Some nights it will be more. The habit card exists to mark the upgrade formally. The reading itself is already happening, and has been for a long time.</p>
+
+      <h4>Where To Go Next</h4>
+      <div class="examples">
+        <div class="example"><div class="example-icon">📖</div><div class="example-text"><strong>The Brothers Karamazov</strong>, Fyodor Dostoevsky. If you've not read it yet, Stage 6 is the right time. The questions it asks about faith, family, and what people owe each other will stay with you long after it ends.</div></div>
+        <div class="example"><div class="example-icon">📖</div><div class="example-text"><strong>Blood Meridian</strong>, Cormac McCarthy. One of the most demanding and rewarding novels in the American canon. 30 pages a day is the right pace for it. Don't rush it.</div></div>
+        <div class="example"><div class="example-icon">📖</div><div class="example-text"><strong>Anything you've been meaning to read for years.</strong> By Stage 6 the habit's permanent. The only question left is which books you want to have read by the time you're done.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <p class="subhead subhead-gap">THE PERMANENT JOURNAL QUESTIONS</p>
+
+  <p class="prose">From Stage 6 onward, the journal questions stop changing. <strong style="color: var(--text);">These two are the questions for the rest of your life.</strong> They're not addiction-specific anymore. They're the questions of a sovereign mind, the daily check that keeps you honest with yourself indefinitely.</p>
+
+  <div class="examples">
+    <div class="example"><div class="example-icon">→</div><div class="example-text"><strong>What did I do today that was concrete, and where's it taking me?</strong> Filters out fake progress. "I watched productivity videos" isn't concrete. "I wrote 800 words" is. The second part, where's it taking me, keeps daily action connected to the bigger picture.</div></div>
+    <div class="example"><div class="example-icon">→</div><div class="example-text"><strong>What disturbed me today, and where do I think it came from?</strong> The disturbance is data. Anger, anxiety, irritation are all signals pointing at something. Most people react to them. Sovereigns trace them upstream.</div></div>
+  </div>
+
+  <div class="callout-big">
+    <div class="callout-big-label">// What Sovereign Looks Like in Practice</div>
+    <div class="callout-big-text">You wake up, drink water, sit, walk. You eat without scrolling. You work with focus. You read in the evening. You sleep without the phone in the room. <em>None of it requires effort.</em> It's just what you do. The protocol disappeared. The protocol became you.</div>
+  </div>
+
+</section>
+
+<!-- ═════════════════════ WEEKLY RECAP ═════════════════════ -->
+<section class="section" id="recap">
+  <div class="section-head">
+    <div class="section-meta">
+      <div class="section-cat">Weekly Reflection</div>
+      <div class="section-title">THE WEEKLY RECAP</div>
+      <div class="section-subtitle">One review per week. Pen and paper. Patterns invisible at the daily level become obvious here.</div>
+    </div>
+  </div>
+
+  <div class="section-intro">
+    <p><strong>Daily journals catch moments. Weekly recaps catch patterns.</strong> Some things only become visible across 7 days: your trigger windows, the days you keep failing, the specific contexts where the addiction wins. Without a weekly review, you keep falling into the same hole because you can't see its shape.</p>
+  </div>
+
+  <p class="subhead">HOW TO DO IT</p>
+
+  <div class="examples">
+    <div class="example"><div class="example-icon">📅</div><div class="example-text"><strong>Same time, same place, every week.</strong> Sunday evening is classic. The ritual of "this is when I review" makes it easier to actually do. Make it a small ceremony: sit at your desk, open the notebook, 25 quiet minutes.</div></div>
+    <div class="example"><div class="example-icon">✍️</div><div class="example-text"><strong>Pen and paper.</strong> Same rule as the journal. The tracker shows the questions. You write in the notebook. <em>Never type the recap.</em></div></div>
+    <div class="example"><div class="example-icon">📖</div><div class="example-text"><strong>Read the week's daily entries first.</strong> Skim the past 7 days of journal answers before writing the recap. This is where patterns surface. You'll see the same trigger named on Monday, Wednesday, and Friday and realize it's a real pattern, not a one-off.</div></div>
+    <div class="example"><div class="example-icon">⏱️</div><div class="example-text"><strong>20 to 30 minutes.</strong> Don't rush. Don't drag. The questions deserve real thought. That's the whole point.</div></div>
+  </div>
+
+  <div class="action-box">
+    <p><strong>What to look for:</strong> Repeating triggers, same context, same emotion. Wins you can repeat. Things you've stopped wanting, the most powerful signal of all. Track the direction, not perfection. <em>A week with three bad days but visible learning beats seven perfect days with no insight.</em></p>
+  </div>
+
+  <div class="callout-big" style="margin-top: 28px;">
+    <div class="callout-big-label">// Manual re-read: +25 XP per week</div>
+    <div class="callout-big-text">Re-reading a section of this manual is a weekly XP action. <em>Not skimming. Not a glance at the stage you're in.</em> Pick one section, read it in full, and write the key points in your own words in the weekly recap. This isn't a bonus. It's the mechanism by which the protocol installs itself permanently. The same paragraph means something completely different at Stage 3 than it did at Stage 1. You're not the same person reading it.</div>
+  </div>
+
+  <p class="subhead subhead-gap">THE THREE RECAP QUESTIONS</p>
+
+  <p class="prose">These go in your notebook every Sunday. Pen and paper. After you've skimmed the week's daily journal entries. Give each one real thought. Honest answers only.</p>
+
+  <div class="examples">
+    <div class="example"><div class="example-icon">→</div><div class="example-text"><strong>What did you consistently avoid this week that hadn'thing to do with the phone?</strong> Not about scrolling. About what the phone was protecting you from. The task you kept skipping. The feeling you kept outrunning. The conversation you kept postponing. Name it. It will be the same answer for several weeks before you do something about it. That repetition is the most useful data this entire protocol produces.</div></div>
+    <div class="example"><div class="example-icon">→</div><div class="example-text"><strong>This week, what did the person you're becoming do, and what did the old version still manage to sneak in?</strong> Not feelings. Concrete actions. One for each. The person you're building showed up when you did something specific. The old version showed up in a specific moment too. Name both. The gap between them is exactly where you're right now.</div></div>
+    <div class="example"><div class="example-icon">→</div><div class="example-text"><strong>What's one specific situation next week where you already know the old version will try to show up, and what's your exact plan for that moment?</strong> Not a vague intention. A plan for a specific moment. Tuesday evening after a hard shift. Sunday afternoon when there's nothing scheduled. The commute home on Thursday. Name the moment and write the move. Pre-commitment beats willpower every single time.</div></div>
+  </div>
+
+</section>
+
+<!-- ═════════════════════ WEEKLY CHALLENGES ═════════════════════ -->
+<section class="section" id="challenges">
+  <div class="section-head">
+    <div class="section-meta">
+      <div class="section-cat">Mission Cycle</div>
+      <div class="section-title">WEEKLY BOSSES</div>
+      <div class="section-subtitle">Six bosses in fixed sequence. Unlock at Stage 5. Cycle forever.</div>
+    </div>
+  </div>
+
+  <div class="section-intro">
+    <p><strong>The weekly bosses target patterns that the daily habits don't reach directly.</strong> Each one isolates a specific addiction mechanism: visual stimulation, identity around apps, audio dependence, full detox tolerance, morning autonomy, the deep audit of your own avoidance. Six weeks per cycle. Then it cycles again, hitting deeper each time because you know more about yourself.</p>
+    <p>Order isn't optional. The sequence is the curriculum. App Delete teaches a small commitment. Dopamine Audit teaches the biggest one. Don't skip ahead.</p>
+  </div>
+
+  <div class="challenge">
+    <div class="challenge-num">01</div>
+    <div class="challenge-content">
+      <div class="challenge-name">App Delete</div>
+      <div class="challenge-desc"><strong>Delete one app you use out of boredom for 7 days.</strong> Pick the one your thumb finds without your conscious choice. Delete it from the phone, not just hide, not just log out, delete. After 7 days you can reinstall if you want. Most people don't. <em>The challenge teaches you that the app's grip was never that strong. Your habit of opening it was.</em></div>
+    </div>
+    <div class="challenge-xp">+100 XP</div>
+  </div>
+
+  <div class="challenge">
+    <div class="challenge-num">02</div>
+    <div class="challenge-content">
+      <div class="challenge-name">Grayscale Week</div>
+      <div class="challenge-desc"><strong>Set your phone to grayscale for 7 days.</strong> All apps in black and white. Color is a deliberate design choice to keep you scrolling. Every red notification dot, every saturated thumbnail, every Instagram color palette is engineered to trigger a reaction. Strip the color and the phone instantly becomes 60% less appealing. You'll notice you reach for it less. <strong>iOS:</strong> Settings, Accessibility, Display and Text Size, Color Filters, Grayscale. <strong>Android:</strong> Settings, Digital Wellbeing, Bedtime Mode, Grayscale.</div>
+    </div>
+    <div class="challenge-xp">+120 XP</div>
+  </div>
+
+  <div class="challenge">
+    <div class="challenge-num">03</div>
+    <div class="challenge-content">
+      <div class="challenge-name">Silence Week</div>
+      <div class="challenge-desc"><strong>7 days with no music with lyrics, no podcasts, no background audio in any situation you control.</strong> Driving alone: silence. Working at home: silence. Showering: silence. Walking: silence. This is the deepest level of input fasting. <em>The amount of time you've spent never alone with your own thoughts will shock you.</em> By day 4, ideas surface, feelings move, problems solve themselves. By day 7 you'll be reluctant to put audio back on for things that didn't need it.</div>
+    </div>
+    <div class="challenge-xp">+150 XP</div>
+  </div>
+
+  <div class="challenge">
+    <div class="challenge-num">04</div>
+    <div class="challenge-content">
+      <div class="challenge-name">Full Detox</div>
+      <div class="challenge-desc"><strong>72 hours with zero social media of any kind.</strong> No checking. No browsing. No exceptions. No "just to message someone," use SMS or WhatsApp for that. Three days. <em>Most people haven't gone 72 hours without social since they were teenagers.</em> The first 24 hours are restless. The second 24 hours are clear. The third 24 hours are the cleanest mental state you've had in years. You'll come out with a recalibrated baseline.</div>
+    </div>
+    <div class="challenge-xp">+180 XP</div>
+  </div>
+
+  <div class="challenge">
+    <div class="challenge-num">05</div>
+    <div class="challenge-content">
+      <div class="challenge-name">Morning Pages</div>
+      <div class="challenge-desc"><strong>7 days: write 1 full page by hand immediately on waking, before any screen.</strong> Stream of consciousness. No filter. No editing. Whatever shows up goes on the page. The point is volume, not quality. <em>The morning brain has access to material the daytime brain doesn't.</em> Things you didn't know you were carrying come out. By day 4 or 5 you'll be writing things that surprise you. By day 7 you'll have a document about your own current life that no one else could have written.</div>
+    </div>
+    <div class="challenge-xp">+150 XP</div>
+  </div>
+
+  <div class="challenge">
+    <div class="challenge-num">06</div>
+    <div class="challenge-content">
+      <div class="challenge-name">Dopamine Audit</div>
+      <div class="challenge-desc"><strong>Write by hand a complete list of everything you use to avoid discomfort.</strong> Phone, scrolling, food, alcohol, weed, porn, video games, shopping, news, productivity theater, conflict avoidance, gym as escape, work as escape, everything. Be brutally honest. Then <strong>eliminate the first item on the list for 30 days.</strong> Not the easiest one, the first one that came to mind. <em>This is the hardest weekly challenge and the most transformative.</em> The audit alone, even without elimination, changes how you see yourself. The 30 days of elimination changes who you are.</div>
+    </div>
+    <div class="challenge-xp">+200 XP</div>
+  </div>
+
+  <div class="action-box">
+    <p><strong>How the cycle works:</strong> Boss 1 in week 1, Boss 2 in week 2, all the way to Boss 6 in week 6. Then back to Boss 1 in week 7, <em>and you'll find it hits differently the second time.</em> By round 3 or 4 you'll be choosing harder versions of each boss yourself. The framework holds. You sharpen inside it.</p>
+  </div>
+</section>
+
+<!-- ═════════════════════ WHAT SOVEREIGN LOOKS LIKE ═════════════════════ -->
+<section class="section" id="sovereign">
+  <div class="section-head">
+    <div class="section-meta">
+      <div class="section-cat">The End State</div>
+      <div class="section-title">WHAT SOVEREIGN LOOKS LIKE</div>
+      <div class="section-subtitle">10 days. 1 month. 3 months. 6 months. 1 year. The honest picture.</div>
+    </div>
+  </div>
+
+  <div class="section-intro">
+    <p><strong>Sovereignty isn't a magic state.</strong> You don't wake up one day cured. The change is gradual, then it's permanent, then it's invisible because it has become who you are. Here's the honest picture of what to expect at each milestone so you don't compare yourself to a fantasy and quit at month 2.</p>
+  </div>
+
+  <div class="examples">
+
+    <div class="example">
+      <div class="example-icon">📍</div>
+      <div class="example-text">
+        <strong>10 days.</strong> The first thing you notice is physical. Sleep lands differently, deeper, less interrupted. You wake up and there's a moment, sometimes 10 minutes, sometimes more, before the phone even crosses your mind. That gap didn't exist before. Your nervous system, which had been running on notification spikes and cortisol since before you can remember, is getting its first real silence. You can't see it yet. You can feel it. That feeling is evidence enough to keep going.
+      </div>
+    </div>
+
+    <div class="example">
+      <div class="example-icon">📍</div>
+      <div class="example-text">
+        <strong>1 month.</strong> You finished a book. The mornings are yours before anything else gets in. At dinner one evening you noticed you were actually listening, tracking what the other person was saying, not composing your response or thinking about what you missed. Someone in your life said you seem calmer, different somehow. They couldn't name it. You didn't explain. The phone is still in your life but it stopped being the automatic first move. You didn't know your baseline was broken until it started coming back.
+      </div>
+    </div>
+
+    <div class="example">
+      <div class="example-icon">📍</div>
+      <div class="example-text">
+        <strong>3 months.</strong> This is when it compounds into places you didn't expect. Workouts are better, not because your program changed but because the willpower you used to burn all day fighting the phone is now available for something else. Your nervous system is less wrecked going in. Ideas start showing up on the walks, real ones, the kind that used to dissolve before you could catch them. You started writing them down. One of them is becoming something. The side project or business idea that lived in the someday drawer is starting to have a shape, pages, a plan, actual movement. And the people around you're responding to something they can't name. You're the person who's actually in the room now. That changes what people bring to you, what they trust you with, how conversations go. None of them connect it to the phone. <em>You do.</em>
+      </div>
+    </div>
+
+    <div class="example">
+      <div class="example-icon">📍</div>
+      <div class="example-text">
+        <strong>6 months.</strong> You're sitting somewhere, a restaurant, a waiting room, and you see someone scrolling the way you used to. Eyes there but nobody home. That specific quality of absence you recognize from the inside, the slight hunch, the thumb moving before the brain decides, the face empty in a particular way. Something in you registers the distance. Not judgment. Recognition. The urge still comes on hard days. A bad week, real tiredness, a loss, and the old pattern knocks with its old volume. But it doesn't scare you anymore. You know what it is, where it comes from, that it passes. When it wins a day you don't spiral. You do the next habit. <strong>The protocol is mostly invisible now because it has mostly become you.</strong>
+      </div>
+    </div>
+
+    <div class="example">
+      <div class="example-icon">📍</div>
+      <div class="example-text">
+        <strong>1 year.</strong> You pick the phone up and put it down. Not through discipline. The grip on most of it is simply gone. What you're building now has more consistency than anything you've tried before. Not because you became a different person in some dramatic sense. Because you can stay with one thing long enough to actually finish it. <em>That ability to stay is the real upgrade. Everything else was downstream of it.</em> You're not cured and you know it. A stretch of real emptiness, a period where nothing is working, and the old pattern will knock again. That's not failure. That's the environment you live in and it doesn't stop optimizing for your attention. The protocol is permanent infrastructure. The person running it's not the same one who started. Quieter. More consistent. Building something real. That was always the only destination.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="callout-big" style="margin-top: 36px;">
+    <div class="callout-big-label">// What Sovereign Looks Like in Practice</div>
+    <div class="callout-big-text">You wake up, drink water, sit, walk. You eat without scrolling. You work with focus. You read in the evening. You sleep without the phone in the room. <em>None of it requires effort.</em> It's just what you do. The protocol disappeared. The protocol became you.</div>
+  </div>
+
+  <div class="founder-note">
+    <p>Still inside it. Writing this from the practice, not from the other side. Some days everything runs clean. Some days I skip something and reset. The protocol doesn't retire. You don't graduate from it. You just get better at running it.</p>
+    <p>You're not behind. Do today's habits. Then tomorrow's. <strong>Two years of that and you'll not recognize yourself.</strong> Not in some big transformation way. More like: that's just who he is now. Quiet. Permanent. Yours.</p>
+  </div>
+
+  <p class="subhead subhead-gap">WHAT COMES NEXT</p>
+
+  <div class="callout-big">
+    <div class="callout-big-label">// One protocol at a time</div>
+    <div class="callout-big-text">Dopamine Digital is the first protocol. Fix attention and you create the conditions for everything else, better sleep, real presence, sharper focus, a body you can actually train, a mind you can trust. <em>The others are coming.</em> This one unlocks the door. Build it first.</div>
+  </div>
+
+</section>
+
+<!-- ═════════════════════ FINAL MOTTO ═════════════════════ -->
+<div class="closing">
+  <div class="closing-label">// The Final Motto</div>
+  <div class="closing-motto">
+    The more you <em>create</em>,<br>
+    the less you consume.<br><br>
+    The more you <em>consume</em>,<br>
+    the less you create.<br><br>
+    Use the phone to <em>produce</em>,<br>
+    not to consume.<br><br>
+    But first you need to detach<br>
+    long enough to see it from the outside.<br><br>
+    <em>Distance gives you clarity.</em><br>
+    <em>Clarity gives you choice.</em>
+  </div>
+</div>
+
+<!-- ═════════════════════ TRACKER CTA ═════════════════════ -->
+<div class="tracker-cta">
+  <div class="tracker-cta-label">// Don't close this yet</div>
+  <div class="tracker-cta-title">Open The Tracker Now</div>
+  <div class="tracker-cta-sub">You've read the system. The system doesn't do anything sitting here. Open the tracker, set today's date, check your first habit. That first checkbox is the protocol starting. Everything else was preparation.</div>
+</div>
+
+<script>
+  function toggle(el) {
+    el.classList.toggle('open');
+  }
+
+  function navTo(id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    var offset = 44;
+    var top = el.getBoundingClientRect().top + window.pageYOffset - offset;
+    window.scrollTo({ top: top, behavior: 'smooth' });
+  }
+
+  var sections = ['why','system','rules','traps','stage1','stage2','stage3','stage4','stage5','stage6','sovereign','recap','challenges'];
+  var navItems = document.querySelectorAll('.nav-item');
+
+  function updateActive() {
+    var offset = 60;
+    var current = sections[0];
+    for (var i = 0; i < sections.length; i++) {
+      var el = document.getElementById(sections[i]);
+      if (el && el.getBoundingClientRect().top <= offset) current = sections[i];
+    }
+    navItems.forEach(function(item) {
+      var onclick = item.getAttribute('onclick') || '';
+      var match = onclick.match(/navTo\('([^']+)'\)/);
+      if (match) item.classList.toggle('active', match[1] === current);
+    });
+  }
+
+  window.addEventListener('scroll', updateActive, { passive: true });
+  updateActive();
+</script>
+</body>
+</html>
