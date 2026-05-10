@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080808">
+<title>THE HIJACKED BRAIN // STAGE 0 // DOPAMINE DIGITAL PROTOCOL</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@300;400;500;600&display=swap');
+
+  :root {
+    --bg: #080808;
+    --surface: #0f0f0f;
+    --surface-2: #141414;
+    --border: #1f1f1f;
+    --border-strong: #2a2a2a;
+    --text: #e8eef0;
+    --text-soft: #c4d0d4;
+    --muted: #6a7478;
+    --cyan: #00e5ff;
+    --cyan-dim: rgba(0,229,255,0.07);
+    --cyan-line: rgba(0,229,255,0.22);
+    --red: #ff4d3d;
+    --red-dim: rgba(255,77,61,0.07);
+    --red-line: rgba(255,77,61,0.22);
+    --red-text: #ff7a6d;
+    --glow: 0 0 40px rgba(0,229,255,0.05);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Archivo', sans-serif;
+    font-weight: 300;
+    line-height: 1.75;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  ::selection { background: var(--cyan); color: var(--bg); }
+
+  /* ── COVER ── */
+  .cover {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 64px 56px 56px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: -120px; right: -120px;
+    width: 420px; height: 420px;
+    background: radial-gradient(circle, rgba(0,229,255,0.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cover-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 0 60px;
+  }
+  .cover h1 {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: clamp(52px, 10vw, 96px);
+    line-height: 0.9;
+    letter-spacing: -2px;
+    margin-bottom: 52px;
+  }
+  .cover h1 em { font-style: normal; color: var(--cyan); }
+  .cover h1 span { color: var(--red); }
+  .cover-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-width: 600px;
+  }
+  .cover-line {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 300;
+    font-size: 20px;
+    color: var(--text-soft);
+    line-height: 1.4;
+  }
+  /* Cover negative keywords = red */
+  .cover-line strong { color: var(--text); font-weight: 600; }
+
+  /* ── SECTIONS ── */
+  .section {
+    padding: 48px 56px;
+    border-bottom: 1px solid var(--border-strong);
+  }
+
+  /* ── CHAPTER LABEL ── */
+  .ch-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--cyan);
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+
+  /* ── SECTION TITLE (globally centered) ── */
+  .section-title {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: clamp(28px, 5vw, 44px);
+    line-height: 1.05;
+    letter-spacing: -0.5px;
+    margin-bottom: 40px;
+    text-align: center;
+  }
+  .section-title em { font-style: normal; color: var(--cyan); }
+  /* positive words in titles = cyan via em, negative = red via .neg */
+  .neg { color: var(--red-text); }
+
+  /* ── BRIDGE (unified style for key transitions) ── */
+  .bridge {
+    max-width: 680px;
+    margin: 36px 0;
+  }
+  .bridge p {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: clamp(20px, 3.5vw, 28px);
+    color: var(--text);
+    line-height: 1.35;
+    letter-spacing: -0.3px;
+    margin-bottom: 16px;
+  }
+  .bridge p:last-child { margin-bottom: 0; }
+  .bridge p em { font-style: normal; color: var(--red-text); }
+  .bridge.centered { text-align: center; max-width: none; }
+  .bridge.centered p { margin-left: auto; margin-right: auto; max-width: 580px; }
+
+  /* ── INCIPIT ── */
+  .incipit {
+    padding: 68px 56px 72px;
+    border-bottom: 1px solid var(--border);
+  }
+  .tw-group {
+    max-width: 680px;
+    margin-bottom: 4px;
+  }
+  .tw-group p {
+    font-size: 17px;
+    color: var(--text-soft);
+    line-height: 1.65;
+    margin-bottom: 22px;
+  }
+  .tw-group p:last-child { margin-bottom: 0; }
+  /* Body text bold = white only, no color */
+  .tw-group p strong { color: var(--text); font-weight: 600; }
+  .tw-group p em { font-style: normal; color: var(--text); font-weight: 600; }
+
+  /* ── PROSE ── */
+  .prose {
+    font-size: 16px;
+    color: var(--text-soft);
+    line-height: 1.85;
+    margin-bottom: 20px;
+    max-width: 680px;
+  }
+  .prose strong { color: var(--text); font-weight: 600; }
+  .prose em { color: var(--text); font-weight: 600; font-style: normal; }
+
+  /* ── SHOCK INTERRUPT ── */
+  .shock {
+    padding: 40px 0 32px;
+    text-align: center;
+    max-width: 680px;
+  }
+  .shock-text {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: clamp(26px, 5vw, 44px);
+    letter-spacing: -0.5px;
+    color: var(--text);
+    line-height: 1.1;
+  }
+  .shock-text .neg { color: var(--red-text); }
+
+  /* ── DISCLAIMER BOX ── */
+  .for-who {
+    background: var(--red-dim);
+    border-left: 3px solid var(--red);
+    padding: 24px 26px;
+    margin-bottom: 40px;
+    max-width: 680px;
+  }
+  .for-who-disclaimer {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 13px;
+    letter-spacing: 3px;
+    color: var(--text);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .for-who p { font-size: 15.5px; color: var(--text-soft); line-height: 1.75; }
+  .for-who p strong { color: var(--red-text); font-weight: 600; }
+
+  /* ── HIT LIST ── */
+  .hit-list { display: flex; flex-direction: column; gap: 0; margin: 28px 0; }
+  .hit {
+    padding: 18px 22px;
+    border-left: 2px solid var(--border-strong);
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    font-size: 15.5px;
+    color: var(--text-soft);
+    line-height: 1.7;
+    transition: border-left-color 0.2s;
+  }
+  .hit:last-child { border-bottom: none; }
+  .hit:hover { border-left-color: var(--cyan); }
+  .hit strong { color: var(--text); font-weight: 600; display: block; margin-bottom: 4px; }
+
+  /* ── CALLOUTS ── */
+  .callout {
+    background: var(--cyan-dim);
+    border-left: 3px solid var(--cyan);
+    padding: 22px 26px;
+    margin: 28px 0;
+    max-width: 680px;
+  }
+  .callout p { font-size: 15.5px; color: var(--text-soft); line-height: 1.8; margin: 0; }
+  .callout p strong { color: var(--text); font-weight: 600; }
+
+  .callout-red {
+    background: var(--red-dim);
+    border-left: 3px solid var(--red);
+    padding: 22px 26px;
+    margin: 28px 0;
+    max-width: 680px;
+  }
+  .callout-red p { font-size: 15.5px; color: var(--text-soft); line-height: 1.8; margin: 0; }
+  .callout-red p strong { color: var(--red-text); font-weight: 600; }
+
+  /* ── STATS ── */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin: 36px 0;
+  }
+  .stat-cell { background: var(--surface); padding: 28px 24px; }
+  .stat-num { font-family: 'Archivo Black', sans-serif; font-size: 48px; color: var(--cyan); line-height: 1; letter-spacing: -2px; margin-bottom: 6px; }
+  .stat-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin-bottom: 10px; }
+  .stat-context { font-size: 13.5px; color: var(--text-soft); line-height: 1.6; }
+  .stat-context strong { color: var(--text); font-weight: 600; }
+
+  /* ── DAY 11 BLOCK ── */
+  .day11-block {
+    border: 1px solid var(--border-strong);
+    background: var(--surface);
+    overflow: hidden;
+    margin: 36px 0;
+  }
+  .day11-header {
+    background: var(--red-dim);
+    border-bottom: 1px solid var(--red-line);
+    padding: 20px 26px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .day11-num { font-family: 'Archivo Black', sans-serif; font-size: 56px; color: var(--red); line-height: 1; letter-spacing: -2px; }
+  .day11-title-block { flex: 1; }
+  .day11-label { font-family: 'Archivo Black', sans-serif; font-size: 13px; letter-spacing: 2px; color: var(--red-text); text-transform: uppercase; margin-bottom: 6px; }
+  .day11-title { font-family: 'Archivo Black', sans-serif; font-size: 20px; color: var(--text); line-height: 1.2; }
+  .day11-body { padding: 28px 26px; }
+  .day11-body p { font-size: 15.5px; color: var(--text-soft); line-height: 1.85; margin-bottom: 16px; }
+  .day11-body p:last-child { margin-bottom: 0; }
+  .day11-body p strong { color: var(--text); font-weight: 600; }
+  .day11-body p em { color: var(--red-text); font-style: normal; }
+
+  /* ── UPSIDE LIST ── */
+  .upside-list { display: flex; flex-direction: column; gap: 10px; margin: 28px 0; }
+  .upside-item { background: var(--surface); border: 1px solid var(--border); padding: 18px 22px; display: flex; gap: 18px; align-items: flex-start; }
+  .upside-marker { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--cyan); background: var(--cyan-dim); padding: 3px 8px; white-space: nowrap; margin-top: 2px; flex-shrink: 0; }
+  .upside-text { font-size: 15.5px; color: var(--text-soft); line-height: 1.75; }
+  .upside-text strong { color: var(--text); font-weight: 600; }
+
+  /* ── FOUNDER NOTE ── */
+  .founder-note {
+    background: #0a0f0f;
+    border: 1.5px dashed var(--cyan);
+    padding: 36px 28px 28px;
+    margin-top: 36px;
+    position: relative;
+    box-shadow: 0 0 28px rgba(0,229,255,0.06), inset 0 0 40px rgba(0,229,255,0.025);
+  }
+  .founder-note::before {
+    content: 'FOUNDER NOTE — VANJA';
+    position: absolute;
+    top: -11px; left: 22px;
+    background: var(--bg);
+    padding: 0 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--cyan);
+    font-weight: 600;
+    border: 1px solid var(--cyan);
+    text-transform: uppercase;
+  }
+  .founder-note p { font-size: 15.5px; font-style: italic; color: #b0c0c4; line-height: 1.85; margin-bottom: 16px; }
+  .founder-note p:last-child { margin-bottom: 0; }
+  .founder-note p strong { color: #fff; font-weight: 600; font-style: normal; }
+
+  /* ── HABIT CARD ── */
+  .action-section { background: var(--surface-2); }
+  .habit-card { border: 1px solid var(--cyan-line); background: var(--bg); overflow: hidden; margin: 28px 0; box-shadow: var(--glow); }
+  .habit-card-header { padding: 20px 26px; background: var(--cyan-dim); border-bottom: 1px solid var(--cyan-line); display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .habit-id-block { display: flex; align-items: center; gap: 12px; }
+  .habit-id { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--muted); }
+  .habit-priority { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 2px; background: var(--red); color: var(--bg); padding: 3px 9px; font-weight: 600; text-transform: uppercase; }
+  .habit-xp { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--cyan); }
+  .habit-card-body { padding: 28px 26px; }
+  .habit-name { font-family: 'Archivo Black', sans-serif; font-size: 22px; color: var(--text); margin-bottom: 8px; letter-spacing: -0.2px; }
+  /* Same style as habit-name for the sub-heading */
+  .habit-subhead { font-family: 'Archivo Black', sans-serif; font-size: 19px; color: var(--text); letter-spacing: -0.2px; margin: 26px 0 14px; }
+  .habit-why { font-size: 15px; color: var(--text-soft); line-height: 1.75; margin-bottom: 24px; border-left: 2px solid var(--border-strong); padding-left: 16px; }
+  .habit-why em { color: var(--cyan); font-style: normal; }
+  .steps { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+  .step { display: flex; gap: 18px; align-items: flex-start; padding: 14px 18px; background: var(--surface); border: 1px solid var(--border); }
+  .step-num { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--cyan); white-space: nowrap; padding-top: 2px; flex-shrink: 0; }
+  .step-text { font-size: 15px; color: var(--text-soft); line-height: 1.7; }
+  .step-text strong { color: var(--text); font-weight: 600; }
+  .expect-bar { background: var(--surface); border: 1px solid var(--border); border-top: 2px solid var(--cyan); padding: 20px 22px; margin-top: 22px; }
+  .expect-label { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 3px; color: var(--cyan); text-transform: uppercase; margin-bottom: 10px; }
+  .expect-text { font-size: 14.5px; color: var(--text-soft); line-height: 1.75; }
+  .expect-text strong { color: var(--text); font-weight: 600; }
+
+  /* ── INSIDE GRID ── */
+  .inside-grid { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--border); margin: 28px 0; }
+  .inside-row { display: flex; gap: 20px; padding: 18px 22px; border-bottom: 1px solid var(--border); background: var(--surface); align-items: flex-start; transition: background 0.15s; }
+  .inside-row:last-child { border-bottom: none; }
+  .inside-row:hover { background: var(--surface-2); }
+  .inside-tick { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--cyan); flex-shrink: 0; padding-top: 3px; }
+  .inside-text { font-size: 15px; color: var(--text-soft); line-height: 1.7; }
+  .inside-text strong { color: var(--text); font-weight: 600; }
+
+  /* ── CTA ── */
+  .cta-section { padding: 80px 56px; background: var(--surface); text-align: center; border-bottom: 1px solid var(--border); }
+  .cta-title { font-family: 'Archivo Black', sans-serif; font-size: clamp(36px, 7vw, 64px); line-height: 0.95; letter-spacing: -2px; margin-bottom: 28px; }
+  .cta-title em { font-style: normal; color: var(--cyan); }
+  .cta-button { display: inline-block; background: var(--cyan); color: var(--bg); font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 3px; font-weight: 600; text-transform: uppercase; text-decoration: none; padding: 18px 48px; margin-top: 36px; transition: opacity 0.15s; }
+  .cta-button:hover { opacity: 0.85; }
+
+  /* ── CLOSER ── */
+  .closer { padding: 80px 56px; text-align: center; background: var(--bg); }
+  .closer-motto { font-family: 'Archivo Black', sans-serif; font-size: clamp(28px, 5vw, 52px); line-height: 1.15; letter-spacing: -1px; color: var(--text); max-width: 640px; margin: 0 auto; }
+  .closer-motto em { font-style: normal; color: var(--cyan); }
+  .closer-motto span { color: var(--red); }
+
+  @media (max-width: 600px) {
+    .cover, .incipit, .section, .cta-section, .closer { padding-left: 28px; padding-right: 28px; }
+    .stats-grid { grid-template-columns: 1fr; }
+    .cover-line { font-size: 17px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════ COVER ═══════════════════════════ -->
+<div class="cover">
+  <div class="cover-main">
+    <h1>THE<br><span>HIJACKED</span><br><em>BRAIN</em></h1>
+    <div class="cover-lines">
+      <div class="cover-line">You're not <strong>lazy</strong>.</div>
+      <div class="cover-line">You're not <strong>weak</strong>.</div>
+      <div class="cover-line">You've been systematically <strong>hijacked</strong> by the most sophisticated attention-capture <strong>machine</strong> ever built.</div>
+      <div class="cover-line" style="margin-top: 32px;">I will tell you exactly why your phone pulls you like a <strong>black hole</strong> for hours without even noticing.<br><br>
+      You will discover the <strong>Day 11 rule</strong> that nobody talks about.<br><br>
+      Now you feel <strong>chained</strong> to the phone.<br>
+      When you finish reading<br><br>
+      You'll be ready to <strong>break loose</strong>.</div>
+    </div>
+    <div style="margin-top: 48px;">
+      <p style="font-family: 'Archivo', sans-serif; font-size: 18px; font-weight: 300; color: var(--text-soft); letter-spacing: 3px; text-transform: uppercase; text-align: center;">Welcome to <em style="font-style: normal; color: var(--cyan);">Stage 0</em></p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ INCIPIT ═══════════════════════════ -->
+<div class="incipit">
+  <div class="ch-label">Five Minute Read</div>
+
+  <div class="section-title" style="margin-top: 28px; margin-bottom: 40px; text-align: center;">This <em>document</em> explains exactly what's happening to <span class="neg">you</span></div>
+
+  <div class="tw-group" style="margin-top: 40px;">
+    <p>Imagine working all week just to have some <strong>free time</strong>.<br>
+    And then you spend the free time <strong>scrolling</strong>.</p>
+
+    <p>You go to dinner with people you <strong>actually</strong> like.<br>
+    The food arrives.</p>
+
+    <p>Everyone reaches for the <strong>phone</strong> and the Instagram story needs to happen.<br>
+    You all sit and <strong>scroll together</strong>.</p>
+
+    <p>Only the <strong>location</strong> changes.</p>
+
+    <p>The company of your beloved ones is not enough, not <strong>anymore</strong>.</p>
+
+    <p>You lose <strong>hours</strong> of sleep because the dopamine <strong>casino</strong> in your pocket never closes at night.</p>
+
+    <p>You wake up feeling <strong>wrecked</strong>, and the <strong>first</strong> thing you do, before your eyes are even open, is open that <strong>app</strong> again.</p>
+
+    <p><strong>Mindlessly.</strong></p>
+
+    <p>Same as <strong>yesterday</strong>.</p>
+  </div>
+
+  <div class="bridge" style="margin-top: 52px;">
+    <p>If you can relate to this <em style="color: var(--cyan); font-style: normal;">reality</em>, keep reading.<br>This might be the most useful <span class="neg">five minutes</span> you spend today.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ DIAGNOSIS ═══════════════════════════ -->
+<div class="section">
+  <div class="ch-label">The Honest Diagnosis</div>
+  <div class="section-title">You Already Know<br>Something Is <span class="neg">Wrong</span></div>
+
+  <div class="hit-list">
+    <div class="hit">
+      <strong>You wake up already behind.</strong>
+      Already tired, already drained before a single decision has been made.
+    </div>
+    <div class="hit">
+      <strong>Ordinary life feels boring.</strong>
+      A walk without headphones is annoying. A meal without a screen is uncomfortable. Silence is something to escape.
+    </div>
+    <div class="hit">
+      <strong>You were in the room. You weren't actually there.</strong>
+      Physically present with people you care about. Mentally somewhere a stranger's algorithm decided.
+    </div>
+    <div class="hit">
+      <strong>You know what you should be doing. You open the app instead.</strong>
+      That cool idea dissolves with a finger and an icon.
+    </div>
+    <div class="hit">
+      <strong>The willpower fixes have a short life. As always.</strong>
+      You've tried the timers, the challenges, the just monk rules. None of it stuck. Willpower isn't the solution to an architecture problem.
+    </div>
+    <div class="hit">
+      <strong>You feel the years moving.</strong>
+      You feel life passing. And you're watching it from behind a screen.
+    </div>
+  </div>
+
+  <div class="shock" style="margin-top: 36px;">
+    <div class="shock-text">You're reading this because you recognize <em style="color: var(--cyan); font-style: normal;">yourself</em> in every line.</div>
+  </div>
+
+  <div class="tw-group" style="margin-top: 36px;">
+    <p>And the worst part?<br>
+    Not the days, weeks, months and years <strong>lost</strong>.</p>
+
+    <p>It's that you're <strong>slowly becoming</strong> someone you wouldn't have recognized five years ago.<br>
+    Somewhere under the noise, you can <strong>feel</strong> it.</p>
+
+    <p>This isn't a character flaw.<br>
+    The algorithm was built by teams of people paid millions to make you feel <strong>exactly this way</strong>.<br>
+    And they're very good at their job.</p>
+
+    <p>The problem was never you.<br>
+    The problem is <strong>structural</strong>.</p>
+
+    <p>And structural problems need a <strong>system</strong>, not more willpower.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ SCIENCE ═══════════════════════════ -->
+<div class="section">
+  <div class="ch-label">What Actually Happened To Your Brain</div>
+  <div class="section-title">The <em>Loop</em></div>
+
+  <div class="tw-group">
+    <p>Dopamine isn't the pleasure chemical.<br>
+    It's the <strong>anticipation</strong> chemical.<br>
+    <br>
+    It spikes <strong>before</strong> the reward, not during.<br>
+    Every time you pull down the refresh lever, your brain releases a small <strong>hit</strong>.<br>
+    <br>
+    The reward is <strong>unpredictable</strong>.<br>
+    That's the trick.</p>
+  </div>
+
+  <div class="callout">
+    <p>Unpredictable rewards are <strong>more addictive</strong> than reliable ones.<br>
+    This is the same mechanism that makes slot machines work.<br>
+    <br>
+    Your phone is an emotional <strong>slot machine</strong> you carry in your pocket.<br>
+    Can you see the similarity?<br>
+    <br>
+    It rolls down in the hope of the jackpot.<br>
+    The prize is your <strong>attention</strong>.<br>
+    <br>
+    It's costing you a lot more than money.<br>
+    And the bill is coming soon.<br>
+    <br>
+    But you scroll again to <strong>forget</strong> that too.</p>
+  </div>
+
+  <div class="tw-group">
+    <p>After enough hits, the brain <strong>adapts</strong>.<br>
+    The receptors get less <strong>sensitive</strong>.<br>
+    <br>
+    The same input produces less feeling.<br>
+    You need <strong>more</strong>.<br>
+    <br>
+    More scrolling, more videos, more refreshing.<br>
+    The high gets <strong>smaller</strong>.<br>
+    The dose gets <strong>larger</strong>.<br>
+    <br>
+    This is <strong>tolerance</strong>.<br>
+    It's the same brain pattern as any other addiction, just with a socially acceptable substance.</p>
+
+    <p>The result you feel every day?<br>
+    Ordinary life becomes <strong>flat</strong>.<br>
+    <br>
+    Reading feels boring.<br>
+    A walk in nature feels boring.<br>
+    A conversation with a real person feels boring within the first minute.<br>
+    <br>
+    Nothing is wrong with reality.<br>
+    Your baseline is <strong>broken</strong>.<br>
+    <br>
+    You've calibrated your nervous system to the most <strong>engineered stimulus</strong> in human history.<br>
+    Of course everything else feels <strong>grey</strong>.</p>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-cell">
+      <div class="stat-num">4+</div>
+      <div class="stat-label">Hours / Day</div>
+      <div class="stat-context">Average screen time for adults. Most people estimate half this when asked. <strong>The gap between what we think and what we do is the problem.</strong></div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num">7</div>
+      <div class="stat-label">Days to Reset</div>
+      <div class="stat-context">Days until sleep quality measurably improves when the phone leaves the bedroom. <strong>One week. That's the window to a different morning.</strong></div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num">60+</div>
+      <div class="stat-label">Hours / Month</div>
+      <div class="stat-context">Reclaimed at half your current usage. That's <strong>720 hours per year. 30 full days of your life</strong> returned to whatever you actually want to build.</div>
+    </div>
+  </div>
+
+  <div class="bridge">
+    <p>The <em style="color: var(--cyan); font-style: normal;">attention economy</em> doesn't take your time in one big theft.<br>It takes it in <span class="neg">3 minute</span> chunks, <span class="neg">400 times</span> a day.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ TRAJECTORY ═══════════════════════════ -->
+<div class="section">
+  <div class="ch-label">The Trajectory</div>
+  <div class="section-title">What Happens If You<br>Change <span class="neg">Nothing</span></div>
+
+  <div class="tw-group">
+    <p>This isn't how it ends dramatically.<br>
+    It goes <strong>quietly</strong>.<br>
+    <br>
+    The person you were at 19, curious, able to sit with something for hours, able to go deep, that person is still in there.<br>
+    <br>
+    It has been <strong>replaced</strong>.<br>
+    Slowly.<br>
+    <br>
+    Without your permission.<br>
+    <br>
+    The people <strong>closest</strong> to you feel it before you do.<br>
+    They don't say anything.<br>
+    <br>
+    But you're <strong>less present</strong> than you used to be and somehow they know it.</p>
+
+    <p>One day you sit down to actually <strong>build</strong> something, a business, a project, a skill, and you can't hold the thought for more than <strong>four minutes</strong> before the hand goes to the pocket.<br>
+    <br>
+    That's the real <strong>cost</strong>.<br>
+    <br>
+    Not screen time.<br>
+    <strong>Capability.</strong></p>
+  </div>
+
+  <div class="callout" style="margin-top: 36px;">
+    <p>The version of you that will exist in 10 years is being built <strong>today</strong>, in the next hour, in what you choose to do with it.<br>
+    The habits you run at <strong>25</strong> are the person you're at <strong>35</strong>.<br>
+    <br>
+    The phone isn't just stealing time.<br>
+    <strong>It's shaping who you become.</strong></p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ DAY 11 ═══════════════════════════ -->
+<div class="section">
+  <div class="ch-label">The Critical Insight</div>
+  <div class="section-title">The <em>Day 11</em> Problem</div>
+
+  <div class="tw-group">
+    <p>Most people who try to fix it, quit around <strong>day 11</strong>.<br>
+    Not day 1.<br>
+    Not day 30.<br>
+    <br>
+    <strong>Day 11.</strong><br>
+    <br>
+    And almost nobody knows <strong>why</strong>.<br>
+    Which means almost nobody pushes through it.</p>
+  </div>
+
+  <div class="day11-block">
+    <div class="day11-header">
+      <div class="day11-num">11</div>
+      <div class="day11-title-block">
+        <div class="day11-label">The Wall Everyone Hits</div>
+        <div class="day11-title">Why This Is The Exact Moment To Keep Going</div>
+      </div>
+    </div>
+    <div class="day11-body">
+      <p>The first few days, <strong>willpower carries you</strong>. You feel motivated, running on the energy of that decision.<br>
+      Days four through eight, the novelty wears off and the <strong>default behaviour starts creeping in</strong>.</p>
+      <p>You start slipping.<br>
+      The hand goes to the pocket.</p>
+      <p>You feel like you're <strong>failing</strong>.</p>
+      <p>By day eleven, <strong>the discomfort peaks</strong>.<br>
+      This isn't a coincidence.<br>
+      It's neuroscience.</p>
+      <p>Around this point, the brain's dopamine system is actively <strong>recalibrating</strong>.</p>
+      <p>The receptor sensitivity that was suppressed by overstimulation is beginning to recover.</p>
+      <p>The discomfort at day 11 is evidence it's <strong>working</strong>, not evidence to stop.</p>
+      <p>The people who quit at day eleven are quitting at the <strong>exact moment the system is about to shift</strong>.</p>
+      <p>They feel the hardest part, interpret it as failure, and return to baseline.</p>
+      <p>The people who push through are the ones who, by week three, start reporting that <strong>mornings feel different</strong>.</p>
+      <p><strong>That time moves differently.<br>
+      That they can think again.</strong></p>
+      <p>Most people never reach <strong>week three</strong>.<br>
+      Not because they're weak.<br>
+      Nobody warned them about day eleven.</p>
+      <p>Now you know.<br>
+      When it arrives, you're not failing.</p>
+      <p><strong>You're close.</strong></p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ UPSIDE ═══════════════════════════ -->
+<div class="section">
+  <div class="ch-label">The Other Side</div>
+  <div class="section-title">What It Actually<br><em>Feels Like</em> After</div>
+
+  <p class="prose">The protocol doesn't promise a <strong>dramatic transformation</strong>. It promises something <strong>quieter, more permanent</strong>. Here's the honest picture, drawn from the mind trenches:</p>
+
+  <div class="upside-list">
+    <div class="upside-item">
+      <div class="upside-marker">01</div>
+      <div class="upside-text"><strong>Mornings stop being a battle.</strong> You wake up and the phone isn't part of the first hour. Not because you're resisting. Because it's no longer a <strong>question</strong>.</div>
+    </div>
+    <div class="upside-item">
+      <div class="upside-marker">02</div>
+      <div class="upside-text"><strong>Attention returns.</strong> You can read <strong>thirty minutes</strong> without the urge to check. You can sit through a conversation for an hour and actually <strong>be in it</strong>. Focus stops feeling like <strong>effort</strong>.</div>
+    </div>
+    <div class="upside-item">
+      <div class="upside-marker">03</div>
+      <div class="upside-text"><strong>You finish things.</strong> Books, projects, training cycles, ideas. The ability to stay with one thing long enough to <strong>complete it</strong> comes back. This is the <strong>highest-value upgrade</strong>.</div>
+    </div>
+    <div class="upside-item">
+      <div class="upside-marker">04</div>
+      <div class="upside-text"><strong>Time expands.</strong> You notice hours in your day that didn't seem to exist before. Because they didn't. They were dissolved <strong>ninety seconds</strong> at a time. Now they're yours.</div>
+    </div>
+    <div class="upside-item">
+      <div class="upside-marker">05</div>
+      <div class="upside-text"><strong>Discomfort stops being the enemy.</strong> The same circuit that lets you not pick up the phone lets you not flinch from <strong>anything else</strong>. Hard conversation. Hard task. The pattern <strong>transfers</strong>.</div>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:8px;">
+    <p>The change is <strong>gradual</strong>.<br>
+    Then <strong>permanent</strong>.<br>
+    <br>
+    Then <strong>invisible</strong>.<br>
+    <br>
+    It's just who you are now.<br>
+    You're not in the passenger seat anymore.<br>
+    <br>
+    <strong>You're the driver.</strong></p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ FOUNDER NOTE ═══════════════════════════ -->
+<div class="section">
+  <div class="ch-label">From The Founder</div>
+  <div class="section-title">I Built This Because<br>I <em>Needed</em> It</div>
+
+  <p class="prose">Not because I had it figured out. Because I was a wreck and I needed something to get me out of it.</p>
+
+  <div class="founder-note">
+    <p>I was falling asleep at 2am with the phone in my hand. Waking up already <strong>foggy</strong>. Already behind. I had a business idea I'd been carrying for months. One afternoon I sat down to finally work on it. I lasted <strong>eight minutes</strong> before I was on Instagram watching stories of people I barely know.</p>
+    <p>That's when I stopped calling it a discipline problem. You can't out-willpower something that was <strong>built to beat you</strong>. I needed a system. So I built one. For myself first. Stage by stage, habit by habit, until the mornings stopped feeling like a battle.</p>
+    <p>That system became this protocol. The tracker, the stages, the rules. All of it built because I needed it. If you're reading this, you probably do too. You're not behind. You're here. <strong>I see you.</strong></p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ ACTION ═══════════════════════════ -->
+<div class="section action-section">
+  <div class="ch-label">Stage 0 Action</div>
+  <div class="section-title">Your <em>First Move</em><br>Start Tomorrow</div>
+
+  <p class="prose">One real habit from Stage 1. This is the actual first move of the protocol. Start tomorrow.</p>
+
+  <div class="habit-card">
+    <div class="habit-card-header">
+      <div class="habit-id-block">
+        <div class="habit-id">S1.02</div>
+        <div class="habit-priority">P1 · Foundation</div>
+      </div>
+      <div class="habit-xp">+25 XP</div>
+    </div>
+    <div class="habit-card-body">
+      <div class="habit-name">No Social First 30 Minutes After Waking</div>
+      <div class="habit-why">No scroll.<br>No messages.<br>No news.<br>Phone in another room.<br>Airplane mode on.<br><em>The first 30 minutes belong to you.</em></div>
+
+      <div class="habit-subhead">Why This Works</div>
+
+      <p class="prose" style="margin-bottom: 20px;">The first 30 minutes after waking is when your brain is most <strong>open to input</strong>. Whatever you put in gets printed on the rest of the day. Scroll first thing and you hand the morning to the algorithm. Keep it and you <strong>own the day from the start</strong>.</p>
+
+      <div class="habit-subhead">Pro Tip</div>
+      <p class="prose" style="margin-bottom: 0;">Use the environment as your weapon, sleep with the phone in airplane mode in another room, use another clock or a smart watch to wake up and ignore that screen as <strong>long as possible</strong>.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ WHAT'S INSIDE ═══════════════════════════ -->
+<div class="section">
+  <div class="ch-label">The Full System</div>
+  <div class="section-title"><em>Stage 0</em> Is The Diagnosis.<br>This Is What Comes After.</div>
+
+  <p class="prose">The Dopamine Digital Protocol is a <strong>complete operating system</strong> for your attention. Six stages. Ten rules. A progression that builds on itself, so that by Stage 4 or 5, the habits you struggled with in Stage 1 are just <strong>what you do</strong>.</p>
+
+  <div class="inside-grid">
+    <div class="inside-row">
+      <div class="inside-tick">→</div>
+      <div class="inside-text"><strong>The 6-stage habit system</strong> with 20+ habits, priority levels, and a clear unlock progression that keeps you building, not restarting.</div>
+    </div>
+    <div class="inside-row">
+      <div class="inside-tick">→</div>
+      <div class="inside-text"><strong>Stage 1 gives you 5 rules that protect your attention before your first task of the day.</strong> Specific, executable, effective from the first morning.</div>
+    </div>
+    <div class="inside-row">
+      <div class="inside-tick">→</div>
+      <div class="inside-text"><strong>The XP and streak tracker</strong> built as an interactive tool, the daily layer that makes the whole system stick.</div>
+    </div>
+    <div class="inside-row">
+      <div class="inside-tick">→</div>
+      <div class="inside-text"><strong>The 10 Operating Rules</strong> that separate a 30-day attempt from a permanent install.</div>
+    </div>
+    <div class="inside-row">
+      <div class="inside-tick">→</div>
+      <div class="inside-text"><strong>The 9 Traps,</strong> the failure modes discovered so you don't have to find them yourself. Including day eleven.</div>
+    </div>
+    <div class="inside-row">
+      <div class="inside-tick">→</div>
+      <div class="inside-text"><strong>The journal system, the weekly recap, the founder notes.</strong> Depth for every habit so you understand the why, not just the what.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ CTA ═══════════════════════════ -->
+<div class="cta-section">  <div class="cta-title">You Already Know<br><em>What To Do.</em></div>
+
+  <div class="bridge centered" style="margin-bottom: 24px;">
+    <p>You have one <em style="font-style: normal; color: var(--cyan);">life</em>.<br>
+    You're swiping it away one video at a <span class="neg">time</span>.</p>
+  </div>
+
+  <p style="max-width: 500px; margin: 0 auto 32px; text-align: center; font-size: 18px; color: var(--text); line-height: 1.9;"><strong>You made it to the end without scrolling.<br>
+  This wasn't an accident.<br>
+  That's the hope in you that is not giving up.</strong></p>
+
+  <a class="cta-button" href="https://whop.com/checkout/plan_F9myA9AYtlru4" target="_blank" style="font-size: 18px; letter-spacing: 2px;">Get The Protocol Now</a>
+
+  <div class="bridge centered" style="margin-top: 28px;">
+    <p>Less than a dinner.<br><span class="neg">One time.</span> No subscription.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ CLOSER ═══════════════════════════ -->
+<div class="closer">
+  <div class="closer-motto">
+    <em style="font-style: normal; color: var(--cyan);">Remember.</em><br><br>
+    The more you <em>create</em>,<br>
+    the less you <span class="neg">consume</span>.<br><br>
+    The more you <span class="neg">consume</span>,<br>
+    the less you <em>create</em>.<br><br>
+    Starting tonight,<br>
+    the next version of your day<br>
+    begins with <em>one decision</em>.
+  </div>
+</div>
+
+</body>
+</html>
