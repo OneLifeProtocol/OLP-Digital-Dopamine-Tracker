@@ -1,0 +1,1432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#080808">
+<link rel="apple-touch-icon" href="https://onelifeprotocol.github.io/OLP-Digital-Dopamine-Tracker/LOGO%202.png">
+<link rel="icon" href="https://onelifeprotocol.github.io/OLP-Digital-Dopamine-Tracker/LOGO%202.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="DDT">
+<meta name="mobile-web-app-capable" content="yes">
+<title>DOPAMINE DIGITAL TRACKER</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@300;400;500;600&display=swap');
+  :root {
+    --bg:#080808;--surface:#0f0f0f;--surface-2:#141414;--surface-3:#1a1a1a;
+    --border:#1f1f1f;--border-strong:#2a2a2a;--text:#e8eef0;--text-soft:#b0bbbf;
+    --muted:#6a7478;--muted-dim:#3a3e42;--cyan:#00e5ff;--cyan-soft:#5cf0ff;
+    --cyan-dim:rgba(0,229,255,0.10);--cyan-line:rgba(0,229,255,0.25);
+    --red:#ff4d3d;--red-text:#ff7a6d;--red-dim:rgba(255,77,61,0.08);--red-line:rgba(255,77,61,0.25);
+    --green:#4ade80;--green-dim:rgba(74,222,128,0.10);--green-line:rgba(74,222,128,0.30);
+    --gold:#f0b429;--gold-dim:rgba(240,180,41,0.10);
+    --p3:#6a92aa;--p3-dim:rgba(106,146,170,0.10);--p4:#6a8a6a;--p4-dim:rgba(106,138,106,0.10);
+    --watermark:rgba(255,255,255,0.025);
+    --token:#a78bfa;--token-dim:rgba(167,139,250,0.12);--token-line:rgba(167,139,250,0.30);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{background:var(--bg);color:var(--text);font-family:'Archivo',sans-serif;font-weight:400;line-height:1.55;font-size:16px;-webkit-font-smoothing:antialiased;min-height:100vh;padding-bottom:90px;overflow-x:hidden}
+  ::selection{background:var(--cyan);color:var(--bg)}
+  body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:1000;mix-blend-mode:overlay;opacity:0.6}
+  .wrap{max-width:640px;margin:0 auto;position:relative;padding-bottom:env(safe-area-inset-bottom,0)}
+
+  /* HEADER */
+  .header{padding:28px 22px 22px;border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+  .header::after{content:'V4';position:absolute;right:-12px;bottom:-36px;font-family:'Archivo Black',sans-serif;font-size:140px;color:var(--watermark);line-height:1;pointer-events:none;letter-spacing:-4px}
+  .brand-mark{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:4px;color:var(--cyan);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:12px}
+  .brand-mark::before{content:'';width:24px;height:1px;background:var(--cyan)}
+  .brand-title{font-family:'Archivo Black',sans-serif;font-size:36px;line-height:0.94;letter-spacing:-0.6px;color:var(--text);position:relative;z-index:1}
+  .brand-title em{font-style:normal;color:var(--cyan)}
+  .header-meta{margin-top:22px;display:grid;grid-template-columns:1fr 1fr;gap:10px;position:relative;z-index:1}
+  .meta-cell{background:var(--surface);border:1px solid var(--border);padding:12px 14px}
+  .meta-cell.full{grid-column:span 2}
+  .meta-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2.4px;color:var(--muted);text-transform:uppercase;margin-bottom:6px}
+  .meta-value{font-family:'Archivo Black',sans-serif;font-size:15px;letter-spacing:-0.2px;color:var(--text);line-height:1.1}
+  .meta-value.cyan{color:var(--cyan)}
+  .meta-value .stage-tag{display:inline-block;background:var(--cyan-dim);border:1px solid var(--cyan-line);padding:2px 8px;font-size:11px;letter-spacing:1.5px;color:var(--cyan);margin-right:8px;font-family:'JetBrains Mono',monospace;font-weight:500;vertical-align:middle}
+
+  /* ONBOARDING BANNER */
+  .onboarding-banner{margin:16px 22px 0;background:var(--surface);border:1px solid var(--cyan-line);padding:16px 18px;position:relative;overflow:hidden}
+  .onboarding-banner::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--cyan),transparent)}
+  .onboarding-banner-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2.4px;color:var(--cyan);text-transform:uppercase;margin-bottom:8px}
+  .onboarding-banner-text{font-size:13px;color:var(--text-soft);line-height:1.6;font-weight:300}
+  .onboarding-banner-text strong{color:var(--text);font-weight:500}
+  .onboarding-dismiss{margin-top:12px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.6px;text-transform:uppercase;padding:8px 14px;border:1px solid var(--cyan-line);background:var(--cyan-dim);color:var(--cyan);cursor:pointer;transition:all 0.2s;width:100%}
+  .onboarding-dismiss:hover{background:var(--cyan);color:var(--bg)}
+
+  /* BADGES */
+  .badges-panel{margin:16px 22px 0;background:var(--surface);border:1px solid var(--border);padding:18px 20px;position:relative;overflow:hidden}
+  .badges-panel::before{content:'';position:absolute;top:0;left:0;width:60px;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
+  .badges-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px}
+  .badges-label{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:2.4px;color:var(--gold);text-transform:uppercase}
+  .badges-count{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1px}
+  .badges-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .badge-item{display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 6px;border:1px solid var(--border);background:var(--bg);position:relative;cursor:default;transition:all 0.2s}
+  .badge-item.earned{border-color:var(--gold);background:var(--gold-dim);box-shadow:0 0 12px rgba(240,180,41,0.12)}
+  .badge-item.earned:hover{box-shadow:0 0 20px rgba(240,180,41,0.25)}
+  .badge-icon{font-size:22px;filter:grayscale(1);opacity:0.25;transition:all 0.3s}
+  .badge-item.earned .badge-icon{filter:grayscale(0);opacity:1}
+  .badge-name{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:1px;color:var(--muted);text-transform:uppercase;text-align:center;line-height:1.3}
+  .badge-item.earned .badge-name{color:var(--gold)}
+  .badge-new-glow{position:absolute;top:-2px;right:-2px;width:8px;height:8px;background:var(--gold);border-radius:50%;box-shadow:0 0 8px var(--gold);animation:badgePulse 1.5s ease-in-out infinite}
+  @keyframes badgePulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.4);opacity:0.6}}
+
+  /* STREAK BREAK ALERT */
+  .streak-break-alert{margin:16px 22px 0;background:rgba(255,77,61,0.06);border:1px solid var(--red-line);padding:14px 18px;display:flex;align-items:center;gap:12px;animation:alertSlide 0.4s cubic-bezier(0.16,1,0.3,1)}
+  @keyframes alertSlide{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+  .streak-break-icon{font-size:18px;flex-shrink:0}
+  .streak-break-text{flex:1;min-width:0}
+  .streak-break-title{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--red-text);text-transform:uppercase;margin-bottom:3px}
+  .streak-break-sub{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.5px;line-height:1.5}
+
+  /* COMEBACK BANNER */
+  .comeback-banner{margin:16px 22px 0;background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--gold);padding:16px 18px}
+  .comeback-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2.4px;color:var(--gold);text-transform:uppercase;margin-bottom:6px}
+  .comeback-text{font-size:13.5px;color:var(--text-soft);line-height:1.6;font-weight:300}
+  .comeback-text strong{color:var(--text);font-weight:500}
+
+  /* XP PANEL */
+  .xp-panel{margin:16px 22px 0;background:var(--surface);border:1px solid var(--border);padding:22px 22px 20px;position:relative;overflow:hidden}
+  .xp-panel::before{content:'';position:absolute;top:0;left:0;width:80px;height:1px;background:linear-gradient(90deg,var(--cyan),transparent)}
+  .xp-row-1{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:16px;gap:16px}
+  .xp-total{flex:1;min-width:0}
+  .xp-total-label{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:2.4px;color:var(--muted);text-transform:uppercase;margin-bottom:6px}
+  .xp-total-value{font-family:'Archivo Black',sans-serif;font-size:44px;line-height:1;letter-spacing:-1.2px;color:var(--gold);display:flex;align-items:baseline;gap:8px}
+  .xp-total-value .unit{font-size:13px;color:var(--muted);font-family:'JetBrains Mono',monospace;letter-spacing:2px;font-weight:400}
+  .xp-today{text-align:right}
+  .xp-today-label{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:2.4px;color:var(--muted);text-transform:uppercase;margin-bottom:6px}
+  .xp-today-value{font-family:'Archivo Black',sans-serif;font-size:22px;color:var(--cyan);letter-spacing:-0.4px;line-height:1}
+  .xp-today-value::before{content:'+'}
+  .xp-progress-section{margin-top:6px}
+  .xp-progress-label-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+  .xp-progress-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.5px;color:var(--text-soft);text-transform:uppercase}
+  .xp-progress-numbers{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--muted);letter-spacing:1px}
+  .xp-progress-numbers strong{color:var(--cyan);font-weight:500}
+  .progress-bar{height:6px;background:var(--surface-3);border:1px solid var(--border);overflow:hidden;position:relative}
+  .progress-fill{height:100%;background:linear-gradient(90deg,var(--cyan),var(--cyan-soft));transition:width 0.7s cubic-bezier(0.16,1,0.3,1);box-shadow:0 0 12px rgba(0,229,255,0.4)}
+  .progress-fill.bottleneck{background:linear-gradient(90deg,var(--gold),#ffd166);box-shadow:0 0 12px rgba(240,180,41,0.35)}
+
+  /* STREAK INSURANCE TOKENS */
+  .tokens-panel{margin:16px 22px 0;background:var(--surface);border:1px solid var(--token-line);padding:18px 20px;position:relative;overflow:hidden}
+  .tokens-panel::before{content:'';position:absolute;top:0;left:0;width:60px;height:1px;background:linear-gradient(90deg,var(--token),transparent)}
+  .tokens-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px}
+  .tokens-label{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:2.4px;color:var(--token);text-transform:uppercase}
+  .tokens-hint{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1px}
+  .tokens-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+  .token-pip{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--token-line);background:transparent;display:flex;align-items:center;justify-content:center;font-size:16px;transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);flex-shrink:0}
+  .token-pip.filled{background:var(--token-dim);border-color:var(--token);box-shadow:0 0 12px rgba(167,139,250,0.35)}
+  .token-pip.empty{opacity:0.3}
+  .tokens-sub{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.5px;line-height:1.5}
+  .tokens-sub strong{color:var(--token);font-weight:500}
+
+  /* STAGE UNLOCK */
+  .stage-unlock{margin:16px 22px 0;background:var(--surface);border:1px solid var(--border);padding:18px 20px 16px}
+  .stage-unlock-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:10px}
+  .stage-unlock-title{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:2.4px;color:var(--muted);text-transform:uppercase}
+  .stage-unlock-target{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--cyan);letter-spacing:1.5px;font-weight:500}
+  .stage-unlock-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .unlock-cell{min-width:0}
+  .unlock-cell-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:4px;display:flex;align-items:center;gap:6px}
+  .unlock-cell-label .lock-pin{display:inline-block;width:6px;height:6px;background:var(--gold);border-radius:50%;box-shadow:0 0 6px var(--gold)}
+  .unlock-cell-label .ok-pin{display:inline-block;width:6px;height:6px;background:var(--green);border-radius:50%}
+  .unlock-cell-numbers{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text);letter-spacing:0.5px;margin-bottom:6px}
+  .unlock-cell-numbers strong{color:var(--cyan);font-weight:500}
+  .unlock-bottleneck-note{margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase;line-height:1.4}
+  .unlock-cleared-note{margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:1.5px;color:var(--green);text-transform:uppercase}
+
+  /* ACTIVE DAY */
+  .active-day{margin:16px 22px 0;background:var(--surface);border:1px solid var(--border);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .active-day.is-active{border-color:var(--green-line);background:var(--green-dim)}
+  .active-day.token-protected{border-color:var(--token-line);background:var(--token-dim)}
+  .active-day-left{display:flex;align-items:center;gap:12px;min-width:0;flex:1}
+  .active-day-icon{width:8px;height:8px;background:var(--muted-dim);flex-shrink:0}
+  .active-day.is-active .active-day-icon{background:var(--green);box-shadow:0 0 8px var(--green)}
+  .active-day.token-protected .active-day-icon{background:var(--token);box-shadow:0 0 8px var(--token)}
+  .active-day-text{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1.4px;color:var(--text-soft);text-transform:uppercase;line-height:1.4}
+  .active-day.is-active .active-day-text{color:var(--green)}
+  .active-day.token-protected .active-day-text{color:var(--token)}
+  .active-day-counter{font-family:'Archivo Black',sans-serif;font-size:13px;color:var(--text);letter-spacing:0.5px;flex-shrink:0;text-align:right}
+  .active-day-counter span{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.6px;color:var(--muted);display:block;font-weight:400;margin-bottom:2px}
+
+  /* WEEK BAR */
+  .week-section{margin:16px 22px 0}
+  .week-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+  .week-title{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:2.4px;color:var(--muted);text-transform:uppercase}
+  .week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+  .week-day{display:flex;flex-direction:column;align-items:center;gap:6px}
+  .week-day-bar{width:100%;height:56px;background:var(--surface-3);border:1px solid var(--border);position:relative;overflow:hidden;cursor:default}
+  .week-day-fill{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(0deg,var(--cyan),var(--cyan-soft));transition:height 0.5s cubic-bezier(0.16,1,0.3,1)}
+  .week-day-fill.token-day{background:linear-gradient(0deg,var(--token),#c4b5fd)}
+  .week-day-fill.missed-day{background:linear-gradient(0deg,var(--red),#ff7a6d)}
+  .week-day-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.4px;color:var(--muted);text-transform:uppercase}
+  .week-day.today .week-day-bar{border-color:var(--cyan-line);box-shadow:0 0 0 1px var(--cyan-line) inset}
+  .week-day.today .week-day-label{color:var(--cyan);font-weight:500}
+  .week-day.missed .week-day-label{color:var(--red-text)}
+
+  /* STAGE INFO */
+  .stage-info{margin:16px 22px 0;background:var(--surface);border-left:3px solid var(--cyan);padding:16px 18px 14px}
+  .stage-info-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2.4px;color:var(--cyan);text-transform:uppercase;margin-bottom:6px}
+  .stage-info-title{font-family:'Archivo Black',sans-serif;font-size:18px;color:var(--text);margin-bottom:6px;letter-spacing:-0.3px}
+  .stage-info-body{font-size:13.5px;color:var(--text-soft);line-height:1.55;font-weight:300}
+
+  /* HABIT GROUP */
+  .habit-group{margin:16px 22px 0}
+  .group-head{display:flex;justify-content:space-between;align-items:baseline;padding:14px 0 8px;border-bottom:1px solid var(--border);margin-bottom:10px;gap:10px}
+  .group-title{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2.4px;color:var(--text);text-transform:uppercase;font-weight:500}
+  .group-title .group-tag{color:var(--cyan);margin-left:8px}
+  .group-head.carried{opacity:0.7}
+  .group-head.carried .group-title{color:var(--text-soft)}
+  .group-head.carried .group-title .group-tag{color:var(--muted)}
+  .group-meta{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--muted);letter-spacing:1px}
+
+  /* FUTURE STAGE COLLAPSED */
+  .future-stage-block{margin:16px 22px 0;border:1px dashed var(--border);padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:default}
+  .future-stage-left{min-width:0}
+  .future-stage-code{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2.4px;color:var(--muted);text-transform:uppercase;margin-bottom:4px}
+  .future-stage-name{font-family:'Archivo Black',sans-serif;font-size:15px;color:var(--muted);letter-spacing:-0.2px}
+  .future-stage-lock{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.5px;color:var(--muted);opacity:0.5;flex-shrink:0}
+
+  /* HABIT ROW */
+  .habit{display:flex;align-items:stretch;border:1px solid var(--border);background:var(--surface);margin-bottom:6px;cursor:pointer;transition:background 0.18s,border-color 0.18s,transform 0.14s;position:relative;overflow:hidden;user-select:none;-webkit-tap-highlight-color:transparent;min-height:60px}
+  .habit:active{transform:scale(0.992)}
+  .habit:hover{border-color:var(--border-strong);background:var(--surface-2)}
+  .habit-bar{width:3px;flex-shrink:0;background:var(--border)}
+  .habit-bar.p1{background:var(--red)}
+  .habit-bar.p2{background:var(--cyan)}
+  .habit-bar.p3{background:var(--p3)}
+  .habit-bar.p4{background:var(--p4)}
+  .habit-body{flex:1;padding:12px 14px;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:4px}
+  .habit-meta-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .habit-id{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1px;font-weight:500}
+  .priority-pill{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.4px;text-transform:uppercase;padding:2px 6px;line-height:1.2;font-weight:500}
+  .priority-pill.p1{background:var(--red-dim);color:var(--red-text);border:1px solid var(--red-line)}
+  .priority-pill.p2{background:var(--cyan-dim);color:var(--cyan);border:1px solid var(--cyan-line)}
+  .priority-pill.p3{background:var(--p3-dim);color:var(--p3);border:1px solid rgba(106,146,170,0.25)}
+  .priority-pill.p4{background:var(--p4-dim);color:var(--p4);border:1px solid rgba(106,138,106,0.25)}
+  .habit-name{font-family:'Archivo',sans-serif;font-weight:500;font-size:15px;color:var(--text);line-height:1.3;letter-spacing:-0.1px}
+  .habit-right{display:flex;align-items:center;gap:12px;padding:0 14px 0 4px;flex-shrink:0}
+  .xp-chip{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;padding:4px 8px;background:var(--gold-dim);border:1px solid rgba(240,180,41,0.25);color:var(--gold);letter-spacing:0.5px;line-height:1;white-space:nowrap}
+  .xp-chip.high{background:var(--cyan-dim);border-color:var(--cyan-line);color:var(--cyan)}
+  .check-circle{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--border-strong);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.22s;color:transparent;font-size:14px;background:transparent}
+  .habit.done{background:rgba(74,222,128,0.04);border-color:rgba(74,222,128,0.20)}
+  .habit.done .check-circle{background:var(--green);border-color:var(--green);color:var(--bg);box-shadow:0 0 12px rgba(74,222,128,0.5)}
+  .habit.done .habit-name{color:var(--green)}
+
+  /* SOCIAL FREE */
+  .social-free{margin:16px 22px 0;background:var(--surface);border:1px solid var(--border);padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:14px;cursor:pointer;transition:all 0.22s;user-select:none;-webkit-tap-highlight-color:transparent}
+  .social-free.active{border-color:var(--cyan-line);background:var(--cyan-dim);box-shadow:0 0 30px rgba(0,229,255,0.08)}
+  .social-free-left{flex:1;min-width:0}
+  .social-free-label{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:2.4px;color:var(--muted);text-transform:uppercase;margin-bottom:4px}
+  .social-free.active .social-free-label{color:var(--cyan)}
+  .social-free-title{font-family:'Archivo Black',sans-serif;font-size:17px;color:var(--text);letter-spacing:-0.3px;line-height:1.1;margin-bottom:4px}
+  .social-free.active .social-free-title{color:var(--cyan)}
+  .social-free-sub{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.5px;line-height:1.4}
+  .social-free-toggle{width:50px;height:28px;background:var(--border);border-radius:14px;position:relative;flex-shrink:0;transition:background 0.22s}
+  .social-free-toggle::after{content:'';position:absolute;top:3px;left:3px;width:22px;height:22px;background:var(--text-soft);border-radius:50%;transition:all 0.22s cubic-bezier(0.34,1.56,0.64,1)}
+  .social-free.active .social-free-toggle{background:var(--cyan)}
+  .social-free.active .social-free-toggle::after{left:25px;background:var(--bg)}
+  .social-free-week-counter{margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1px}
+  .social-free-week-counter strong{color:var(--cyan);font-weight:500}
+  .social-free-week-counter.hit strong{color:var(--green)}
+
+  /* EVENING */
+  .evening-section{margin:16px 22px 0;background:var(--surface);border:1px solid var(--border);padding:20px 20px 18px;position:relative}
+  .evening-section::before{content:'';position:absolute;top:0;left:0;width:50px;height:1px;background:linear-gradient(90deg,var(--cyan),transparent)}
+  .evening-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2.4px;color:var(--cyan);text-transform:uppercase;margin-bottom:14px}
+  .journal-block-title{font-family:'Archivo Black',sans-serif;font-size:16px;color:var(--text);letter-spacing:-0.2px;margin-bottom:4px}
+  .journal-block-sub{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.5px;margin-bottom:14px;line-height:1.5}
+  .journal-block-sub em{font-style:normal;color:var(--cyan)}
+  .journal-question{padding:10px 0;border-top:1px solid var(--border);display:flex;gap:10px;align-items:flex-start}
+  .journal-question:last-of-type{border-bottom:1px solid var(--border)}
+  .journal-question-num{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--cyan);letter-spacing:1px;flex-shrink:0;padding-top:1px;font-weight:500}
+  .journal-question-text{font-size:13.5px;color:var(--text-soft);line-height:1.55;font-weight:300;flex:1}
+  .journal-toggle,.recap-toggle{margin-top:16px;display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:var(--bg);border:1px solid var(--border);cursor:pointer;transition:all 0.2s;user-select:none;-webkit-tap-highlight-color:transparent;gap:10px}
+  .journal-toggle:hover,.recap-toggle:hover{border-color:var(--border-strong)}
+  .journal-toggle.done,.recap-toggle.done{border-color:var(--green-line);background:var(--green-dim)}
+  .journal-toggle-text,.recap-toggle-text{flex:1;min-width:0}
+  .journal-toggle-label,.recap-toggle-label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1.4px;color:var(--text);text-transform:uppercase;line-height:1.3}
+  .journal-toggle.done .journal-toggle-label,.recap-toggle.done .recap-toggle-label{color:var(--green)}
+  .journal-toggle-xp,.recap-toggle-xp{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--gold);letter-spacing:0.5px;flex-shrink:0}
+  .journal-toggle .check-circle,.recap-toggle .check-circle{width:22px;height:22px;font-size:11px}
+  .journal-toggle.done .check-circle,.recap-toggle.done .check-circle{background:var(--green);border-color:var(--green);color:var(--bg)}
+  .recap-divider{margin-top:22px;padding-top:18px;border-top:1px solid var(--border)}
+  .recap-block-title{font-family:'Archivo Black',sans-serif;font-size:16px;color:var(--text);letter-spacing:-0.2px;margin-bottom:4px}
+  .recap-block-sub{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.5px;margin-bottom:14px;line-height:1.5}
+
+  /* TODAY'S SIGNAL */
+  .signal{margin:16px 22px 0;background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--cyan);padding:16px 18px 14px}
+  .signal-label{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:2.4px;color:var(--cyan);text-transform:uppercase;margin-bottom:8px}
+  .signal-text{font-size:13.5px;color:var(--text);line-height:1.65;font-weight:300}
+  .signal-text strong{color:var(--cyan);font-weight:500}
+
+  /* BOTTOM BAR */
+  .bottom-bar{position:fixed;bottom:0;left:0;right:0;background:rgba(8,8,8,0.96);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--border);padding:14px 22px calc(14px + env(safe-area-inset-bottom,0));z-index:100}
+  .bottom-bar-inner{max-width:640px;margin:0 auto;width:100%;display:flex;align-items:center;gap:14px}
+  .bottom-progress{flex:1;min-width:0}
+  .bottom-progress-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+  .bottom-progress-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.6px;color:var(--muted);text-transform:uppercase}
+  .bottom-progress-numbers{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text);letter-spacing:0.5px;font-weight:500}
+  .bottom-progress-numbers strong{color:var(--cyan);font-weight:500}
+  .bottom-progress-bar{height:4px;background:var(--surface-3);border:1px solid var(--border);overflow:hidden}
+  .bottom-progress-fill{height:100%;background:linear-gradient(90deg,var(--cyan),var(--cyan-soft));transition:width 0.6s cubic-bezier(0.16,1,0.3,1)}
+  .streak-display{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--token);letter-spacing:1px;flex-shrink:0;text-align:right}
+  .streak-display span{font-size:9px;color:var(--muted);display:block;letter-spacing:1.4px;text-transform:uppercase;margin-bottom:2px}
+
+  /* TOAST */
+  .toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--surface-2);border:1px solid var(--cyan-line);color:var(--text);padding:11px 18px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.5px;z-index:2000;opacity:0;transition:all 0.32s cubic-bezier(0.34,1.56,0.64,1);pointer-events:none;max-width:calc(100vw - 44px);text-align:center;box-shadow:0 0 30px rgba(0,229,255,0.15)}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .toast strong{color:var(--cyan);font-weight:500}
+
+  /* XP POP */
+  .xp-pop{position:fixed;pointer-events:none;font-family:'Archivo Black',sans-serif;font-size:22px;color:var(--gold);z-index:2000;animation:xpPop 1.2s cubic-bezier(0.16,1,0.3,1) forwards;text-shadow:0 0 12px rgba(240,180,41,0.6);letter-spacing:-0.5px}
+  @keyframes xpPop{0%{opacity:0;transform:translateY(0) scale(0.8)}20%{opacity:1;transform:translateY(-12px) scale(1.1)}100%{opacity:0;transform:translateY(-72px) scale(1)}}
+
+  /* STAGE UNLOCK OVERLAY */
+  .unlock-overlay{position:fixed;inset:0;background:rgba(8,8,8,0.96);z-index:3000;display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity 0.4s ease;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+  .unlock-overlay.show{opacity:1;pointer-events:auto}
+  .unlock-card{max-width:440px;width:100%;background:var(--surface);border:1px solid var(--cyan-line);padding:36px 28px 28px;position:relative;text-align:center;transform:scale(0.92);transition:transform 0.5s cubic-bezier(0.34,1.56,0.64,1);box-shadow:0 0 80px rgba(0,229,255,0.15)}
+  .unlock-overlay.show .unlock-card{transform:scale(1)}
+  .unlock-card::before{content:'';position:absolute;top:-1px;left:-1px;right:-1px;height:2px;background:linear-gradient(90deg,transparent,var(--cyan),transparent)}
+  .unlock-mark{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:4px;color:var(--cyan);text-transform:uppercase;margin-bottom:18px}
+  .unlock-stage-num{font-family:'Archivo Black',sans-serif;font-size:92px;line-height:1;color:var(--cyan);letter-spacing:-3px;margin-bottom:10px;text-shadow:0 0 40px rgba(0,229,255,0.3)}
+  .unlock-stage-name{font-family:'Archivo Black',sans-serif;font-size:26px;color:var(--text);letter-spacing:-0.5px;margin-bottom:18px;line-height:1}
+  .unlock-message{font-size:13.5px;color:var(--text-soft);line-height:1.6;margin-bottom:24px;font-weight:300}
+  .unlock-btn{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:2.4px;text-transform:uppercase;padding:13px 26px;border:1px solid var(--cyan);background:var(--cyan-dim);color:var(--cyan);cursor:pointer;transition:all 0.2s;font-weight:500}
+  .unlock-btn:hover{background:var(--cyan);color:var(--bg)}
+
+  /* BADGE EARNED OVERLAY */
+  .badge-overlay{position:fixed;inset:0;background:rgba(8,8,8,0.97);z-index:3500;display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity 0.4s ease;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+  .badge-overlay.show{opacity:1;pointer-events:auto}
+  .badge-earn-card{max-width:380px;width:100%;background:var(--surface);border:1px solid rgba(240,180,41,0.4);padding:36px 28px 28px;position:relative;text-align:center;transform:scale(0.88);transition:transform 0.55s cubic-bezier(0.34,1.56,0.64,1);box-shadow:0 0 80px rgba(240,180,41,0.12)}
+  .badge-overlay.show .badge-earn-card{transform:scale(1)}
+  .badge-earn-card::before{content:'';position:absolute;top:-1px;left:-1px;right:-1px;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+  .badge-earn-icon{font-size:64px;margin-bottom:16px;animation:badgeEarnPop 0.6s cubic-bezier(0.34,1.56,0.64,1) 0.2s both}
+  @keyframes badgeEarnPop{from{transform:scale(0) rotate(-15deg);opacity:0}to{transform:scale(1) rotate(0deg);opacity:1}}
+  .badge-earn-mark{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:12px}
+  .badge-earn-name{font-family:'Archivo Black',sans-serif;font-size:24px;color:var(--text);letter-spacing:-0.4px;margin-bottom:8px}
+  .badge-earn-desc{font-size:13.5px;color:var(--text-soft);line-height:1.6;margin-bottom:24px;font-weight:300}
+  .badge-earn-btn{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:2.4px;text-transform:uppercase;padding:13px 26px;border:1px solid rgba(240,180,41,0.4);background:var(--gold-dim);color:var(--gold);cursor:pointer;transition:all 0.2s;font-weight:500}
+  .badge-earn-btn:hover{background:var(--gold);color:var(--bg)}
+
+  /* TOKEN AUTO OVERLAY */
+  .token-auto-overlay{position:fixed;inset:0;background:rgba(8,8,8,0.92);z-index:3200;display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity 0.25s ease;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+  .token-auto-overlay.show{opacity:1;pointer-events:auto}
+  .token-auto-card{max-width:380px;width:100%;background:var(--surface);border:1px solid var(--token-line);padding:28px 24px;position:relative;text-align:center;transform:scale(0.92);transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1);box-shadow:0 0 60px rgba(167,139,250,0.12)}
+  .token-auto-overlay.show .token-auto-card{transform:scale(1)}
+  .token-auto-card::before{content:'';position:absolute;top:-1px;left:-1px;right:-1px;height:2px;background:linear-gradient(90deg,transparent,var(--token),transparent)}
+  .token-auto-icon{font-size:48px;margin-bottom:14px}
+  .token-auto-title{font-family:'Archivo Black',sans-serif;font-size:20px;color:var(--text);margin-bottom:8px;letter-spacing:-0.3px}
+  .token-auto-text{font-size:13.5px;color:var(--text-soft);line-height:1.6;margin-bottom:22px;font-weight:300}
+  .token-auto-text strong{color:var(--token)}
+  .token-auto-btn{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:2.4px;text-transform:uppercase;padding:13px 26px;border:1px solid var(--token-line);background:var(--token-dim);color:var(--token);cursor:pointer;transition:all 0.2s;font-weight:500;width:100%}
+  .token-auto-btn:hover{background:var(--token);color:var(--bg)}
+
+  /* LOADING */
+  .loading{position:fixed;inset:0;background:var(--bg);z-index:4000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;transition:opacity 0.3s ease}
+  .loading.hide{opacity:0;pointer-events:none}
+  .loading-mark{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:4px;color:var(--cyan);text-transform:uppercase}
+  .loading-text{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:1px}
+
+  /* SPACING BOTTOM */
+  .bottom-spacer{height:22px}
+
+  @media(max-width:380px){
+    .header{padding:24px 18px 20px}
+    .xp-panel,.stage-unlock,.active-day,.week-section,.tokens-panel,.stage-info,.habit-group,.social-free,.evening-section,.signal,.badges-panel,.streak-break-alert,.comeback-banner,.onboarding-banner,.future-stage-block{margin-left:16px;margin-right:16px}
+    .bottom-bar{padding-left:16px;padding-right:16px}
+    .brand-title{font-size:30px}
+    .xp-total-value{font-size:38px}
+    .habit-name{font-size:14px}
+    .week-day-bar{height:48px}
+    .badges-grid{grid-template-columns:repeat(4,1fr)}
+  }
+</style>
+</head>
+<body>
+
+<div class="loading" id="loadingScreen">
+  <div class="loading-mark">— ONE LIFE PROTOCOL —</div>
+  <div class="loading-text">loading state...</div>
+</div>
+
+<div class="wrap" id="appWrap" style="opacity:0;transition:opacity 0.4s ease;">
+
+  <header class="header">
+    <div class="brand-mark">ONE LIFE PROTOCOL</div>
+    <div class="brand-title">DOPAMINE<br><em>DIGITAL</em></div>
+    <div class="header-meta">
+      <div class="meta-cell full"><div class="meta-label">TODAY</div><div class="meta-value" id="dateDisplay">—</div></div>
+      <div class="meta-cell"><div class="meta-label">STAGE</div><div class="meta-value cyan" id="stageBadge">S1 · SIGNAL OFF</div></div>
+      <div class="meta-cell"><div class="meta-label">LEVEL</div><div class="meta-value" id="levelBadge">LVL 1 · ADDICT</div></div>
+    </div>
+  </header>
+
+  <div id="onboardingBanner" class="onboarding-banner" style="display:none">
+    <div class="onboarding-banner-label">// HOW THIS WORKS</div>
+    <div class="onboarding-banner-text">
+      <strong>Read the Protocol document first.</strong> This tracker is the daily tool — the protocol is the context. Without context, the habits are just checkboxes.<br><br>
+      <strong>One rule:</strong> Open this app every evening to close the day. If you don't open it before midnight, the day is recorded as missed — no exceptions, no backfill. Your Insurance Tokens are the only safety net, and they must be earned.<br><br>
+      <strong>Data lives on this device.</strong> Do not clear browser storage or use private/incognito mode or your progress will be lost.
+    </div>
+    <button class="onboarding-dismiss" id="onboardingDismiss">Understood — Let's Go</button>
+  </div>
+
+  <div id="combackBanner" style="display:none" class="comeback-banner">
+    <div class="comeback-label">// COMEBACK</div>
+    <div class="comeback-text" id="comebackText">—</div>
+  </div>
+
+  <div id="streakBreakAlert" style="display:none" class="streak-break-alert">
+    <div class="streak-break-icon">🔴</div>
+    <div class="streak-break-text">
+      <div class="streak-break-title">STREAK BREAK</div>
+      <div class="streak-break-sub" id="streakBreakSub">You missed a day. Streak reset to 0.</div>
+    </div>
+  </div>
+
+  <section class="badges-panel">
+    <div class="badges-head">
+      <div class="badges-label">🏅 Achievements</div>
+      <div class="badges-count" id="badgesCount">0 / 8 earned</div>
+    </div>
+    <div class="badges-grid" id="badgesGrid"></div>
+  </section>
+
+  <section class="xp-panel">
+    <div class="xp-row-1">
+      <div class="xp-total">
+        <div class="xp-total-label">TOTAL XP</div>
+        <div class="xp-total-value"><span id="totalXP">0</span><span class="unit">XP</span></div>
+      </div>
+      <div class="xp-today">
+        <div class="xp-today-label">TODAY</div>
+        <div class="xp-today-value" id="todayXP">0</div>
+      </div>
+    </div>
+    <div class="xp-progress-section">
+      <div class="xp-progress-label-row">
+        <div class="xp-progress-label" id="levelProgressLabel">Toward Lvl 2 · Waking Up</div>
+        <div class="xp-progress-numbers"><strong id="levelProgressCurrent">0</strong> / <span id="levelProgressTarget">80</span> XP</div>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="levelProgressFill" style="width:0%"></div></div>
+    </div>
+  </section>
+
+  <section class="tokens-panel" id="tokensPanel">
+    <div class="tokens-head">
+      <div class="tokens-label">🛡 Streak Insurance</div>
+      <div class="tokens-hint" id="tokensProgressHint">7 perfect days = +1 token</div>
+    </div>
+    <div class="tokens-row" id="tokenPips"></div>
+    <div class="tokens-sub" id="tokensSub">Complete 7 perfect days in a row to earn your first token. Tokens auto-activate on a missed day.</div>
+  </section>
+
+  <section class="stage-unlock" id="stageUnlock">
+    <div class="stage-unlock-head">
+      <div class="stage-unlock-title">STAGE UNLOCK PROGRESS</div>
+      <div class="stage-unlock-target" id="stageUnlockTarget">→ S2 · MORNING OWNED</div>
+    </div>
+    <div class="stage-unlock-grid">
+      <div class="unlock-cell">
+        <div class="unlock-cell-label" id="xpUnlockLabel"><span class="lock-pin"></span>XP</div>
+        <div class="unlock-cell-numbers"><strong id="xpUnlockCurrent">0</strong> / <span id="xpUnlockTarget">600</span></div>
+        <div class="progress-bar"><div class="progress-fill" id="xpUnlockFill" style="width:0%"></div></div>
+      </div>
+      <div class="unlock-cell">
+        <div class="unlock-cell-label" id="dayUnlockLabel"><span class="lock-pin"></span>ACTIVE DAYS</div>
+        <div class="unlock-cell-numbers"><strong id="dayUnlockCurrent">0</strong> / <span id="dayUnlockTarget">10</span></div>
+        <div class="progress-bar"><div class="progress-fill" id="dayUnlockFill" style="width:0%"></div></div>
+      </div>
+    </div>
+    <div id="bottleneckNote"></div>
+  </section>
+
+  <div class="active-day" id="activeDay">
+    <div class="active-day-left">
+      <div class="active-day-icon"></div>
+      <div class="active-day-text" id="activeDayText">— Check a P1 habit to count today</div>
+    </div>
+    <div class="active-day-counter"><span>STAGE DAYS</span><strong id="activeDayCount">0</strong></div>
+  </div>
+
+  <section class="week-section">
+    <div class="week-head">
+      <div class="week-title">LAST 7 DAYS</div>
+      <div class="week-title" style="color:var(--cyan)" id="weekAvg">—</div>
+    </div>
+    <div class="week-grid" id="weekGrid"></div>
+  </section>
+
+  <div class="stage-info">
+    <div class="stage-info-label" id="stageInfoLabel">CURRENT STAGE</div>
+    <div class="stage-info-title" id="stageInfoTitle">SIGNAL OFF</div>
+    <div class="stage-info-body" id="stageInfoBody">—</div>
+  </div>
+
+  <div id="habitsContainer"></div>
+
+  <div id="socialFreeContainer"></div>
+
+  <section class="evening-section">
+    <div class="evening-label">— EVENING RITUAL</div>
+    <div class="journal-block-title" id="journalTitle">Evening Journal</div>
+    <div class="journal-block-sub"><em>Three questions.</em> Pen and paper. Tracker shows them, notebook holds the answers.</div>
+    <div id="journalQuestions"></div>
+    <div class="journal-toggle" id="journalToggle">
+      <div class="journal-toggle-text"><div class="journal-toggle-label">Journal Done Tonight</div></div>
+      <div class="journal-toggle-xp" id="journalXP">+15 XP</div>
+      <div class="check-circle">✓</div>
+    </div>
+    <div class="recap-divider">
+      <div class="recap-block-title">Weekly Recap</div>
+      <div class="recap-block-sub">Sunday evening. 20–30 min. Read the week's journal entries first, then write the recap.</div>
+      <div class="recap-toggle" id="recapToggle">
+        <div class="recap-toggle-text"><div class="recap-toggle-label">Weekly Recap Done</div></div>
+        <div class="recap-toggle-xp">+30 XP</div>
+        <div class="check-circle">✓</div>
+      </div>
+    </div>
+  </section>
+
+  <div id="bossContainer"></div>
+
+  <div class="signal">
+    <div class="signal-label">— TODAY'S SIGNAL</div>
+    <div class="signal-text" id="signalText">—</div>
+  </div>
+
+  <div class="bottom-spacer"></div>
+</div>
+
+<div class="bottom-bar">
+  <div class="bottom-bar-inner">
+    <div class="bottom-progress">
+      <div class="bottom-progress-row">
+        <div class="bottom-progress-label">TODAY</div>
+        <div class="bottom-progress-numbers"><strong id="bottomDoneCount">0</strong> / <span id="bottomTotalCount">0</span> · <span id="bottomPct">0%</span></div>
+      </div>
+      <div class="bottom-progress-bar"><div class="bottom-progress-fill" id="bottomFill" style="width:0%"></div></div>
+    </div>
+    <div class="streak-display"><span>STREAK</span><strong id="streakCount">0</strong> 🔥</div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="unlock-overlay" id="unlockOverlay">
+  <div class="unlock-card">
+    <div class="unlock-mark">// STAGE UNLOCKED</div>
+    <div class="unlock-stage-num" id="unlockStageNum">S2</div>
+    <div class="unlock-stage-name" id="unlockStageName">MORNING OWNED</div>
+    <div class="unlock-message" id="unlockMessage">Both conditions met.</div>
+    <button class="unlock-btn" id="unlockContinue">Continue</button>
+  </div>
+</div>
+
+<div class="badge-overlay" id="badgeOverlay">
+  <div class="badge-earn-card">
+    <div class="badge-earn-icon" id="badgeEarnIcon">🏅</div>
+    <div class="badge-earn-mark">// BADGE UNLOCKED</div>
+    <div class="badge-earn-name" id="badgeEarnName">—</div>
+    <div class="badge-earn-desc" id="badgeEarnDesc">—</div>
+    <button class="badge-earn-btn" id="badgeEarnClose">Claim</button>
+  </div>
+</div>
+
+<div class="token-auto-overlay" id="tokenAutoOverlay">
+  <div class="token-auto-card">
+    <div class="token-auto-icon">🛡️</div>
+    <div class="token-auto-title">Streak Protected</div>
+    <div class="token-auto-text" id="tokenAutoText">An Insurance Token was automatically used to protect your streak. <strong>X tokens remaining.</strong></div>
+    <button class="token-auto-btn" id="tokenAutoClose">Got It</button>
+  </div>
+</div>
+
+<script>
+/* ─── DATA ─── */
+const STAGES={
+  1:{code:'S1',name:'SIGNAL OFF',subtitle:'Remove the worst inputs. Reclaim sleep and the first 30 minutes.',xpToNext:600,minDays:10},
+  2:{code:'S2',name:'MORNING OWNED',subtitle:'Protect the morning. Add movement and reading. Evening ritual begins.',xpToNext:1400,minDays:14},
+  3:{code:'S3',name:'INTAKE CONTROL',subtitle:'Control what enters your brain. Cap social. First social-free day.',xpToNext:2400,minDays:21},
+  4:{code:'S4',name:'FOCUS BUILT',subtitle:'Build sustained attention. Deep work. All meals phoneless.',xpToNext:3800,minDays:30},
+  5:{code:'S5',name:'PATTERN AWARE',subtitle:'Recognize your patterns. Cold exposure. Weekly boss fights begin.',xpToNext:6200,minDays:41},
+  6:{code:'S6',name:'SOVEREIGN',subtitle:'Maintenance and identity consolidation. The protocol becomes you.',xpToNext:null,minDays:null}
+};
+
+const LEVELS=[
+  {lvl:1,xp:0,title:'ADDICT'},{lvl:2,xp:80,title:'WAKING UP'},{lvl:3,xp:220,title:'RESISTING'},
+  {lvl:4,xp:500,title:'RECLAIMING'},{lvl:5,xp:1000,title:'CONTROLLED'},{lvl:6,xp:1800,title:'SHARP MIND'},
+  {lvl:7,xp:3000,title:'LIBERATED'},{lvl:8,xp:5000,title:'SOVEREIGN'},{lvl:9,xp:8000,title:'SIGNAL CLEAR'},
+  {lvl:10,xp:12000,title:'AWAKE'}
+];
+
+const HABITS={
+  'S1.01':{stage:1,p:1,xp:25,name:'Airplane Mode 1h Before Sleep',note:'Phone in airplane mode 60 min before bed. Other room.'},
+  'S1.02':{stage:1,p:1,xp:25,name:'No Social First 30 Min After Waking',note:'First 30 minutes belong to you. Phone closed.'},
+  'S1.03':{stage:1,p:2,xp:15,name:'Social Notifications Off, Blue Light Mode On',note:'Kill notifications at OS level. One sitting in Settings.'},
+  'S1.04':{stage:1,p:2,xp:10,name:'Water Before Phone',note:'500ml on waking. Before the phone.'},
+  'S1.05':{stage:1,p:2,xp:20,name:'Meditation 5 Min, Morning',note:'Breath focus. Eyes closed. Before phone.'},
+  'S1.06':{stage:1,p:3,xp:15,name:'Evening Journal, 3 Questions',note:'Pen and paper. Three questions, written by hand.',isJournal:true},
+  'S2.01':{stage:2,p:1,xp:15,name:'Morning Walk, 10 Min Outside',note:'No phone. No music. Always contemplative.'},
+  'S2.02':{stage:2,p:1,xp:20,name:'Meditation 5 Min, Evening',note:'Before journal. Closes the day.'},
+  'S2.03':{stage:2,p:2,xp:15,name:'5 Pages, Physical Book',note:'Evening. Real paper. Phone in another room.'},
+  'S2.04':{stage:2,p:2,xp:10,name:'1 Meal Without Phone',note:'Phone not at the table. Out of arm\'s reach.'},
+  'S2.05':{stage:2,p:2,xp:15,name:'Evening Journal, After Meditation',note:'Sequence: meditation first, then journal.',isJournal:true,replaces:'S1.06'},
+  'S3.01':{stage:3,p:1,xp:20,name:'No Music With Lyrics, Physical Activities',note:'Headphones off during gym, walks, cleaning, cooking.'},
+  'S3.02':{stage:3,p:1,xp:25,name:'Max 2 Hours Social, Daily',note:'Track in Screen Time / Digital Wellbeing. 2h ceiling.',isSocialLimit:true},
+  'S3.03':{stage:3,p:2,xp:15,name:'2 Meals Without Phone',note:'Two meals every day. Phone away.',replaces:'S2.04'},
+  'S3.04':{stage:3,p:2,xp:15,name:'10 Pages, Physical Book',note:'Upgrade from 5. Evening. Phone in another room.',replaces:'S2.03'},
+  'S3.05':{stage:3,p:1,xp:50,name:'1 Social-Free Day This Week',note:'Zero social media for one full day this week.',isSocialFreeWeekly:true,weeklyTarget:1},
+  'S3.06':{stage:3,p:3,xp:15,name:'Evening Journal, Updated Questions',note:'Three new questions for Stage 3.',isJournal:true,replaces:'S2.05'},
+  'S4.01':{stage:4,p:1,xp:25,name:'Meditation 10 Min, Morning',note:'Upgrade from 5 min. Same method, longer hold.',replaces:'S1.05'},
+  'S4.02':{stage:4,p:1,xp:25,name:'Meditation 10 Min, Evening',note:'Before journal. Upgrade from 5 min.',replaces:'S2.02'},
+  'S4.03':{stage:4,p:1,xp:35,name:'Deep Work Block, 90 Min',note:'Single task. Zero interruptions. Phone in another room.'},
+  'S4.04':{stage:4,p:2,xp:20,name:'20 Pages, Physical Book',note:'Upgrade from 10. Evening reading is the centerpiece.',replaces:'S3.04'},
+  'S4.05':{stage:4,p:2,xp:20,name:'All Meals Without Phone',note:'Every meal, every day.',replaces:'S3.03'},
+  'S4.06':{stage:4,p:1,xp:30,name:'No Music With Lyrics, All Chosen Situations',note:'Wider than S3.01. Any situation you control.',replaces:'S3.01'},
+  'S4.07':{stage:4,p:1,xp:60,name:'2 Social-Free Days This Week',note:'Two separate days. Not consecutive.',isSocialFreeWeekly:true,weeklyTarget:2,replaces:'S3.05'},
+  'S4.08':{stage:4,p:2,xp:15,name:'Evening Journal, Focus Questions',note:'Tracks what you built, not just what you felt.',isJournal:true,replaces:'S3.06'},
+  'S5.01':{stage:5,p:1,xp:30,name:'Meditation 15 Min, Morning',note:'Upgrade from 10 min.',replaces:'S4.01'},
+  'S5.02':{stage:5,p:1,xp:30,name:'Meditation 15 Min, Evening',note:'Upgrade from 10 min. Before journal.',replaces:'S4.02'},
+  'S5.03':{stage:5,p:1,xp:25,name:'Morning Walk, 20 Min Outside',note:'Upgrade from 10. Always contemplative.',replaces:'S2.01'},
+  'S5.04':{stage:5,p:2,xp:20,name:'Cold Shower, Last 15 Seconds',note:'End of normal shower. Direct dopamine reset.'},
+  'S5.05':{stage:5,p:1,xp:80,name:'3 Social-Free Days This Week',note:'Three separate days.',isSocialFreeWeekly:true,weeklyTarget:3,replaces:'S4.07'},
+  'S5.07':{stage:5,p:2,xp:15,name:'Evening Journal, Identity Questions',note:'Who showed up today.',isJournal:true,replaces:'S4.08'},
+  'S6.01':{stage:6,p:1,xp:25,name:'Cold Shower, Last 30 Seconds',note:'Upgrade from 15 seconds.',replaces:'S5.04'},
+  'S6.J':{stage:6,p:2,xp:15,name:'Evening Journal, Permanent Questions',note:'Three permanent questions. For the rest of your life.',isJournal:true,replaces:'S5.07'}
+};
+
+const JOURNAL_QUESTIONS={
+  1:['Today, when did the pull toward the phone feel strongest?','What was I avoiding the last time I opened a social app today?','How do I feel tonight compared to this morning?'],
+  2:['How did I feel in the first hour of the morning without the phone?','Did I reach for the phone today out of boredom or discomfort? When?','What did I do tonight instead of scrolling?'],
+  3:['Today, what did I choose not to consume? And what did I do with that space instead?','Where did the social media limit feel easy today? And where did it feel like a wall?','Is there something I have been avoiding thinking about by keeping myself busy with input?'],
+  4:['What did I actually move forward today? Not consumed, not planned. Built.','When was my attention at its sharpest today? And what made that possible?','What task or feeling am I still using distraction to avoid?'],
+  5:['Looking at today from the outside: which version of me showed up?','What pattern did I catch in myself today that I would not have noticed two months ago?','What did I do today purely for who I am becoming, with no immediate payoff?'],
+  6:['What did I do today that was concrete, and where is it taking me?','What disturbed me today, and where do I think it came from?','What did I notice today that I normally would have missed?']
+};
+
+const BOSSES=[
+  {num:'01',name:'App Delete',xp:100,badge:'7-DAY CHALLENGE',desc:'Delete one app you use out of boredom for 7 days. The one your thumb finds without your conscious choice. Most people do not reinstall.',victory:'You removed the reflex. That app was not entertainment — it was a numbing agent. You proved you can choose.'},
+  {num:'02',name:'Grayscale Week',xp:120,badge:'PERCEPTION HACK',desc:'Set your phone to grayscale for 7 days. Color is a design choice to keep you scrolling. Strip it and the phone becomes 60% less appealing.',victory:'Your phone lost its primary weapon. Color is used against you — you turned it off. That is not small.'},
+  {num:'03',name:'Silence Week',xp:150,badge:'DEEP FAST',desc:'7 days with no music with lyrics, no podcasts, no background audio in any situation you control. The deepest level of input fasting.',victory:'You sat with silence. Most people cannot do this. You now know what your own mind sounds like without constant input.'},
+  {num:'04',name:'Full Detox',xp:180,badge:'HARD MODE',desc:'72 hours with zero social media of any kind. No checking. No browsing. Three days. The cleanest mental state you have had in years.',victory:'72 hours. Completed. The cravings peaked around hour 18 — and you did not give in. That is the protocol working.'},
+  {num:'05',name:'Morning Pages',xp:150,badge:'OUTPUT WEEK',desc:'7 days: write 1 full page by hand immediately on waking, before any screen. Stream of consciousness. No filter.',victory:'You replaced the morning scroll with your own voice. The thoughts that came out surprised you. They always do.'},
+  {num:'06',name:'Dopamine Audit',xp:200,badge:'FINAL BOSS',desc:'Hand-write a full list of everything you use to avoid discomfort. Then eliminate the first item for 30 days. The hardest and most transformative.',victory:'The audit is the mirror. You looked at it, named what you saw, and then acted. That is what sovereign means.'}
+];
+
+const BADGE_DEFS=[
+  {id:'first_blood',icon:'⚡',name:'First Blood',desc:'Checked your first habit. Day one begins.',condition:s=>s.totalXP>=10},
+  {id:'iron_streak',icon:'🔥',name:'Iron Streak',desc:'7 consecutive perfect days. The protocol is real.',condition:s=>s.longestStreak>=7},
+  {id:'morning_owned',icon:'🌅',name:'Morning Owned',desc:'Reached Stage 2. The morning belongs to you now.',condition:s=>s.currentStage>=2},
+  {id:'phone_free',icon:'📵',name:'Phone-Free',desc:'14 consecutive mornings no social in first 30 min.',condition:s=>(s.habitStreaks&&s.habitStreaks['S1.02']||0)>=14},
+  {id:'stage_conqueror',icon:'🏆',name:'Stage Conqueror',desc:'Completed 3 full stages. You are in the top tier.',condition:s=>s.currentStage>=4},
+  {id:'boss_slayer',icon:'💀',name:'Boss Slayer',desc:'Defeated your first Weekly Boss. War started.',condition:s=>s.totalBossesDefeated>=1},
+  {id:'sovereign',icon:'👑',name:'Sovereign',desc:'Reached Stage 6. The protocol became you.',condition:s=>s.currentStage>=6},
+  {id:'cold_chain',icon:'🧊',name:'Cold Chain',desc:'5 consecutive cold shower days. Dopamine reset mastered.',condition:s=>(s.habitStreaks&&s.habitStreaks['S5.04']||0)>=5}
+];
+
+/* ─── STATE ─── */
+function defaultState(){
+  return{
+    totalXP:0,todayXP:0,currentStage:1,
+    activeDaysByStage:{1:0,2:0,3:0,4:0,5:0,6:0},
+    todayHabits:{},journalDoneToday:false,socialFreeToday:false,
+    weeklyRecapDone:false,weeklyRecapWeek:null,
+    socialFreeDaysThisWeek:0,socialFreeWeekId:null,socialFreeWeeklyAwarded:false,
+    weeklyBoss:{cycle:1,mission:1,completedThisWeek:false,weekId:null},
+    weekBarHistory:[],lastSeenDate:null,
+    streakTokens:0,currentStreak:0,longestStreak:0,
+    earnedBadges:[],
+    habitStreaks:{},
+    totalBossesDefeated:0,
+    onboardingDismissed:false,
+    showStreakBreak:false,streakBreakDaysAgo:0,
+    comebackDays:0,
+    tokenAutoUsedToday:false
+  }
+}
+
+let state=defaultState(),saveTimer=null;
+const SK='dopamine_digital_v4_state';
+
+/* ─── STORAGE ─── */
+function loadState(){
+  try{
+    const r=localStorage.getItem(SK);
+    if(r){
+      const l=JSON.parse(r);
+      state=Object.assign(defaultState(),l);
+      state.activeDaysByStage=Object.assign({1:0,2:0,3:0,4:0,5:0,6:0},l.activeDaysByStage||{});
+      state.weeklyBoss=Object.assign({cycle:1,mission:1,completedThisWeek:false,weekId:null},l.weeklyBoss||{});
+      state.todayHabits=l.todayHabits||{};
+      state.weekBarHistory=l.weekBarHistory||[];
+      state.streakTokens=l.streakTokens||0;
+      state.currentStreak=l.currentStreak||0;
+      state.longestStreak=l.longestStreak||0;
+      state.earnedBadges=l.earnedBadges||[];
+      state.habitStreaks=l.habitStreaks||{};
+      state.totalBossesDefeated=l.totalBossesDefeated||0;
+      state.onboardingDismissed=l.onboardingDismissed||false;
+      state.showStreakBreak=l.showStreakBreak||false;
+      state.streakBreakDaysAgo=l.streakBreakDaysAgo||0;
+      state.comebackDays=l.comebackDays||0;
+      state.tokenAutoUsedToday=l.tokenAutoUsedToday||false;
+    }
+  }catch(e){console.log('fresh start')}
+}
+
+function saveState(){
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(()=>{
+    try{localStorage.setItem(SK,JSON.stringify(state))}
+    catch(e){console.error('save failed',e)}
+  },250)
+}
+
+/* ─── DATE HELPERS ─── */
+function todayKey(){
+  const d=new Date();
+  return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`
+}
+function dateKey(d){
+  return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`
+}
+function isoWeek(d){
+  const dt=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));
+  const dn=dt.getUTCDay()||7;dt.setUTCDate(dt.getUTCDate()+4-dn);
+  const ys=new Date(Date.UTC(dt.getUTCFullYear(),0,1));
+  return`${dt.getUTCFullYear()}-W${String(Math.ceil((((dt-ys)/86400000)+1)/7)).padStart(2,'0')}`
+}
+function thisWeekId(){return isoWeek(new Date())}
+function formatDate(d){
+  const M=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+  const D=['SUN','MON','TUE','WED','THU','FRI','SAT'];
+  return`${D[d.getDay()]} · ${d.getDate()} ${M[d.getMonth()]} ${d.getFullYear()}`
+}
+function daysBetween(dateStr1,dateStr2){
+  const d1=new Date(dateStr1),d2=new Date(dateStr2);
+  return Math.round((d2-d1)/(1000*60*60*24))
+}
+
+/* ─── HABIT RESOLUTION ─── */
+function resolveHabits(s){
+  const all=Object.entries(HABITS).filter(([id,h])=>h.stage<=s).map(([id,h])=>({id,...h}));
+  const rep=new Set();all.forEach(h=>{if(h.replaces)rep.add(h.replaces)});
+  return all.filter(h=>!rep.has(h.id))
+}
+function getActiveDailyHabits(){
+  return resolveHabits(state.currentStage).filter(h=>!h.isJournal&&!h.isChallengeMarker&&!h.isSocialFreeWeekly)
+}
+function getActiveP1(){
+  return resolveHabits(state.currentStage).filter(h=>h.p===1&&!h.isChallengeMarker)
+}
+function getJournal(){
+  return resolveHabits(state.currentStage).filter(h=>h.isJournal)[0]||null
+}
+function getSocialFreeWeekly(){
+  return resolveHabits(state.currentStage).filter(h=>h.isSocialFreeWeekly)[0]||null
+}
+
+/* ─── LEVEL CALC ─── */
+function calcLevel(xp){
+  let c=LEVELS[0],n=LEVELS[1];
+  for(let i=0;i<LEVELS.length;i++){
+    if(xp>=LEVELS[i].xp){c=LEVELS[i];n=LEVELS[i+1]||null}else break
+  }
+  if(!n&&c.lvl>=10){
+    const e=Math.floor((xp-12000)/5000),lv=10+e,ct=12000+e*5000;
+    return{lvl:lv,title:`LVL ${lv}`,curXP:ct,nextXP:ct+5000,progressInLevel:xp-ct,sizeOfLevel:5000}
+  }
+  return{lvl:c.lvl,title:c.title,curXP:c.xp,nextXP:n?n.xp:c.xp,progressInLevel:xp-c.xp,sizeOfLevel:n?(n.xp-c.xp):1,nextTitle:n?n.title:null}
+}
+
+/* ─── ACTIVE / PERFECT ─── */
+function isTodayActive(){
+  if(state.socialFreeToday)return true;
+  return getActiveP1().some(h=>state.todayHabits[h.id])
+}
+function isTodayPerfect(){
+  const h=getActiveDailyHabits(),j=getJournal();
+  const t=h.length+(j?1:0);
+  if(t===0)return false;
+  let d=0;
+  h.forEach(x=>{if(state.todayHabits[x.id]||(x.isSocialLimit&&state.socialFreeToday))d++});
+  if(state.journalDoneToday)d++;
+  return d===t
+}
+function completionRatio(){
+  const h=getActiveDailyHabits(),j=getJournal()?1:0,t=h.length+j;
+  if(t===0)return 0;
+  let d=0;
+  h.forEach(x=>{if(state.todayHabits[x.id])d++;else if(x.isSocialLimit&&state.socialFreeToday)d++});
+  if(state.journalDoneToday)d++;
+  return Math.min(1,d/t)
+}
+
+/* ─── ROLLOVER — CORE DAY SYNC ─── */
+function rolloverNewDay(){
+  const today=todayKey();
+  state.showStreakBreak=false;
+  state.comebackDays=0;
+
+  if(!state.lastSeenDate){
+    // First ever open
+    state.lastSeenDate=today;
+    saveState();
+    return
+  }
+  if(state.lastSeenDate===today){
+    // Same day, nothing to roll
+    state.tokenAutoUsedToday=false; // reset flag if already shown
+    return
+  }
+
+  // Calculate gap
+  const gap=daysBetween(state.lastSeenDate,today);
+
+  // Archive each missed day between lastSeen and today (exclusive of today)
+  for(let i=1;i<gap;i++){
+    const missedDate=new Date(state.lastSeenDate);
+    missedDate.setDate(missedDate.getDate()+i);
+    const mk=dateKey(missedDate);
+    // Each missed day: 0% completion, missed entry
+    state.weekBarHistory.push({date:mk,ratio:0,tokenProtected:false,missed:true});
+  }
+
+  // Archive YESTERDAY (lastSeenDate) with actual completion
+  const wasActive=isTodayActive();
+  const wasPerfect=isTodayPerfect();
+  const ratio=completionRatio();
+  const missedYesterday=(gap===1&&ratio===0&&!wasActive);
+
+  if(wasActive)state.activeDaysByStage[state.currentStage]=(state.activeDaysByStage[state.currentStage]||0)+1;
+  state.weekBarHistory.push({date:state.lastSeenDate,ratio,tokenProtected:false,missed:!wasActive});
+
+  // Trim history
+  if(state.weekBarHistory.length>60)state.weekBarHistory=state.weekBarHistory.slice(-60);
+
+  // Streak logic
+  if(gap>1){
+    // Was away multiple days — streak definitely broken
+    const streakBeforeBreak=state.currentStreak||0;
+    // Try auto-token for first missed day only
+    if(streakBeforeBreak>0&&state.streakTokens>0){
+      // Only protects ONE missed day
+      state.streakTokens--;
+      // Mark that one day as token-protected
+      const protectedEntry=state.weekBarHistory.find(h=>h.date===state.lastSeenDate);
+      if(protectedEntry){protectedEntry.tokenProtected=true;protectedEntry.missed=false}
+      state.currentStreak=1; // streak survives one day but resets effectively
+      state.tokenAutoUsedToday=true;
+      setTimeout(()=>showTokenAutoUsed(state.streakTokens),600);
+    } else {
+      state.currentStreak=0;
+      state.showStreakBreak=true;
+      state.streakBreakDaysAgo=gap;
+    }
+    state.comebackDays=gap;
+  } else if(!wasPerfect){
+    // Yesterday was not perfect — streak check
+    if(!wasActive){
+      // Full miss — auto token if available
+      if(state.currentStreak>0&&state.streakTokens>0){
+        state.streakTokens--;
+        const protectedEntry=state.weekBarHistory.find(h=>h.date===state.lastSeenDate);
+        if(protectedEntry){protectedEntry.tokenProtected=true;protectedEntry.missed=false}
+        state.currentStreak=(state.currentStreak||0)+1;
+        state.tokenAutoUsedToday=true;
+        setTimeout(()=>showTokenAutoUsed(state.streakTokens),600);
+      } else {
+        // No token — break streak
+        if(state.currentStreak>0){
+          state.showStreakBreak=true;
+          state.streakBreakDaysAgo=1;
+        }
+        state.currentStreak=0;
+      }
+    } else {
+      // Active but not perfect — streak continues (active day is enough to not break)
+      state.currentStreak=(state.currentStreak||0)+1;
+    }
+  } else {
+    // Perfect day yesterday
+    state.currentStreak=(state.currentStreak||0)+1;
+    // Every 7 perfect days = token
+    if(wasPerfect&&state.currentStreak>0&&state.currentStreak%7===0){
+      state.streakTokens=Math.min((state.streakTokens||0)+1,5);
+      setTimeout(()=>showToast('<strong>🛡️ Insurance Token earned!</strong> · 7-day perfect streak'),800)
+    }
+  }
+
+  // Update longest streak
+  if(state.currentStreak>state.longestStreak)state.longestStreak=state.currentStreak;
+
+  // Update habit streaks for badge tracking
+  updateHabitStreaks(wasPerfect);
+
+  // Reset today
+  state.todayHabits={};state.todayXP=0;state.journalDoneToday=false;state.socialFreeToday=false;
+  state.tokenAutoUsedToday=false;
+
+  // Weekly resets
+  const wId=thisWeekId();
+  if(state.weeklyRecapWeek!==wId){state.weeklyRecapDone=false;state.weeklyRecapWeek=wId}
+  if(state.socialFreeWeekId!==wId){state.socialFreeDaysThisWeek=0;state.socialFreeWeekId=wId;state.socialFreeWeeklyAwarded=false}
+  if(state.weeklyBoss.weekId!==wId){
+    if(state.weeklyBoss.nextMission){
+      state.weeklyBoss.mission=state.weeklyBoss.nextMission;
+      state.weeklyBoss.cycle=state.weeklyBoss.nextCycle;
+      delete state.weeklyBoss.nextMission;delete state.weeklyBoss.nextCycle
+    }
+    state.weeklyBoss.completedThisWeek=false;state.weeklyBoss.weekId=wId
+  }
+
+  state.lastSeenDate=today;
+  checkStageUnlock();
+  checkBadges();
+  saveState()
+}
+
+function updateHabitStreaks(wasPerfect){
+  if(!state.habitStreaks)state.habitStreaks={};
+  // Update individual habit streaks based on yesterday's log
+  Object.keys(HABITS).forEach(id=>{
+    if(state.todayHabits[id]){
+      state.habitStreaks[id]=(state.habitStreaks[id]||0)+1;
+    } else {
+      state.habitStreaks[id]=0;
+    }
+  })
+}
+
+function showTokenAutoUsed(remaining){
+  document.getElementById('tokenAutoText').innerHTML=`An Insurance Token was automatically used to protect your streak. <strong>${remaining} token${remaining!==1?'s':''} remaining.</strong>`;
+  document.getElementById('tokenAutoOverlay').classList.add('show')
+}
+
+/* ─── BADGE CHECK ─── */
+function checkBadges(){
+  const newlyEarned=[];
+  BADGE_DEFS.forEach(b=>{
+    if(!state.earnedBadges.includes(b.id)&&b.condition(state)){
+      state.earnedBadges.push(b.id);
+      newlyEarned.push(b);
+    }
+  });
+  if(newlyEarned.length>0){
+    saveState();
+    // Show them one by one with delay
+    newlyEarned.forEach((b,i)=>{
+      setTimeout(()=>showBadgeEarned(b),i*3500+(i===0?400:0))
+    })
+  }
+}
+
+function showBadgeEarned(b){
+  document.getElementById('badgeEarnIcon').textContent=b.icon;
+  document.getElementById('badgeEarnName').textContent=b.name;
+  document.getElementById('badgeEarnDesc').textContent=b.desc;
+  document.getElementById('badgeOverlay').classList.add('show')
+}
+
+/* ─── STAGE UNLOCK ─── */
+function checkStageUnlock(){
+  const c=STAGES[state.currentStage];
+  if(!c||!c.xpToNext)return;
+  if(state.totalXP>=c.xpToNext&&(state.activeDaysByStage[state.currentStage]||0)>=c.minDays&&state.currentStage<6){
+    state.currentStage++;
+    saveState();
+    const s=STAGES[state.currentStage];
+    document.getElementById('unlockStageNum').textContent=s.code;
+    document.getElementById('unlockStageName').textContent=s.name;
+    document.getElementById('unlockMessage').textContent=`Both conditions cleared. New habits stack on the previous ones. ${s.subtitle}`;
+    document.getElementById('unlockOverlay').classList.add('show');
+    checkBadges()
+  }
+}
+
+/* ─── ACTIONS ─── */
+function toggleHabit(id,ev){
+  const h=HABITS[id];if(!h)return;
+  if(state.todayHabits[id]){
+    state.todayHabits[id]=false;
+    state.todayXP=Math.max(0,state.todayXP-h.xp);
+  } else {
+    state.todayHabits[id]=true;
+    state.totalXP+=h.xp;state.todayXP+=h.xp;
+    if(ev)showXPPop(`+${h.xp}`,ev);
+    showToast(`<strong>+${h.xp} XP</strong> · ${h.note}`)
+  }
+  checkStageUnlock();checkBadges();saveState();render()
+}
+
+function toggleJournal(ev){
+  const j=getJournal();if(!j)return;
+  if(state.journalDoneToday){
+    state.journalDoneToday=false;state.todayHabits[j.id]=false;
+    state.todayXP=Math.max(0,state.todayXP-j.xp);
+  } else {
+    state.journalDoneToday=true;state.todayHabits[j.id]=true;
+    state.totalXP+=j.xp;state.todayXP+=j.xp;
+    if(ev)showXPPop(`+${j.xp}`,ev);
+    showToast(`<strong>+${j.xp} XP</strong> · ${j.note}`)
+  }
+  checkStageUnlock();checkBadges();saveState();render()
+}
+
+function toggleRecap(ev){
+  const xp=30,wId=thisWeekId();
+  if(state.weeklyRecapWeek!==wId){state.weeklyRecapDone=false;state.weeklyRecapWeek=wId}
+  if(state.weeklyRecapDone){
+    state.weeklyRecapDone=false;state.todayXP=Math.max(0,state.todayXP-xp);
+  } else {
+    state.weeklyRecapDone=true;state.totalXP+=xp;state.todayXP+=xp;
+    if(ev)showXPPop(`+${xp}`,ev);
+    showToast(`<strong>+${xp} XP</strong> · Weekly recap done`)
+  }
+  saveState();checkStageUnlock();render()
+}
+
+function toggleSocialFree(ev){
+  const wId=thisWeekId();
+  if(state.socialFreeWeekId!==wId){state.socialFreeDaysThisWeek=0;state.socialFreeWeekId=wId;state.socialFreeWeeklyAwarded=false}
+  const xp=HABITS['S3.02'].xp;
+  if(state.socialFreeToday){
+    state.socialFreeToday=false;
+    state.socialFreeDaysThisWeek=Math.max(0,state.socialFreeDaysThisWeek-1);
+    state.todayXP=Math.max(0,state.todayXP-xp);
+  } else {
+    state.socialFreeToday=true;state.socialFreeDaysThisWeek++;
+    state.totalXP+=xp;state.todayXP+=xp;
+    if(state.todayHabits['S3.02']){state.todayHabits['S3.02']=false;state.todayXP=Math.max(0,state.todayXP-HABITS['S3.02'].xp)}
+    const w=getSocialFreeWeekly();
+    if(w&&!state.socialFreeWeeklyAwarded&&state.socialFreeDaysThisWeek>=w.weeklyTarget){
+      state.socialFreeWeeklyAwarded=true;state.totalXP+=w.xp;state.todayXP+=w.xp;
+      setTimeout(()=>showToast(`<strong>+${w.xp} XP</strong> · Weekly target hit`),800)
+    }
+    if(ev)showXPPop(`+${xp}`,ev);
+    showToast(`<strong>+${xp} XP</strong> · Social-free day on`)
+  }
+  checkStageUnlock();saveState();render()
+}
+
+function defeatBoss(ev){
+  if(state.currentStage<5){showToast('Weekly boss fights unlock at Stage 5');return}
+  const wId=thisWeekId();
+  if(state.weeklyBoss.weekId!==wId){state.weeklyBoss.completedThisWeek=false;state.weeklyBoss.weekId=wId}
+  if(state.weeklyBoss.completedThisWeek)return;
+  const m=((state.weeklyBoss.mission-1)%6+6)%6,boss=BOSSES[m];
+  state.totalXP+=boss.xp;state.todayXP+=boss.xp;state.weeklyBoss.completedThisWeek=true;
+  state.totalBossesDefeated=(state.totalBossesDefeated||0)+1;
+  let nm=state.weeklyBoss.mission+1,nc=state.weeklyBoss.cycle;
+  if(nm>6){nm=1;nc++}
+  state.weeklyBoss.nextMission=nm;state.weeklyBoss.nextCycle=nc;
+  saveState();checkStageUnlock();checkBadges();render();
+  setTimeout(()=>showBossVictoryToast(boss),150)
+}
+
+function showBossVictoryToast(boss){
+  showToast(`<strong>💀 Boss Defeated: ${boss.name}</strong> · +${boss.xp} XP`);
+  for(let i=0;i<6;i++){
+    setTimeout(()=>{
+      const p=document.createElement('div');p.className='xp-pop';
+      p.textContent='✦';p.style.left=(20+Math.random()*60)+'vw';p.style.top=(30+Math.random()*40)+'vh';
+      p.style.fontSize=(14+Math.random()*18)+'px';
+      p.style.color=['var(--gold)','var(--red-text)','var(--cyan)'][Math.floor(Math.random()*3)];
+      document.body.appendChild(p);setTimeout(()=>p.remove(),1300)
+    },i*80)
+  }
+}
+
+/* ─── RENDER ─── */
+function render(){
+  renderOnboarding();
+  renderAlerts();
+  renderHeader();
+  renderBadges();
+  renderXPPanel();
+  renderTokens();
+  renderStageUnlock();
+  renderActiveDay();
+  renderWeekBar();
+  renderStageInfo();
+  renderHabits();
+  renderSocialFree();
+  renderEvening();
+  renderBoss();
+  renderSignal();
+  renderBottomBar()
+}
+
+function renderOnboarding(){
+  const banner=document.getElementById('onboardingBanner');
+  if(!state.onboardingDismissed&&!state.lastSeenDate){
+    banner.style.display='';
+  } else {
+    banner.style.display='none'
+  }
+}
+
+function renderAlerts(){
+  // Streak break alert
+  const sba=document.getElementById('streakBreakAlert');
+  if(state.showStreakBreak){
+    sba.style.display='flex';
+    const d=state.streakBreakDaysAgo||1;
+    document.getElementById('streakBreakSub').textContent=
+      d>1?`You missed ${d} days. Streak reset to 0. No tokens were available to protect it.`:`You missed yesterday. Streak reset to 0. No tokens available.`;
+  } else {sba.style.display='none'}
+
+  // Comeback banner
+  const cb=document.getElementById('combackBanner');
+  if(state.comebackDays>=3){
+    cb.style.display='';
+    const d=state.comebackDays;
+    document.getElementById('comebackText').innerHTML=
+      `<strong>You were away ${d} days.</strong> The protocol doesn't care about your reasons. Day 1 of the comeback starts now. Open the app every evening — that is the only rule.`;
+  } else {cb.style.display='none'}
+}
+
+function renderHeader(){
+  document.getElementById('dateDisplay').textContent=formatDate(new Date());
+  const s=STAGES[state.currentStage];
+  document.getElementById('stageBadge').innerHTML=`<span class="stage-tag">${s.code}</span>${s.name}`;
+  const l=calcLevel(state.totalXP);
+  document.getElementById('levelBadge').textContent=`LVL ${l.lvl} · ${l.title}`
+}
+
+function renderBadges(){
+  const grid=document.getElementById('badgesGrid');
+  grid.innerHTML='';
+  BADGE_DEFS.forEach(b=>{
+    const earned=state.earnedBadges.includes(b.id);
+    const el=document.createElement('div');
+    el.className='badge-item'+(earned?' earned':'');
+    el.innerHTML=`<div class="badge-icon">${b.icon}</div><div class="badge-name">${b.name}</div>`;
+    el.title=b.desc;
+    grid.appendChild(el)
+  });
+  const c=state.earnedBadges.length;
+  document.getElementById('badgesCount').textContent=`${c} / ${BADGE_DEFS.length} earned`
+}
+
+function renderXPPanel(){
+  document.getElementById('totalXP').textContent=state.totalXP.toLocaleString();
+  document.getElementById('todayXP').textContent=state.todayXP;
+  const l=calcLevel(state.totalXP);
+  document.getElementById('levelProgressLabel').textContent=
+    l.nextTitle?`Toward Lvl ${l.lvl+1} · ${l.nextTitle.charAt(0)+l.nextTitle.slice(1).toLowerCase()}`:`Lvl ${l.lvl} · Maxed`;
+  document.getElementById('levelProgressCurrent').textContent=l.progressInLevel;
+  document.getElementById('levelProgressTarget').textContent=l.sizeOfLevel;
+  document.getElementById('levelProgressFill').style.width=Math.min(100,l.progressInLevel/l.sizeOfLevel*100)+'%'
+}
+
+function renderTokens(){
+  const t=state.streakTokens||0,s=state.currentStreak||0,MAX=5;
+  const pips=document.getElementById('tokenPips');pips.innerHTML='';
+  for(let i=0;i<MAX;i++){
+    const p=document.createElement('div');
+    p.className='token-pip'+(i<t?' filled':' empty');
+    p.textContent=i<t?'🛡️':'○';pips.appendChild(p)
+  }
+  const toNext=7-(s%7)||7;
+  document.getElementById('tokensProgressHint').textContent=
+    s>0?`${toNext} more perfect day${toNext!==1?'s':''} for next token`:'7 perfect days = +1 token';
+  const sub=document.getElementById('tokensSub');
+  if(t===0&&s===0)sub.innerHTML='Complete 7 perfect days in a row to earn your first token. Tokens auto-activate on a missed day.';
+  else if(t===0)sub.innerHTML=`<strong>Streak: ${s} days.</strong> ${toNext} more perfect days for a token. No tokens banked — don't miss a day.`;
+  else sub.innerHTML=`<strong>${t} token${t!==1?'s':''} banked.</strong> Streak: ${s} days. Tokens auto-use on next missed day.`
+}
+
+function renderStageUnlock(){
+  const c=STAGES[state.currentStage],panel=document.getElementById('stageUnlock');
+  if(!c.xpToNext){panel.style.display='none';return}panel.style.display='';
+  const n=STAGES[state.currentStage+1];
+  document.getElementById('stageUnlockTarget').textContent=`→ ${n.code} · ${n.name}`;
+  const xc=state.totalXP,xt=c.xpToNext,dc=state.activeDaysByStage[state.currentStage]||0,dt=c.minDays;
+  document.getElementById('xpUnlockCurrent').textContent=xc.toLocaleString();document.getElementById('xpUnlockTarget').textContent=xt.toLocaleString();
+  document.getElementById('xpUnlockFill').style.width=Math.min(100,xc/xt*100)+'%';
+  document.getElementById('dayUnlockCurrent').textContent=dc;document.getElementById('dayUnlockTarget').textContent=dt;
+  document.getElementById('dayUnlockFill').style.width=Math.min(100,dc/dt*100)+'%';
+  const xh=xc>=xt,dh=dc>=dt;
+  document.getElementById('xpUnlockLabel').innerHTML=`<span class="${xh?'ok-pin':'lock-pin'}"></span>XP`;
+  document.getElementById('dayUnlockLabel').innerHTML=`<span class="${dh?'ok-pin':'lock-pin'}"></span>ACTIVE DAYS`;
+  const note=document.getElementById('bottleneckNote'),xf=document.getElementById('xpUnlockFill'),df=document.getElementById('dayUnlockFill');
+  if(xh&&dh){note.innerHTML='<div class="unlock-cleared-note">// READY — unlocking now</div>';xf.classList.remove('bottleneck');df.classList.remove('bottleneck')}
+  else if(xh){note.innerHTML=`<div class="unlock-bottleneck-note">// BOTTLENECK · ${dt-dc} more active day${dt-dc!==1?'s':''} needed</div>`;xf.classList.remove('bottleneck');df.classList.add('bottleneck')}
+  else if(dh){note.innerHTML=`<div class="unlock-bottleneck-note">// BOTTLENECK · ${(xt-xc).toLocaleString()} more XP needed</div>`;xf.classList.add('bottleneck');df.classList.remove('bottleneck')}
+  else{
+    const xr=xc/xt,dr=dc/dt;
+    if(xr<dr){note.innerHTML=`<div class="unlock-bottleneck-note">// BOTTLENECK · XP — ${(xt-xc).toLocaleString()} to go</div>`;xf.classList.add('bottleneck');df.classList.remove('bottleneck')}
+    else if(dr<xr){note.innerHTML=`<div class="unlock-bottleneck-note">// BOTTLENECK · DAYS — ${dt-dc} to go</div>`;df.classList.add('bottleneck');xf.classList.remove('bottleneck')}
+    else{note.innerHTML='';xf.classList.remove('bottleneck');df.classList.remove('bottleneck')}
+  }
+}
+
+function renderActiveDay(){
+  const a=isTodayActive(),el=document.getElementById('activeDay');
+  el.classList.toggle('is-active',a);
+  document.getElementById('activeDayText').textContent=a?'ACTIVE DAY ✓ — counted toward stage unlock':'— Check a P1 habit to count today';
+  document.getElementById('activeDayCount').textContent=state.activeDaysByStage[state.currentStage]||0
+}
+
+function renderWeekBar(){
+  const grid=document.getElementById('weekGrid');grid.innerHTML='';
+  const today=new Date(),ts=todayKey(),ratios={},tokenDays=new Set(),missedDays=new Set();
+  state.weekBarHistory.forEach(h=>{
+    ratios[h.date]=h.ratio;
+    if(h.tokenProtected)tokenDays.add(h.date);
+    if(h.missed)missedDays.add(h.date)
+  });
+  ratios[ts]=completionRatio();
+  const L=['SUN','MON','TUE','WED','THU','FRI','SAT'];
+  for(let i=6;i>=0;i--){
+    const d=new Date(today);d.setDate(d.getDate()-i);
+    const k=dateKey(d),r=ratios[k]||0,isT=(k===ts),isTk=tokenDays.has(k),isMissed=missedDays.has(k)&&!isT;
+    const c=document.createElement('div');
+    c.className='week-day'+(isT?' today':'')+(isMissed?' missed':'');
+    let fillClass='week-day-fill';
+    if(isTk)fillClass+=' token-day';
+    else if(isMissed&&r===0)fillClass+=' missed-day';
+    const fillH=isMissed&&r===0?15:Math.round(r*100); // missed shows tiny red sliver
+    c.innerHTML=`<div class="week-day-bar"><div class="${fillClass}" style="height:${fillH}%"></div></div><div class="week-day-label">${L[d.getDay()]}</div>`;
+    grid.appendChild(c)
+  }
+  const l7=[];for(let i=6;i>=0;i--){const d=new Date(today);d.setDate(d.getDate()-i);const k=dateKey(d);if(ratios[k]!==undefined)l7.push(ratios[k])}
+  document.getElementById('weekAvg').textContent=l7.length?`${Math.round(l7.reduce((a,b)=>a+b,0)/l7.length*100)}% AVG`:'— AVG'
+}
+
+function renderStageInfo(){
+  const s=STAGES[state.currentStage];
+  document.getElementById('stageInfoLabel').textContent=`STAGE ${state.currentStage} OF 6`;
+  document.getElementById('stageInfoTitle').textContent=s.name;
+  document.getElementById('stageInfoBody').textContent=s.subtitle
+}
+
+function renderHabits(){
+  const c=document.getElementById('habitsContainer');c.innerHTML='';
+  const all=resolveHabits(state.currentStage).filter(h=>!h.isJournal&&!h.isChallengeMarker&&!h.isSocialFreeWeekly);
+  const byS={};all.forEach(h=>{if(!byS[h.stage])byS[h.stage]=[];byS[h.stage].push(h)});
+  Object.keys(byS).forEach(s=>byS[s].sort((a,b)=>a.p-b.p));
+
+  // Current stage habits
+  if(byS[state.currentStage]){
+    const g=document.createElement('div');g.className='habit-group';
+    g.innerHTML=`<div class="group-head"><div class="group-title">— STAGE ${state.currentStage}<span class="group-tag">${STAGES[state.currentStage].name}</span></div><div class="group-meta">${byS[state.currentStage].length} habits</div></div>`;
+    byS[state.currentStage].forEach(h=>g.appendChild(mkRow(h)));
+    c.appendChild(g)
+  }
+
+  // Carried habits from previous stages
+  const carried=Object.keys(byS).map(Number).filter(n=>n!==state.currentStage).sort((a,b)=>a-b);
+  if(carried.length){
+    const g=document.createElement('div');g.className='habit-group';
+    carried.forEach(s=>{
+      const hd=document.createElement('div');hd.className='group-head carried';
+      hd.innerHTML=`<div class="group-title">CARRIED · STAGE ${s} <span class="group-tag">${STAGES[s].name}</span></div><div class="group-meta">still earning XP</div>`;
+      g.appendChild(hd);byS[s].forEach(h=>g.appendChild(mkRow(h)))
+    });
+    c.appendChild(g)
+  }
+
+  // Future stages — fully collapsed, no habit titles visible
+  for(let s=state.currentStage+1;s<=6;s++){
+    const stageData=STAGES[s];
+    const block=document.createElement('div');
+    block.className='future-stage-block';
+    block.innerHTML=`
+      <div class="future-stage-left">
+        <div class="future-stage-code">${stageData.code}</div>
+        <div class="future-stage-name">${stageData.name}</div>
+      </div>
+      <div class="future-stage-lock">🔒 LOCKED</div>
+    `;
+    c.appendChild(block)
+  }
+}
+
+function mkRow(h){
+  const row=document.createElement('div'),done=!!state.todayHabits[h.id];
+  let vd=done,ex='';
+  if(h.isSocialLimit&&state.socialFreeToday){vd=true;ex='<div class="habit-id" style="color:var(--cyan);margin-top:2px">replaced by social-free day</div>'}
+  row.className='habit'+(vd?' done':'');
+  row.innerHTML=`<div class="habit-bar p${h.p}"></div><div class="habit-body"><div class="habit-meta-row"><span class="priority-pill p${h.p}">P${h.p}</span><span class="habit-id">${h.id}</span></div><div class="habit-name">${h.name}</div>${ex}</div><div class="habit-right"><div class="xp-chip${h.xp>=25?' high':''}">${h.xp>=25?'+'+h.xp+' XP':'+'+h.xp+' XP'}</div><div class="check-circle">✓</div></div>`;
+  if(h.isSocialLimit&&state.socialFreeToday){row.style.cursor='default';row.style.opacity='0.7'}
+  else row.addEventListener('click',e=>toggleHabit(h.id,e));
+  return row
+}
+
+function renderSocialFree(){
+  const container=document.getElementById('socialFreeContainer');
+  container.innerHTML='';
+  // Only show from Stage 3 onwards
+  if(state.currentStage<3)return;
+
+  const el=document.createElement('div');
+  el.className='social-free'+(state.socialFreeToday?' active':'');
+  const w=getSocialFreeWeekly(),tn=w?w.weeklyTarget:1,wId=thisWeekId();
+  const cnt=state.socialFreeWeekId!==wId?0:state.socialFreeDaysThisWeek,hit=cnt>=tn;
+  el.innerHTML=`
+    <div class="social-free-left">
+      <div class="social-free-label">SOCIAL-FREE TODAY</div>
+      <div class="social-free-title">${state.socialFreeToday?'On — Today Is Social-Free':'Toggle Off'}</div>
+      <div class="social-free-sub">${state.socialFreeToday?`Replaces the 2h social limit. +${HABITS['S3.02'].xp} XP awarded.`:`Replaces today's 2h social limit. Counts toward weekly target (${tn}).`}</div>
+      <div class="social-free-week-counter ${hit?'hit':''}">This week: <strong>${cnt}</strong> / ${tn}${hit?' ✓':w?` · bonus +${w.xp} XP`:''}</div>
+    </div>
+    <div class="social-free-toggle"></div>
+  `;
+  el.addEventListener('click',toggleSocialFree);
+  container.appendChild(el)
+}
+
+function renderEvening(){
+  const j=getJournal(),qs=JOURNAL_QUESTIONS[state.currentStage]||[];
+  document.getElementById('journalTitle').textContent=
+    state.currentStage===1?'Evening Journal · 3 Questions':
+    state.currentStage===6?'Evening Journal · Permanent Questions':
+    `Evening Journal · ${STAGES[state.currentStage].name} Set`;
+  const qc=document.getElementById('journalQuestions');qc.innerHTML='';
+  qs.forEach((q,i)=>{
+    const d=document.createElement('div');d.className='journal-question';
+    d.innerHTML=`<div class="journal-question-num">0${i+1}</div><div class="journal-question-text">${q}</div>`;
+    qc.appendChild(d)
+  });
+  document.getElementById('journalToggle').classList.toggle('done',state.journalDoneToday);
+  if(j)document.getElementById('journalXP').textContent=`+${j.xp} XP`;
+  const wId=thisWeekId();
+  if(state.weeklyRecapWeek!==wId){state.weeklyRecapDone=false;state.weeklyRecapWeek=wId}
+  document.getElementById('recapToggle').classList.toggle('done',state.weeklyRecapDone)
+}
+
+function renderBoss(){
+  const container=document.getElementById('bossContainer');
+  container.innerHTML='';
+  // Only show from Stage 5 — completely hidden before that
+  if(state.currentStage<5)return;
+
+  const wId=thisWeekId();
+  if(state.weeklyBoss.weekId!==wId){
+    if(state.weeklyBoss.nextMission){
+      state.weeklyBoss.mission=state.weeklyBoss.nextMission;state.weeklyBoss.cycle=state.weeklyBoss.nextCycle;
+      delete state.weeklyBoss.nextMission;delete state.weeklyBoss.nextCycle
+    }
+    state.weeklyBoss.completedThisWeek=false;state.weeklyBoss.weekId=wId
+  }
+  const m=((state.weeklyBoss.mission-1)%6+6)%6,boss=BOSSES[m];
+  const done=state.weeklyBoss.completedThisWeek;
+
+  const panel=document.createElement('section');
+  panel.className='boss-panel-wrap';
+  panel.style.cssText='margin:16px 22px 0;background:var(--surface);border:1px solid var(--border);padding:18px 20px;position:relative;overflow:hidden';
+  if(!done)panel.style.borderTopColor='var(--red-text)';
+  panel.innerHTML=`
+    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2.4px;color:var(--red-text);text-transform:uppercase;display:flex;align-items:center;gap:8px">
+        <span style="font-size:14px;animation:bossBreath 2.2s ease-in-out infinite">💀</span> WEEKLY BOSS
+      </div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1.5px">CYCLE ${state.weeklyBoss.cycle} · MISSION ${state.weeklyBoss.mission}/6</div>
+    </div>
+    <div style="font-family:'Archivo Black',sans-serif;font-size:22px;color:var(--text);letter-spacing:-0.4px;line-height:1.05;margin-bottom:8px">${boss.name}</div>
+    <div style="font-size:13px;color:var(--text-soft);line-height:1.6;font-weight:300;margin-bottom:14px">${boss.desc}</div>
+    <div style="background:rgba(255,77,61,0.06);border:1px solid var(--red-line);padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:10px">
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:3px">DEFEAT REWARD</div>
+        <div style="font-family:'Archivo Black',sans-serif;font-size:20px;color:var(--gold)">+${boss.xp} XP</div>
+      </div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.5px;color:var(--red-text);border:1px solid var(--red-line);padding:4px 10px;background:var(--red-dim);text-transform:uppercase">${boss.badge}</div>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:12px;border-top:1px solid var(--border)">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--gold);font-weight:500">+${boss.xp} XP on defeat</div>
+      <button id="bossBtn" style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.6px;text-transform:uppercase;padding:9px 16px;border:1px solid ${done?'var(--green-line)':'var(--red-line)'};background:${done?'var(--green-dim)':'var(--red-dim)'};color:${done?'var(--green)':'var(--red-text)'};cursor:${done?'default':'pointer'};transition:all 0.2s;font-weight:500">${done?'Boss Defeated ✓':'⚔ Defeat Boss'}</button>
+    </div>
+  `;
+  if(!done){
+    panel.querySelector('#bossBtn').addEventListener('click',defeatBoss);
+    panel.querySelector('#bossBtn').addEventListener('mouseenter',function(){if(!done)this.style.background='var(--red)';this.style.color='var(--bg)'});
+    panel.querySelector('#bossBtn').addEventListener('mouseleave',function(){if(!done)this.style.background='var(--red-dim)';this.style.color='var(--red-text)'});
+  }
+  container.appendChild(panel)
+}
+
+function renderSignal(){
+  const p=Math.round(completionRatio()*100);let msg;
+  if(p===0)msg=state.currentStage===1?'<strong>Day starts here.</strong> Two non-negotiable P1s: airplane mode tonight, no social first 30 min tomorrow morning.':'<strong>Nothing checked yet.</strong> Start with a P1. The rest follows.';
+  else if(p<30)msg='<strong>Started.</strong> The first check is the hardest. Keep going.';
+  else if(p<50)msg=`<strong>Building.</strong> ${p}% done. Each rep is a vote for who you are becoming.`;
+  else if(p<80)msg=`<strong>Stacking.</strong> ${p}% done. You are visibly above the line today.`;
+  else if(p<100)msg=`<strong>Almost full stack.</strong> ${p}% done. Close the loop.`;
+  else msg='<strong>Full stack.</strong> Everything in. Days like today are how the protocol becomes you.';
+  document.getElementById('signalText').innerHTML=msg
+}
+
+function renderBottomBar(){
+  const h=getActiveDailyHabits(),j=getJournal(),t=h.length+(j?1:0);
+  let d=0;h.forEach(x=>{if(state.todayHabits[x.id])d++;else if(x.isSocialLimit&&state.socialFreeToday)d++});
+  if(state.journalDoneToday)d++;
+  const p=t===0?0:Math.round(d/t*100);
+  document.getElementById('bottomDoneCount').textContent=d;
+  document.getElementById('bottomTotalCount').textContent=t;
+  document.getElementById('bottomPct').textContent=p+'%';
+  document.getElementById('bottomFill').style.width=p+'%';
+  document.getElementById('streakCount').textContent=state.currentStreak||0
+}
+
+/* ─── UI HELPERS ─── */
+let toastT;
+function showToast(html){
+  const el=document.getElementById('toast');el.innerHTML=html;el.classList.add('show');
+  clearTimeout(toastT);toastT=setTimeout(()=>el.classList.remove('show'),2800)
+}
+function showXPPop(text,ev){
+  let x,y;
+  if(ev&&ev.clientX!==undefined){x=ev.clientX;y=ev.clientY}
+  else if(ev&&ev.touches){x=ev.touches[0].clientX;y=ev.touches[0].clientY}
+  else if(ev&&ev.target){const r=ev.target.getBoundingClientRect();x=r.left+r.width/2;y=r.top+r.height/2}
+  else{x=window.innerWidth/2;y=window.innerHeight/2}
+  const p=document.createElement('div');p.className='xp-pop';p.textContent=text;
+  p.style.left=(x-20)+'px';p.style.top=(y-30)+'px';
+  document.body.appendChild(p);setTimeout(()=>p.remove(),1300)
+}
+
+/* ─── ADD BOSS BREATH ANIMATION TO HEAD ─── */
+const bossStyle=document.createElement('style');
+bossStyle.textContent='@keyframes bossBreath{0%,100%{transform:scale(1);opacity:0.8}50%{transform:scale(1.15);opacity:1}}';
+document.head.appendChild(bossStyle);
+
+/* ─── INIT ─── */
+function init(){
+  loadState();
+  rolloverNewDay();
+
+  // Event listeners
+  document.getElementById('onboardingDismiss').addEventListener('click',()=>{
+    state.onboardingDismissed=true;saveState();
+    document.getElementById('onboardingBanner').style.display='none'
+  });
+  document.getElementById('socialFreeContainer').addEventListener('click',()=>{});
+  document.getElementById('journalToggle').addEventListener('click',toggleJournal);
+  document.getElementById('recapToggle').addEventListener('click',toggleRecap);
+  document.getElementById('unlockContinue').addEventListener('click',()=>{
+    document.getElementById('unlockOverlay').classList.remove('show');render()
+  });
+  document.getElementById('badgeEarnClose').addEventListener('click',()=>{
+    document.getElementById('badgeOverlay').classList.remove('show')
+  });
+  document.getElementById('tokenAutoClose').addEventListener('click',()=>{
+    document.getElementById('tokenAutoOverlay').classList.remove('show')
+  });
+
+  render();
+
+  setTimeout(()=>{
+    document.getElementById('loadingScreen').classList.add('hide');
+    document.getElementById('appWrap').style.opacity='1'
+  },200)
+}
+
+init();
+</script>
+</body>
+</html>
